@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>WebGIS中切片获取和展示的原理 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言 在北京实习的时候一次跟强哥聊天，做GIS这么长时间了，自己能实现切片数据的展示，就没有那么多的迷茫了。一直以来对切片的展示都是一知半解的，现在静下来好好的梳理一下。 一、切片简介 说起切片，就离不开影像金字塔的概念，这里不予详细讲解。只需要明白一点：切片数据就是将不同比例尺下的地图进行切割，将切割后的切片文件按照一定的规则进行存储（当然切割方式，以及存储规则都各有讲究）。切片的展示就是按照一">
+<meta name="keywords" content="GIS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebGIS中切片获取和展示的原理">
+<meta property="og:url" content="http://yoursite.com/2017/07/14/WebGIS中切片获取和展示的原理/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="前言 在北京实习的时候一次跟强哥聊天，做GIS这么长时间了，自己能实现切片数据的展示，就没有那么多的迷茫了。一直以来对切片的展示都是一知半解的，现在静下来好好的梳理一下。 一、切片简介 说起切片，就离不开影像金字塔的概念，这里不予详细讲解。只需要明白一点：切片数据就是将不同比例尺下的地图进行切割，将切割后的切片文件按照一定的规则进行存储（当然切割方式，以及存储规则都各有讲究）。切片的展示就是按照一">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T13:40:49.457Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WebGIS中切片获取和展示的原理">
+<meta name="twitter:description" content="前言 在北京实习的时候一次跟强哥聊天，做GIS这么长时间了，自己能实现切片数据的展示，就没有那么多的迷茫了。一直以来对切片的展示都是一知半解的，现在静下来好好的梳理一下。 一、切片简介 说起切片，就离不开影像金字塔的概念，这里不予详细讲解。只需要明白一点：切片数据就是将不同比例尺下的地图进行切割，将切割后的切片文件按照一定的规则进行存储（当然切割方式，以及存储规则都各有讲究）。切片的展示就是按照一">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-WebGIS中切片获取和展示的原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/WebGIS中切片获取和展示的原理/" class="article-date">
+  <time datetime="2017-07-13T17:50:02.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      WebGIS中切片获取和展示的原理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> 在北京实习的时候一次跟强哥聊天，做GIS这么长时间了，自己能实现切片数据的展示，就没有那么多的迷茫了。一直以来对切片的展示都是一知半解的，现在静下来好好的梳理一下。</p>
+<h3 id="一、切片简介"><a href="#一、切片简介" class="headerlink" title="一、切片简介"></a>一、切片简介</h3><p> 说起切片，就离不开影像金字塔的概念，这里不予详细讲解。只需要明白一点：切片数据就是将不同比例尺下的地图进行切割，将切割后的切片文件按照一定的规则进行存储（当然切割方式，以及存储规则都各有讲究）。切片的展示就是按照一定的相应的规则取出这些切片，在相应的端口进行拼接展示。切片数据可以放在本地，也可以放在服务端。这里我们抛开一切个地理相关的细节，重点说明切片的展示方案。</p>
+<h3 id="二、切片数据获取流程"><a href="#二、切片数据获取流程" class="headerlink" title="二、切片数据获取流程"></a>二、切片数据获取流程</h3><p>1 获取要展示的地理中心点位置point_screenCenter,即在屏幕中展示地图的中心点坐标；<br><br>2 根据中心点坐标，以及屏幕的大小screenSize,计算出屏幕内要呈现地图的范围；<br><br>3 根据屏幕边界处的坐标，计算出边界所在的切片行列号<br><br>4 计算边界处所在切片的边界坐标，计算切片边界与屏幕边界的偏移量offset<br><br>5 获去要求请的所有切片，按照计算的值进行排列展示</p>
+<h4 id="2-1-获取展示中心点的地理坐标"><a href="#2-1-获取展示中心点的地理坐标" class="headerlink" title="2.1 获取展示中心点的地理坐标"></a>2.1 获取展示中心点的地理坐标</h4><p>所谓展示中心点的坐标，就是当你准备在屏幕上展示地图时，首先你得对地图的范围进行初始化，比如设置地图中心点、地图的坐标系、显示级别等参数。就是这里的地图中心点，我们暂时命名为point_screenCenter，（属性X，Y表示地理坐标）。假设地图的坐标原点为point_original,则该点在x轴和y轴上距离为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x轴地理距离：(point_screenCenter.X-point_original.X)</span><br><span class="line">y轴地理距离：(point_screenCenter.Y-point_original.Y)</span><br></pre></td></tr></table></figure></p>
+<p>注意：这里我们假设坐标原点在地图图片的左上角，水平向右为x轴正方向，水平向下为y轴正方向，当然不同的地图服务坐标原点和设定规则可能会有区别；<br>再说一下像素距离，像素距离指的是在一定比例尺的地图图片上的距离间隔，如果要计算像素距离，就需要用到<strong>分辨率（resolution）</strong>的概念了，resolution是指地图图片上一个像素所代表的实际距离，point_screenCenter距离坐标原点的像素距离的计算公式为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x轴方向像素距离：(point_screenCenter.X-point_original.X)/resolution</span><br><span class="line">y轴方向像素距离：(point_screenCenter.Y-point_original.Y)/resolution</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-2-计算出屏幕内要呈现地图的范围"><a href="#2-2-计算出屏幕内要呈现地图的范围" class="headerlink" title="2.2 计算出屏幕内要呈现地图的范围"></a>2.2 计算出屏幕内要呈现地图的范围</h4><p>有了展示中心点（point_screenCenter）和屏幕的大小（screen_size,像素数量表示，如960*640）就可以计算屏幕内能展示的地图范围了，屏幕左上角的点为point_screenLT,它的地理坐标如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">屏幕左上角的x坐标：point_screenLT.X=point_screenCenter.X-(resolution*screen_size.Width)/2</span><br><span class="line">屏幕左上角的y坐标：point_screenLT.Y=point_screenCenter.Y-(resolution*screen_size.Height)/2</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-3-计算出边界所在的切片行列号"><a href="#2-3-计算出边界所在的切片行列号" class="headerlink" title="2.3 计算出边界所在的切片行列号"></a>2.3 计算出边界所在的切片行列号</h4><p>确定的屏幕左上角能展示的地理位置，就可以根据这个地理位置坐标计算该位置点所位于的具体切片了，给该切片命名为tileLT,则该切片的行列号的计算如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">切片的行号：tileLT.Row=Math.floor((Math.abs(point_screenLT.X-point_original.X))/(resolution*tileSize.Width))</span><br><span class="line">切片的列号：tileLT.Col=Math.floor((Math.abs(point_screenLT.Y-point_original.Y))/(resolution*tileSize.Height))</span><br></pre></td></tr></table></figure></p>
+<p>这里用到了Math.floor()函数是为了获取离坐标原点更近的点，因为我们获取的切片范围要大于在屏幕上展示的范围。<br>找到了行列号，还有一个小细节需要处理，处理这个细节前首先了解一个常识，一般情况下，切片的在展示时是按照切片左上角的位置进行排列的，此时我们只是确定了屏幕左上角位于该切片中，但是该切片的左上角并不一定与屏幕的左上角重合啊，怎么办？，计算该切片左上角的实际地理坐标为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">切片左上角x坐标：tileLT.LTX = tileLT.Col*tileSize.Width*resolution+point_original.X</span><br><span class="line">切片左上角y坐标：tileLT.LTY = tileLT.Raw*tileSize.Height*resolution+point_original.Y</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-4-计算切片边界与屏幕边界的偏移量offset"><a href="#2-4-计算切片边界与屏幕边界的偏移量offset" class="headerlink" title="2.4 计算切片边界与屏幕边界的偏移量offset"></a>2.4 计算切片边界与屏幕边界的偏移量offset</h4><p>有了切片的左上角的地理坐标，和屏幕左上角的地理坐标位置，就可以计算偏移量了，假设其在x轴和y轴上的偏移量为offSetX和offSetY，则偏移值为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">切片在x轴偏移像素值：offSetWidth=（point_screenLT.X-tileLT.LTX）/resolution</span><br><span class="line">切片在y轴偏移像素值：offSetHeight=（point_screenLT.Y-tileLT.LTY）/resolution</span><br></pre></td></tr></table></figure></p>
+<p>有了这个值就可以将该切片展示在正常的位置了。</p>
+<h4 id="2-5-所有要展示切片的获取"><a href="#2-5-所有要展示切片的获取" class="headerlink" title="2.5 所有要展示切片的获取"></a>2.5 所有要展示切片的获取</h4><p>最后就可以计算在x和y轴上要请求的切片数量了，获取个数时要用Math.ceil()函数了，原因是的切片的总范围要比屏幕上展示的范围要大一些，这里要获取离坐标原点尽量远的切片。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x轴切片数量：tileNumsX=Math.ceil((screenSize.Width + Math.abs(offSetWidth))/tileSize.Width);</span><br><span class="line">y轴切片数量：tileNumsY=Math.ceil((screenSize.Height + Math.abs(offSetHeight))/tileSize.Width);</span><br></pre></td></tr></table></figure></p>
+<h3 id="三、小结"><a href="#三、小结" class="headerlink" title="三、小结"></a>三、小结</h3><p>到现在已经完成了切片的获取工作，这是一个简化的过程。在实际获中不同的切片种类（如TMS、WMS、WMTS等）有不同的切片大小和不同的切片规则，不同的坐标系对应不同单位，还会涉及到一些中间术语比如显示级别、比例尺等。在以后的文章中会介绍。因为我们要做一个自己的***。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/14/WebGIS中切片获取和展示的原理/" data-id="ck4jzi8nu000drflr50knj281" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GIS/">GIS</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/14/利用Docker搭建一个博客/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          利用Docker搭建一个博客
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/14/Android开发中用到的jar和aar文件的区别/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android开发中用到的jar和aar文件的区别</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

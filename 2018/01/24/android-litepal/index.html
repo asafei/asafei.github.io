@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Android数据持久化---LitePal | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="记得很久之前就使用过一些第三方工具进行sqlite数据库操作，只觉得分外简单。入职以来进行了SpringBoot等的训练，发现它们所做的工作如此之像，一精则百通吧，现在看这本书，笔记还是继续做吧，梳理一下才是自己的东西。 一、LitePal创建数据库1.1 添加依赖在相应module的build.gradle的dependencies中添加依赖引用： 1234dependencies&amp;#123;">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android数据持久化---LitePal">
+<meta property="og:url" content="http://yoursite.com/2018/01/24/android-litepal/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="记得很久之前就使用过一些第三方工具进行sqlite数据库操作，只觉得分外简单。入职以来进行了SpringBoot等的训练，发现它们所做的工作如此之像，一精则百通吧，现在看这本书，笔记还是继续做吧，梳理一下才是自己的东西。 一、LitePal创建数据库1.1 添加依赖在相应module的build.gradle的dependencies中添加依赖引用： 1234dependencies&amp;#123;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T13:40:49.458Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android数据持久化---LitePal">
+<meta name="twitter:description" content="记得很久之前就使用过一些第三方工具进行sqlite数据库操作，只觉得分外简单。入职以来进行了SpringBoot等的训练，发现它们所做的工作如此之像，一精则百通吧，现在看这本书，笔记还是继续做吧，梳理一下才是自己的东西。 一、LitePal创建数据库1.1 添加依赖在相应module的build.gradle的dependencies中添加依赖引用： 1234dependencies&amp;#123;">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-android-litepal" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/24/android-litepal/" class="article-date">
+  <time datetime="2018-01-24T12:58:43.000Z" itemprop="datePublished">2018-01-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android数据持久化---LitePal
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记得很久之前就使用过一些第三方工具进行sqlite数据库操作，只觉得分外简单。入职以来进行了SpringBoot等的训练，发现它们所做的工作如此之像，一精则百通吧，现在看这本书，笔记还是继续做吧，梳理一下才是自己的东西。</p>
+<h3 id="一、LitePal创建数据库"><a href="#一、LitePal创建数据库" class="headerlink" title="一、LitePal创建数据库"></a>一、LitePal创建数据库</h3><h5 id="1-1-添加依赖"><a href="#1-1-添加依赖" class="headerlink" title="1.1 添加依赖"></a>1.1 添加依赖</h5><p>在相应module的<code>build.gradle</code>的dependencies中添加依赖引用：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dependencies&#123;</span><br><span class="line">  	<span class="comment">//...</span></span><br><span class="line">  	compile <span class="string">'org.litepal.android:core:1.4.1'</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="1-2-添加配置文件"><a href="#1-2-添加配置文件" class="headerlink" title="1.2 添加配置文件"></a>1.2 添加配置文件</h5><p>在<code>src/main</code>目录下新建一个<code>assets</code>的目录，然后在下面新建一个litepal.xml的文件，添加内容如下：</p>
+<p>其中</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"&gt;</span></span><br><span class="line"><span class="meta">&lt;litepal&gt;</span></span><br><span class="line"><span class="meta">	&lt;!--数据库名称--&gt;</span></span><br><span class="line"><span class="meta">	&lt;dbname value="BookStore"&gt;&lt;/dbname&gt;</span></span><br><span class="line"><span class="meta">	&lt;!--数据库版本--&gt;</span></span><br><span class="line"><span class="meta">	&lt;version value="1"&gt;&lt;/value&gt;</span></span><br><span class="line"><span class="meta">	</span></span><br><span class="line"><span class="meta">	&lt;!--数据库的表对应的类--&gt;</span></span><br><span class="line"><span class="meta">	&lt;list&gt;</span></span><br><span class="line"><span class="meta">	&lt;/list&gt;</span></span><br><span class="line"><span class="meta">&lt;/litepal&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-3-配置AndroidManifest-xml文件"><a href="#1-3-配置AndroidManifest-xml文件" class="headerlink" title="1.3 配置AndroidManifest.xml文件"></a>1.3 配置AndroidManifest.xml文件</h5><p> 在AndroidManifest.xml中的application标签中添加一个name属性</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">package</span>=<span class="string">"com.example.litepaltest"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">  		<span class="attr">android:name</span>=<span class="string">"org.litepal.LitePalApplication"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportRtl</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</span></span><br><span class="line">    	...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-4-创建对象类"><a href="#1-4-创建对象类" class="headerlink" title="1.4 创建对象类"></a>1.4 创建对象类</h5><p>LitePal采取的是对象关系映射（ORM）模式，将面向对象语言与面向关系的数据库之间建立一种映射关系。我们只需要创建一个实体类，LitePal就可以将它转变成数据库中的表。</p>
+<p>创建一个Book的实体类：</p>
+<p>Book类会对应数据库中的Book表，类中的字段对应表中的列。这就是关系对象映射。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">  	<span class="keyword">private</span> String author;</span><br><span class="line">  	<span class="keyword">private</span> <span class="keyword">double</span> price;</span><br><span class="line">  	<span class="keyword">private</span> <span class="keyword">int</span> pages;</span><br><span class="line">  	<span class="keyword">private</span> String name;</span><br><span class="line">  </span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id=id</span><br><span class="line">    &#125;</span><br><span class="line">  	...</span><br><span class="line">      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="1-5-修改litepal-xml文件"><a href="#1-5-修改litepal-xml文件" class="headerlink" title="1.5 修改litepal.xml文件"></a>1.5 修改litepal.xml文件</h5><p>刚才创建的litepal.xml文件中有一个list的标签，里面就是放对应的实体类，可以通过map标签建立与Litepal的关联，注意mapping中的class必须是实体类的完整类名</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"&gt;</span></span><br><span class="line"><span class="meta">&lt;litepal&gt;</span></span><br><span class="line"><span class="meta">	&lt;!--数据库名称--&gt;</span></span><br><span class="line"><span class="meta">	&lt;dbname value="BookStore"&gt;&lt;/dbname&gt;</span></span><br><span class="line"><span class="meta">	&lt;!--数据库版本--&gt;</span></span><br><span class="line"><span class="meta">	&lt;version value="1"&gt;&lt;/value&gt;</span></span><br><span class="line"><span class="meta">	</span></span><br><span class="line"><span class="meta">	&lt;!--数据库的表对应的类--&gt;</span></span><br><span class="line"><span class="meta">	&lt;list&gt;</span></span><br><span class="line"><span class="meta">  &lt;mapping class="com.example.litepaltest.Book"&gt;&lt;/mapping&gt;</span></span><br><span class="line"><span class="meta">	&lt;/list&gt;</span></span><br><span class="line"><span class="meta">&lt;/litepal&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-6-执行数据库的创建"><a href="#1-6-执行数据库的创建" class="headerlink" title="1.6 执行数据库的创建"></a>1.6 执行数据库的创建</h5><p>和直接使用SQLiteOpenHelper一样，只要获取数据库实例就会自动执行数据库和表的创建工作。只不过这里使用LitePal自带的获取方法，更加简单。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">btn_create.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        LitePal.getDatabase()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这样点击btn_create按钮就会执行数据库和Book表的创建工作了。</p>
+<h3 id="二、升级数据库"><a href="#二、升级数据库" class="headerlink" title="二、升级数据库"></a>二、升级数据库</h3><p>如果想升级数据库，比如给Book表增加一个出版社（press）的列，或者想添加一个新的表，怎么做呢?非常简单</p>
+<p>（1）只需要给Book实体类添加新的press字段，并设置getter和setter方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">private</span> String press;</span><br><span class="line">  </span><br><span class="line">  	<span class="function"><span class="keyword">public</span> String <span class="title">getPress</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> press;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPress</span><span class="params">(String press)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.press=press</span><br><span class="line">    &#125;</span><br><span class="line">  	...</span><br><span class="line">      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（2）新建一个实体类Category</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Category</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">  	<span class="keyword">private</span> String categoryName;</span><br><span class="line">  	<span class="keyword">private</span> <span class="keyword">int</span> categoryCode;</span><br><span class="line">  	</span><br><span class="line">  	<span class="comment">//getter和setter方法</span></span><br><span class="line">  	...</span><br><span class="line">      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（3）修改litepal.xml文件，修改里面数据库版本，添加新增的Category类mapping</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"&gt;</span></span><br><span class="line"><span class="meta">&lt;litepal&gt;</span></span><br><span class="line"><span class="meta">	&lt;!--数据库名称--&gt;</span></span><br><span class="line"><span class="meta">	&lt;dbname value="BookStore"&gt;&lt;/dbname&gt;</span></span><br><span class="line"><span class="meta">	&lt;!--数据库版本--&gt;</span></span><br><span class="line"><span class="meta">	&lt;version value="2"&gt;&lt;/value&gt;</span></span><br><span class="line"><span class="meta">	</span></span><br><span class="line"><span class="meta">	&lt;!--数据库的表对应的类--&gt;</span></span><br><span class="line"><span class="meta">	&lt;list&gt;</span></span><br><span class="line"><span class="meta">  &lt;mapping class="com.example.litepaltest.Book"&gt;&lt;/mapping&gt;</span></span><br><span class="line"><span class="meta">	&lt;mapping class="com.example.litepaltest.Category"&gt;&lt;/mapping&gt;</span></span><br><span class="line"><span class="meta">	&lt;/list&gt;</span></span><br><span class="line"><span class="meta">&lt;/litepal&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这时重新运行程序，单价btn_create按钮，就完成了数据库的更新操作</p>
+<h3 id="三、操作数据库"><a href="#三、操作数据库" class="headerlink" title="三、操作数据库"></a>三、操作数据库</h3><h5 id="3-1-添加数据"><a href="#3-1-添加数据" class="headerlink" title="3.1 添加数据"></a>3.1 添加数据</h5><p>有了LitePal就不再需要ContentValue对象了，我们可以执行使用对象实体类来添加数据，只是需要修改一些实体类文件，让实体类继承自LitePal中的DataSupport类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span> <span class="keyword">extends</span> <span class="title">DataSupport</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加数据，只需要创建实体类，设置参数，然后调用实体类的<code>save()</code>方法即可，当然<code>save()</code>方法是DataSupport内部的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">btn_addBookData.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        Book b=<span class="keyword">new</span> Book();</span><br><span class="line">      	b.setName(<span class="string">"书名"</span>);</span><br><span class="line">      	b.setAuthor(<span class="string">"作者"</span>);</span><br><span class="line">      	b.setPages(<span class="number">300</span>);</span><br><span class="line">      	b.setPrice(<span class="number">100.00</span>);</span><br><span class="line">      	b.setPress(<span class="string">"出版社"</span>);</span><br><span class="line">      	<span class="comment">//保存</span></span><br><span class="line">      	b.save();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这时候数据就添加成功了，可以通过adb进行查看</p>
+<h5 id="3-2-更新数据"><a href="#3-2-更新数据" class="headerlink" title="3.2 更新数据"></a>3.2 更新数据</h5><p>更新数据，可以对已存储的对象重新复制，然后重新调用<code>save()</code>方法，就完成了更新操作。</p>
+<p>那么如何确定对象是否是已存储对象呢？可以调用<code>model.isSave()</code>方法来判断，只有在两种情况下该方法才会返回true</p>
+<ul>
+<li>一种情况是已经调用过model.save()方法去添加数据了，此时model是已存储的对象</li>
+<li>另一种是model是通过LitePal的api查询出来的对象，也会被认为是已存储的对象</li>
+</ul>
+<p>实例代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">btn_updateBookData.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        Book b=<span class="keyword">new</span> Book();</span><br><span class="line">      	b.setName(<span class="string">"书名"</span>);</span><br><span class="line">      	b.setAuthor(<span class="string">"作者"</span>);</span><br><span class="line">      	b.setPages(<span class="number">300</span>);</span><br><span class="line">      	b.setPrice(<span class="number">100.00</span>);</span><br><span class="line">      	b.setPress(<span class="string">"出版社"</span>);</span><br><span class="line">      	<span class="comment">//保存</span></span><br><span class="line">      	b.save();</span><br><span class="line">      </span><br><span class="line">      	<span class="comment">//修改数据</span></span><br><span class="line">      	b.setPrice(<span class="number">99.00</span>);</span><br><span class="line">      	b.save();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>此时数据库新增了一条数据，但是书的价格不是原先的100.00，而是99.00了。</p>
+<p>但是这种更新的方式限制性比较大，如何快速对多条数据进行更新的，可以使用<code>updateAll()</code>方法，这个方法与SQLiteDatabase中的update方法where参数有些类似，但是更加简洁，同样参数若不指定表示更新所有</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">btn_updateBooks.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        Book b=<span class="keyword">new</span> Book();</span><br><span class="line">      </span><br><span class="line">      	<span class="comment">//修改数据</span></span><br><span class="line">      	b.setPrice(<span class="number">9.99</span>);</span><br><span class="line">      	b.setPress(<span class="string">"大白出版社"</span>);</span><br><span class="line">      	b.updateAll(<span class="string">"name = ? and author = ? "</span>, <span class="string">"红楼梦"</span>,<span class="string">"曹雪芹"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>此时就会把所有作者为曹雪芹并且名字为红楼梦的数的价格改为9.99，出版社改为大白出版社。</p>
+<p>需要注意的是，如果想把某一字段改为默认值，是不可以使用上面的set方法的。比如Java中默认的int类型值为0，boolean值为false，String值为null。</p>
+<p>如果想把pages设为0，通过b.setPages(0)，执行updateAll()操纵是不会更新数据的，对于想要将数据更改为默认值的操作，LitePal提供了<code>setToDefault()</code>的方法，将要更改的字段作为参数传进去即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Book n=<span class="keyword">new</span> Book();</span><br><span class="line">b.setToDefault(<span class="string">"pages"</span>);</span><br><span class="line">b.updateAll();</span><br></pre></td></tr></table></figure>
+<p>这样就能将相应的字段更新为默认的数值了。</p>
+<h5 id="3-3-删除数据"><a href="#3-3-删除数据" class="headerlink" title="3.3 删除数据"></a>3.3 删除数据</h5><p>使用LitePal删除吧数据主要两种：</p>
+<ul>
+<li>直接调用已存储对象的<code>delete()</code>方法即可，对于LitePal提供的api查询出来的对象都可以使用该方法</li>
+<li>另一种方法是使用DataSupport的<code>deleteAll()</code>方法，参数第一个是实体类，后面的同where语法</li>
+</ul>
+<p>方法二的代码，删除Book表中所有价格小于15的数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">btn_deleteData.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        DataSupport.deleteAll(Book.clas,<span class="string">"price &lt; ?"</span> , <span class="string">"15"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>当然如果不指定约束条件，就是删除所有的记录。</p>
+<h5 id="3-4-查询数据"><a href="#3-4-查询数据" class="headerlink" title="3.4 查询数据"></a>3.4 查询数据</h5><p>查询操作同样是DataSupport类提供的，常用的有</p>
+<ul>
+<li>findAll() ：查询所有数据</li>
+<li>findFirst() ：查询首条记录</li>
+<li>findLast() ： 查询末条记录</li>
+<li>select().find() ： 查询指定列的数据</li>
+<li>where().find() ： 查询指定约束条件的数据</li>
+<li>order().find() ： 指定结果的排序方式</li>
+<li>limit().find() ： 指定查询结果的数量</li>
+<li>limit().offset().find() ： 指定查询结果的偏移量</li>
+</ul>
+<p>当然可以任意进行组合</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询所有数据</span></span><br><span class="line">List&lt;Book&gt; books=DataSupport.findAll(Book<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询第一条数据</span></span><br><span class="line">Book b=DataSupport.findFirst(Book<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询最后一条数据</span></span><br><span class="line">Book b=DataSupport.findlast(Book<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询指定列的数据</span></span><br><span class="line">Book b=DataSupport.select(<span class="string">"name"</span>,<span class="string">"author"</span>).find(Book<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询满足约束条件的数据</span></span><br><span class="line">Book b=DataSupport.where(<span class="string">"pages &gt; ?"</span>,<span class="string">"100"</span>).find(Book<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询结果按指定方式排序</span></span><br><span class="line">Book b=DataSupport.order(<span class="string">"price desc"</span>).find(Book<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//指定查询结果的数量,返回第1、2、3条数据</span></span><br><span class="line">Book b=DataSupport.limit(<span class="number">3</span>).find(Book<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//指定查询结果的偏移量,返回第2、3、4条数据</span></span><br><span class="line">Book b=DataSupport.limit(<span class="number">3</span>).offset(<span class="number">1</span>).find(Book<span class="class">.<span class="keyword">class</span>)</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="3-5-使用原生sql语句"><a href="#3-5-使用原生sql语句" class="headerlink" title="3.5 使用原生sql语句"></a>3.5 使用原生sql语句</h5><p>DataSupport同样支持原生SQL语句的操作，提供了<code>findBySQL()</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String sql=<span class="string">"select * from Book where pages &gt; ? and price &lt; ?"</span>;</span><br><span class="line">Cursor cursor=DataSupport.findBySQL(sql,<span class="string">"100"</span>,<span class="string">"100.00"</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/24/android-litepal/" data-id="ck4jzi8pa002krflrkiy35b7u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/24/android-webview/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android-WebView
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/24/android-sqlite/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android数据持久化---SQLite</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

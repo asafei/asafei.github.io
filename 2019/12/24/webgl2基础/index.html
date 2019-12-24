@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>webgl2基础 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="翻译自https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html 这些文章是讲解WebGL2的，如果你对WebGL1.0感兴趣，点击这。WebGL2完全兼容WebGL1，也就是说一旦你开启WebGL2，它会像以往的方式来工作。 WebGL通常被认为是一种3D的apis。人们常说“我要使用WebGL来完成炫酷的3D效果”。">
+<meta name="keywords" content="webgl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webgl2基础">
+<meta property="og:url" content="http://yoursite.com/2019/12/24/webgl2基础/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="翻译自https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html 这些文章是讲解WebGL2的，如果你对WebGL1.0感兴趣，点击这。WebGL2完全兼容WebGL1，也就是说一旦你开启WebGL2，它会像以往的方式来工作。 WebGL通常被认为是一种3D的apis。人们常说“我要使用WebGL来完成炫酷的3D效果”。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T14:47:06.826Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webgl2基础">
+<meta name="twitter:description" content="翻译自https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html 这些文章是讲解WebGL2的，如果你对WebGL1.0感兴趣，点击这。WebGL2完全兼容WebGL1，也就是说一旦你开启WebGL2，它会像以往的方式来工作。 WebGL通常被认为是一种3D的apis。人们常说“我要使用WebGL来完成炫酷的3D效果”。">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-webgl2基础" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/webgl2基础/" class="article-date">
+  <time datetime="2019-12-24T14:46:42.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      webgl2基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>翻译自<a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html" target="_blank" rel="noopener">https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html</a></p>
+<p>这些文章是讲解WebGL2的，如果你对WebGL1.0感兴趣，<a href="https://webglfundamentals.org/" target="_blank" rel="noopener">点击这</a>。WebGL2完全兼容WebGL1，也就是说一旦你开启WebGL2，它会像以往的方式来工作。</p>
+<p>WebGL通常被认为是一种3D的apis。人们常说“我要使用WebGL来完成炫酷的3D效果”。实际上WebGL只是一个光栅化引擎。它基于你提供的代码来绘制点、线和三角面。想让WebGL来完成炫酷的任务就要看你掌控点线三角面运作的能力了。</p>
+<p>WebGL在计算机的GPU中运行。所以你需要提供可以在GPU中运行的代码。这样的代码有两种函数形式。这两种函数被称为<strong>顶点着色器（vertex shader）</strong>和<strong>片元着色器（fragment shader）</strong>，它们的书写格式严格遵循一种类C/C++的名的<a href="https://webgl2fundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html" target="_blank" rel="noopener">GLSL</a>的语言。这两个着色器成对出现，被称为一个<strong>程序(program)</strong></p>
+<p>顶点着色器的任务是计算顶点的位置。函数可以做基于这些位置的输出（包含点、线、三角面的基元），然后WebGL就可以对这些基元进行光栅化处理。当进行光栅化处理时，就会调用片元着色器了，片元着色器的任务是计算当前绘制的每一个基元的像素颜色值。</p>
+<p>几乎整个WebGL的API都是用来设置这两个着色器状态的。任何需要绘制的对象都需要设置一系列的状态，然后通过函数在GPU中执行这对着色器，通过<code>gl.drawArrays</code>和<code>gl.drawElements</code>函数执行。</p>
+<p>任何这些函数可以访问的到的数据都必须提供给GPU。着色器有四种方式来接收数据：</p>
+<ol>
+<li><p>Attributes(属性),Buffers(缓冲区)和Vertex Arrays(顶点数组)</p>
+<p>Buffers(缓冲区)是需要上传给GPU的二进制数据的数组。通常Buffers(缓冲区)包含信息：位置、法线，纹理坐标，顶点颜色等，尽管你有权传递任意数据进去。</p>
+<p>Attributes(属性)用来指定如何从Buffers(缓冲区)中提取数据，并且提供给顶点着色器。例如你可以向缓冲区中添加32位浮点数的位置数据，你需要告诉一个指定的Attributes(属性)包括：哪一个缓冲区来提取数据、它要提取的数据是什么类型、在缓存区中从偏移量多少的位置开始提取数据、从一个位置到下一个位置有多少个字节。</p>
+<p>Buffers(缓冲区)不是随机访问的。相反，顶点着色器需要指定没执行的次数。每一次执行时，都需要从指定的Buffers(缓冲区)提取下一个值分配给一个Attributes(属性)。</p>
+<p>Attributes(属性)的状态，会被buffers用到的，以及如何从这些buffers中提取数据，被搜集在一个顶点数组对象中（VAO），</p>
+</li>
+<li><p>Uniforms</p>
+<p>在你执行你的着色器程序之前，Uniforms是有效的全局变量。</p>
+</li>
+<li><p>Textures（纹理）</p>
+<p>纹理是数据数组，你可以在你的着色器程序中随机访问。最常见的传递给纹理的对象是image数据，但是纹理只是数据，可以包含除颜色之外的其它数据。</p>
+</li>
+<li><p>Varyings</p>
+<p>Varyings是顶点着色器向片元着色器传递数据的一种方式。根据要渲染的内容（点、线或三角面），当执行片元着色器时，通过顶点着色器给Varying设置的值会执行内插值计算。</p>
+</li>
+</ol>
+<h2 id="WebGL-Hello-World"><a href="#WebGL-Hello-World" class="headerlink" title="WebGL Hello World"></a>WebGL Hello World</h2><p>WebGL只关心两个事情：裁剪空间坐标和颜色。作为一个WebGL程序员,你的工作就是给WebGL提供这两个东西。这些工作通过提供两个着色器来完成，顶点着色器负责提供裁剪空间坐标，片元着色器负责提供颜色。</p>
+<p>裁剪空间坐标通常介于（-1,1）的区间，不管canvas的尺寸多大。下面是一个简单的WebGL的例子，以简单的形式展示WebGL。</p>
+<p>以顶点着色器开始</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#version 300 es</span><br><span class="line"></span><br><span class="line"><span class="comment">//一个attribute是一个顶点着色器的输入</span></span><br><span class="line"><span class="comment">//它会从buffer中接收数据</span></span><br><span class="line"><span class="keyword">in</span> vec4 a_position;</span><br><span class="line"></span><br><span class="line"><span class="comment">//所有的着色器，都有一个main函数</span></span><br><span class="line"><span class="keyword">void</span> main()&#123;</span><br><span class="line">    gl_position=a_position;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当执行的时候，如果整个都是使用JavaScript编写的，而不是GLSL，你需要考虑这样书写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> positionBuffer=[</span><br><span class="line">    <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">  	<span class="number">0</span>,<span class="number">0.5</span>,<span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">  	<span class="number">0.7</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> attributes=&#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> gl_Psition;</span><br><span class="line"></span><br><span class="line">drawArrays(..., offset, count)&#123;</span><br><span class="line">  <span class="keyword">var</span>  stride=<span class="number">4</span>;</span><br><span class="line">  <span class="keyword">var</span>  size=<span class="number">4</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;count;++i)&#123;</span><br><span class="line">    <span class="comment">//从positionBuffer中复制4个值给a_position attribute</span></span><br><span class="line">    attributes.a_position=positionBuffer.slice((offset+<span class="number">1</span>)*stide,size);</span><br><span class="line">    runVertexShader();</span><br><span class="line">    ...</span><br><span class="line">    doSomethingWith_gl_Position();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上并没有那么简单，因为<code>positionBuffer</code>需要转换成二进制数据（如下所示），所以实际从buffer中获取数据的计算会有一些不同，但是希望通过这样能让你了解到顶点着色器是如何执行的。</p>
+<p>下面需要一个片元着色器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#version 300es</span><br><span class="line"><span class="comment">//片元着色器没有默认的精度，所以我们需要指定一个。medium是很好的默认值</span></span><br><span class="line">precision mediump float;</span><br><span class="line"></span><br><span class="line"><span class="comment">//需要给片元着色器声明一个输出</span></span><br><span class="line">out.vec4 outColor;</span><br><span class="line"><span class="keyword">void</span> main()&#123;</span><br><span class="line">  	<span class="comment">//将输出设置成紫色</span></span><br><span class="line">    outColor=vec4(<span class="number">1</span>,<span class="number">0</span>,<span class="number">0.5</span>,<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上边声明<code>outColor</code>作为片元着色器的输出，将<code>outColor</code>设置为<code>1,0,0.5,1</code>，1表示红色，0表示绿色，0.5表示蓝色，1表示透明度。在WebGL中颜色介于(0,1)之间。</p>
+<p>现在已经写好了两个着色器函数，接下来可以使用WebGL执行了</p>
+<p>首先需要HTML的canvas元素</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"c"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在JavaScript中如下面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas=<span class="built_in">document</span>.getElementById(<span class="string">"c"</span>);</span><br></pre></td></tr></table></figure>
+<p>现在可以创建一个WebGL2的渲染背景了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gl=canvas.getContext(<span class="string">"webgl2"</span>);</span><br><span class="line"><span class="keyword">if</span>(!gl)&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">  	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在需要编译这些着色器了，将它们提供给GPU。所以首先我们需要将它们转为字符串。可以以任何正常的方式创建GLSL字符串。可以通过拼接字符串，可以使用、AJAX下载它们，通过将它们放在非JavaScript标签中，或者以如下多行模板的方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vertexShaderSource=<span class="string">'#version 300 es</span></span><br><span class="line"><span class="string">in vec4 a_position;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">void main()&#123;</span></span><br><span class="line"><span class="string">    gl_Position=a_position;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> fragmentShaderSource=<span class="string">'#version 300 es</span></span><br><span class="line"><span class="string">precision mediump float;</span></span><br><span class="line"><span class="string">out vec4 outColor;</span></span><br><span class="line"><span class="string">void main()&#123;</span></span><br><span class="line"><span class="string">    outColor=vec4(1,0,0.5,1);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">'</span>;</span><br></pre></td></tr></table></figure>
+<p>实际上，大多数3D引擎使用各种各样的模板快速生成GLSL着色器。本网站上的例子都没有复杂到在运行时生生GLSL。</p>
+<blockquote>
+<p>注意：<code>#verison 300 es</code>必须是着色器的首行。它之前不允许有任何命令或空格。<code>#verison 300 es</code>告诉WebGL2你要使用WebGL2的名为GLSL ES3.00的着色器语言。如果你不在首行放置它，着色器语言会默认使用WebGL 1.0的GLSL ES 1.00语言，它们之间有很大的不同，缺少很多特性。</p>
+</blockquote>
+<p>下面需要一个函数来创建一个着色器，上传GLSL源码，并且编译着色器。注意饿哦并没有编写任何评论因为函数的命名清晰的展示了发生了什么</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createShader</span>(<span class="params">gl, type, source</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> shader=gl.createShader(type);</span><br><span class="line">  	gl.shaderSource(shader,source);</span><br><span class="line">  	gl.compileShader(shader);</span><br><span class="line">  	<span class="keyword">var</span> success=gl.getShaderParameter(shader,gl.COMPILE_STATUS);</span><br><span class="line">  	<span class="keyword">if</span>(success)&#123;</span><br><span class="line">        <span class="keyword">return</span> shader;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="built_in">console</span>.log(gl.getShaderInfoLog(shader));</span><br><span class="line">  	gl.deleteShader(shader);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在可以调用函数创建第二个着色器了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vertexShader = createShader(gl,gl.VERTEX_SHADER, vertexShaderSource);</span><br><span class="line"><span class="keyword">var</span> fragmentShader=createShader(gl,gl.FRAGMENT_SHADER,fragmentShaderSource);</span><br></pre></td></tr></table></figure>
+<p>然后将这两个着色器连接到程序（program）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createProgram</span>(<span class="params">gl,vertexShader,fragmentShader</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> program=gl.createProgram();</span><br><span class="line">  	gl.attachShader(program,vertexShader);</span><br><span class="line">  	gl.attachShader(program,fragmentShader);</span><br><span class="line">  	gl.linkProgram(program);</span><br><span class="line">  	<span class="keyword">var</span>  success=gl.getProgramParameter(program,gl.LINK_STATUS);</span><br><span class="line">  	<span class="keyword">if</span>(success)&#123;</span><br><span class="line">        <span class="keyword">return</span> program;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="built_in">console</span>.log(gl.getProgramInfoLog(program));</span><br><span class="line">  	gl.deleteProgram(program);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并且调用它</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> program=createProgram(gl,vertexShader,fragmentShader);</span><br></pre></td></tr></table></figure>
+<p>现在我们在GPU中创建一个GLSL程序，并且需要给它提供数据。大部分的WebGL API都是涉及到给供给给GLSL程序提供的数据设置状态。在这个例子中给GLSL 程序提供的输入只有<code>a_position</code>，它是一个attribute。首先要做的是给我们创建的程序找到attribute的位置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vav positionAttributeLocation=gl.getAttributeLocation(program,<span class="string">"a_position"</span>);</span><br></pre></td></tr></table></figure>
+<p>找到attribute的位置（唯一的位置）是在初始化阶段要完成的事情，而不是在渲染阶段。</p>
+<p>Attribute需要从buffers中获取数据，所以需要创建一个buffer</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> positionBuffer=gl.createBuffer();</span><br></pre></td></tr></table></figure>
+<p>WebGL允许我们操纵许多全局绑定点中的WebGL资源。可以将绑定点看做是WebGL内部的去哪局变量。首先给绑定点绑定资源，然后所有的其它函数通过绑定点来绑定这些资源。所以我们绑定位置buffer</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffer);</span><br></pre></td></tr></table></figure>
+<p>现在可以通过绑定点将数据提供给buffer了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> positions=[</span><br><span class="line">    <span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">  	<span class="number">0</span>,<span class="number">0.5</span>,</span><br><span class="line">  	<span class="number">0.7</span>,<span class="number">0</span>,</span><br><span class="line">];</span><br><span class="line">gl.bufferData(gl.ARRAY_BUFFER,<span class="keyword">new</span> <span class="built_in">Float32Array</span>(positions),gl.STATIC_DRAW);</span><br></pre></td></tr></table></figure>
+<p>在这里做了很多事情，首先我们有一个<code>positions</code>的JavaScript数组。WebGL需要强类型的数据，所以通过<code>new Float32Array(positions);</code>创建一个新的32位浮点型点数据数组，并且从<code>positions</code>拷贝数据。通过<code>gl.bufferData</code>将数据拷贝到GPU的<code>positionBuffer</code>中。它使用了位置buffer，因为我们通过绑定点将它绑定到了<code>ARRAY_BUFFER</code>。</p>
+<p>最后一个参数<code>gl.STATIC_DRAW</code>是对WebGL的一个提示，提示如何使用数据。WebGL可以通过有这些提示来优化一些事情。<code>gl.STATIC_DRAW</code>告诉WebGL我们不太可能会改变这些数据。</p>
+<p>现在，我们已经将需要告诉attribute如何和提取数据的数据放进了buffer中。我们需要通过调用一个顶点数组来创建一个attribute状态的集合。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vao=gl.createVertexArray();</span><br></pre></td></tr></table></figure>
+<p>并且需要让它成为当前的顶点数组，所以所有的attribute设置会应用在那个attribute状态集上。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.bindVertexArray(vao);</span><br></pre></td></tr></table></figure>
+<p>接下来在顶点数组中设置attribute。首先我们需要开启attribute，这告诉WebGL我们想要从buffer中提取数据。如果我们没有开启attribute那么attribute就会是一个常量值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.enableVertexAttribArray(positionAttributeLocation);</span><br></pre></td></tr></table></figure>
+<p>然后我们需要指定如何将数据提取出来</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> size=<span class="number">4</span>;</span><br><span class="line"><span class="keyword">var</span> type=gl.FLOAT;</span><br><span class="line"><span class="keyword">var</span> normalize=<span class="literal">false</span>;</span><br><span class="line"><span class="keyword">var</span> stride=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> offset=<span class="number">0</span>;</span><br><span class="line">gl.vertexAttribPointer(positionAttributeLocation,size,type,normalize,stride,offset);</span><br></pre></td></tr></table></figure>
+<p><code>gl.vertexAttribPointer</code>的作用是将当前的<code>ARRAY_BUFFER</code>绑定给attribute。也就是说现在attribute绑定给了<code>positionBuffer</code>。这意味着我们可以绑定其它东西给<code>ARRAY_BUFFER</code>绑定点。attribute会集训使用<code>positionBuffer</code></p>
+<p>注意从我们的GLSL 顶点着色器视图的点，<code>a_position</code>attrubute是一个<code>vec4</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">in</span> vec4 a_position;</span><br></pre></td></tr></table></figure>
+<p><code>vec4</code>是一个4个浮点值。在JavaScript中你可以把它看做是<code>a_position={x:0,y:0,z:0,w:0}</code>。在设置<code>size=2</code>之前，attribute默认是<code>0,0,0,1</code>所以这个attribute就会从我们的buffer中获取前两个值（x和y）。z和w分别是是默认的0和1。</p>
+<p>在绘制之前，需要重置canvas的尺寸来匹配展示尺寸。canvas们就像图像一样拥有两个尺寸。像素的数量通常位于它的内部，和它的展示尺寸是相分离的。CSS决定了canvas的展示尺寸。你应该优先选择使用css改变canvas的尺寸，因为这是最便利的方法。</p>
+<p>为了让canvas的内部像素数量和展示尺寸相匹配。我使用了一个<a href="https://webgl2fundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html" target="_blank" rel="noopener">辅助函数</a>。</p>
+<p>几乎所有的例子的canvas的尺寸都是400*300像素，它会在自己的窗口上运行。如果位于iframe内部，那么它就会拉伸填充整个可用区域，就像位于这个页面之上一样。通过让CSS控制尺寸，然后调整匹配，可以轻松的处理这两种情况。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webglUtils.resizeCanvasToDisplaySize(gl.canvas);</span><br></pre></td></tr></table></figure>
+<p>我们需要告诉WebGL如何进行剪裁空间值的转换，需要设置<code>gl_Position</code>返还给像素，通常被称为屏幕空间。为了做到它，可以调用<code>gl.viewport</code>并且给它传递canvas的当前尺寸。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.viewport(<span class="number">0</span>,<span class="number">0</span>,gl.canvas.width,gl.canvas.height);</span><br></pre></td></tr></table></figure>
+<p>它告诉WebGL将（-1，1）的剪裁空间映射到（0，gl.canvas.width）给x轴，（0,gl.canvas.height）给y轴</p>
+<p>我们清空画布。<code>0,0,0,0</code>分别代表红、绿、蓝、透明度。所以在这个例子中，我们让画布透明</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gl.clearColor(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,);</span><br><span class="line">gl.clear(gl.COLOR_BUFFER_BIT);</span><br></pre></td></tr></table></figure>
+<p>接下来我们需要告诉WebGL执行哪一个着色器程序</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.useProgram(program);</span><br></pre></td></tr></table></figure>
+<p>然后我们需要告诉它需要用到哪一个buffers集，并且如何从这些buffers中提取数据给attributes</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.bindVertexArray(vao);</span><br></pre></td></tr></table></figure>
+<p>最后需要请求WebGL来执行GLSL程序</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> primitiveType=gl.TRIANGLES;</span><br><span class="line"><span class="keyword">var</span> offset=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> count=<span class="number">3</span>;</span><br><span class="line">gl.drawArrays(primitiveType,offset,count);</span><br></pre></td></tr></table></figure>
+<p>因为count是3，所以会执行顶点着色器3次。第一次中顶点着色器attribute的<code>a_position.x</code>和<code>a_position.y</code>会被设置成positionBuffer的前两个值；第二次中<code>a_position.xy</code>会别设置成随后的两个值；最后一次中会别设置成最后两个值。</p>
+<p>因为我们将<code>primitiveType</code>设置为了<code>gl.TRIANGLES</code>，每次我们的顶点着色器都执行三次，WebGL会基于我们设置给<code>gl.Position</code>de 三个值来绘制三角形。无论canvas的尺寸是多少，在剪裁空间中的这些值在每个方向上都是（-1,1）的区间。 </p>
+<p>由于顶点着色器只是简单的将positionBuffer中的值拷贝到<code>gl_Position</code>，三角形会在剪裁空间坐标中绘制。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line"><span class="number">0</span>,<span class="number">0.5</span>,</span><br><span class="line"><span class="number">0.7</span>,<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>如果canvas的尺寸正好是400*300，从剪裁空间向屏幕坐标的转化会如下：</p>
+<table>
+<thead>
+<tr>
+<th>clip space</th>
+<th></th>
+<th>screen space</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0,0</td>
+<td>—&gt;</td>
+<td>200,150</td>
+</tr>
+<tr>
+<td>0,0.5</td>
+<td>—&gt;</td>
+<td>200,225</td>
+</tr>
+<tr>
+<td>0.7,0</td>
+<td>—&gt;</td>
+<td>340,150</td>
+</tr>
+</tbody>
+</table>
+<p>WebGL现在就回渲染这个三角形面了。对于每一个要绘制的像素，WebGL都会调用片元着色器。我们的片元着色器仅仅设置了<code>outColor</code>为<code>1,0,0.5,1</code>。由于Canvas在每个通道都是8位的，意味着WebGL可以将<code>[255,0,127,255]</code>写进canvas、</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/webgl2基础/" data-id="ck4jzi8pl0031rflrncopqgnx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webgl/">webgl</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/12/24/low-graphics-mode解决方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">low-graphics mode解决方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

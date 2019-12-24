@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>利用Docker搭建一个博客 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言对于docker最早是在天猫双十一之后的一个直播视频中看到了，当时始终觉得这是都是很牛逼的人才玩的转的东西，也就没放在心上。后来公司的同事做了一个docker的分享培训，对docker有了进一步的了解。直到最近分到一个任务——配置一个开源论坛然后部署到公司服务器上，为了避免多次部署的麻烦，就要选择docker，至此铁下心来学习docker。 1、docker是干什么的？作为程序员不知道你有没有">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Docker搭建一个博客">
+<meta property="og:url" content="http://yoursite.com/2017/07/14/利用Docker搭建一个博客/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="前言对于docker最早是在天猫双十一之后的一个直播视频中看到了，当时始终觉得这是都是很牛逼的人才玩的转的东西，也就没放在心上。后来公司的同事做了一个docker的分享培训，对docker有了进一步的了解。直到最近分到一个任务——配置一个开源论坛然后部署到公司服务器上，为了避免多次部署的麻烦，就要选择docker，至此铁下心来学习docker。 1、docker是干什么的？作为程序员不知道你有没有">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T13:40:49.463Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用Docker搭建一个博客">
+<meta name="twitter:description" content="前言对于docker最早是在天猫双十一之后的一个直播视频中看到了，当时始终觉得这是都是很牛逼的人才玩的转的东西，也就没放在心上。后来公司的同事做了一个docker的分享培训，对docker有了进一步的了解。直到最近分到一个任务——配置一个开源论坛然后部署到公司服务器上，为了避免多次部署的麻烦，就要选择docker，至此铁下心来学习docker。 1、docker是干什么的？作为程序员不知道你有没有">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-利用Docker搭建一个博客" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/利用Docker搭建一个博客/" class="article-date">
+  <time datetime="2017-07-13T18:40:04.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      利用Docker搭建一个博客
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于docker最早是在天猫双十一之后的一个直播视频中看到了，当时始终觉得这是都是很牛逼的人才玩的转的东西，也就没放在心上。后来公司的同事做了一个docker的分享培训，对docker有了进一步的了解。直到最近分到一个任务——配置一个开源论坛然后部署到公司服务器上，为了避免多次部署的麻烦，就要选择docker，至此铁下心来学习docker。</p>
+<h3 id="1、docker是干什么的？"><a href="#1、docker是干什么的？" class="headerlink" title="1、docker是干什么的？"></a>1、docker是干什么的？</h3><p>作为程序员不知道你有没有这种感觉，每当你要部署一套系统时都要花费大量的时间和精来来配置各种运行环境？明明在自己机器上运行好好的系统，在别人机器上出现了很多问题，然后花费大量时间和精力去调试？很难说这种方式对我们的变成能力能提高多少，那怎么解决这个问题呢？答案就是daocker，它可以让你将你的系统连带运行环境一并“打包分发”。（说的优点low，但是有助于理解）</p>
+<h3 id="2、docker的安装"><a href="#2、docker的安装" class="headerlink" title="2、docker的安装"></a>2、docker的安装</h3><p>要使用docker，肯定是先安装docker了请参考下面的文章, 这里只提醒一点，一定要使用64位的操作系统，不然会遇到很多坑。另外windows、linux和mac都可以安装docker，windows10直接支持docker的安装而之前版本的windows需要通过docker官方提供的工具；mac安装最简单；推荐使用linux环境安装。</p>
+<h3 id="3、docker的基础"><a href="#3、docker的基础" class="headerlink" title="3、docker的基础"></a>3、docker的基础</h3><p>首次接触docker，对所谓的image、container、registry、client、server等等肯定会眼花。本文抛开对这些概念的重复，先让大家动手来感受一下docker能为我们做什么？我们要做一个在tomcat环境下运行的网站，并且支持mysql数据库。</p>
+<h3 id="4、搭建之旅"><a href="#4、搭建之旅" class="headerlink" title="4、搭建之旅"></a>4、搭建之旅</h3><h4 id="4-1-准备工作"><a href="#4-1-准备工作" class="headerlink" title="4.1 准备工作"></a>4.1 准备工作</h4><p>首先去 jpress下载一个war文件，作为我们要运行的项目。结下来是不是要搭建java环境、搭建tomcat、搭建mysql数据了？这些全是重复性的劳动，有了docker就可以省去这些繁琐的过程。</p>
+<h4 id="4-2-docker环境下安装tomcat"><a href="#4-2-docker环境下安装tomcat" class="headerlink" title="4.2 docker环境下安装tomcat"></a>4.2 docker环境下安装tomcat</h4><p>docker按住哪个tomcat环境，分如下几步：</p>
+<ul>
+<li>搜索tomcat的image；</li>
+<li>下载tomcat的image；</li>
+<li>运行tomcat的image.</li>
+</ul>
+<p>在linux通过快捷键 control + alt + t 调出终端，通过下面命令进入root模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su</span><br></pre></td></tr></table></figure></p>
+<p>根据提示输入密码，就进入了root模式，然后启动docker服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service start docker</span><br></pre></td></tr></table></figure></p>
+<p>接着在终端输入下面命令即可执行对tomcat的image的搜索：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search tomcat</span><br></pre></td></tr></table></figure></p>
+<p>就会出现下面的搜索结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">root@afei-virtual-machine:/home/afei# docker search tomcat</span><br><span class="line">NAME                           DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">tomcat                         Apache Tomcat is an open source implementa...   1407      [OK]       </span><br><span class="line">tomee                          Apache TomEE is an all-Apache Java EE cert...   38        [OK]       </span><br><span class="line">dordoka/tomcat                 Ubuntu 14.04, Oracle JDK 8 and Tomcat 8 ba...   37                   [OK]</span><br><span class="line">davidcaste/alpine-tomcat       Apache Tomcat 7/8 using Oracle Java 7/8 wi...   19                   [OK]</span><br><span class="line">consol/tomcat-7.0              Tomcat 7.0.57, 8080, &quot;admin/admin&quot;              16                   [OK]</span><br><span class="line">cloudesire/tomcat              Tomcat server, 6/7/8                            15                   [OK]</span><br><span class="line">tutum/tomcat                   Base docker image to run a Tomcat applicat...   7                    </span><br><span class="line">jeanblanchard/tomcat           Minimal Docker image with Apache Tomcat         7                    </span><br><span class="line">andreptb/tomcat                Debian Jessie based image with Apache Tomc...   7                    [OK]</span><br><span class="line">fbrx/tomcat                    Minimal Tomcat image based on Alpine Linux      4                    [OK]</span><br><span class="line">bitnami/tomcat                 Bitnami Tomcat Docker Image                     3                    [OK]</span><br><span class="line">picoded/tomcat                 tomcat 8 with java 8, and MANAGER_USER / M...   2                    [OK]</span><br><span class="line">antoineco/tomcat-mod_cluster   Apache Tomcat with JBoss mod_cluster            1                    [OK]</span><br><span class="line">qasymphony/tomcat              Tomcat images                                   1                    </span><br><span class="line">rstiller/tomcat                Java 1.6, 1.7, 1.8 (OpenJDK &amp; Oracle) for ...   1                    </span><br><span class="line">dreaminsun/tomcat              optimized tomcat                                1                    [OK]</span><br><span class="line">foobot/tomcat                                                                  0                    [OK]</span><br><span class="line">s390x/tomcat                   Apache Tomcat is an open source implementa...   0                    </span><br><span class="line">awscory/tomcat                 tomcat                                          0                    </span><br><span class="line">ppc64le/tomcat                 Apache Tomcat is an open source implementa...   0                    </span><br><span class="line">produtec/tomcat                Oracle JDK and Tomcat                           0                    </span><br><span class="line">techangels/tomcat                                                              0                    </span><br><span class="line">i386/tomcat                    Apache Tomcat is an open source implementa...   0                    </span><br><span class="line">hegand/tomcat                  docker-tomcat                                   0                    [OK]</span><br><span class="line">antoineco/tomcat               Extra OS variants for the official Tomcat ...   0                    [OK]</span><br><span class="line">root@afei-virtual-machine:/home/afei# ^C</span><br></pre></td></tr></table></figure></p>
+<p>你可以选择上面的任意一个image进行下载，在此我们下载第一个名为tomcat的image，执行下面的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull tomcat</span><br></pre></td></tr></table></figure></p>
+<p>然后等待，直到成功的提示出现，我们的tomcat的环境就下载好了，当然里面自动包括java环境了。</p>
+<h4 id="4-3-将war文件放进tomcat的image中-构建自己的image"><a href="#4-3-将war文件放进tomcat的image中-构建自己的image" class="headerlink" title="4.3 将war文件放进tomcat的image中,构建自己的image"></a>4.3 将war文件放进tomcat的image中,构建自己的image</h4><p>tomcat的image下载好之后，我们就有了tomcat的运行环境了，该如何把自己的war文件放入这个tomcat的运行环境呢？首先我们进入war包所在目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/# cd home/ahui/demos</span><br><span class="line">root@ahui-virtual-machine:/home/ahui/demos# ls</span><br><span class="line">jpress.war</span><br><span class="line">root@ahui-virtual-machine:/home/ahui/demos#</span><br></pre></td></tr></table></figure></p>
+<p>在当前目录下，新建一个Dockerfile的文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/home/ahui/demos# vim Dockerfile</span><br></pre></td></tr></table></figure></p>
+<p>在弹窗中按 i键进入编辑模式，输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from tomcat</span><br><span class="line">MAINTAINER yangyahui afei_ask@163.com</span><br><span class="line">COPY jpress.war /usr/local/tomcat/webapps</span><br><span class="line">~</span><br><span class="line">~</span><br></pre></td></tr></table></figure></p>
+<p>然后按esc键，退出编辑模式，输入下面命令退出窗口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:wq!</span><br></pre></td></tr></table></figure></p>
+<p><strong>说明一下：</strong>里面的</p>
+<ul>
+<li>“ from tomcat ” 就是选择刚才我们下载tomcat的image，如果你下载的事其它的image，就换做你下载的那个image 的名称；</li>
+<li>“ MAINTAINER yangyahui <a href="mailto:afei_ask@163.com" target="_blank" rel="noopener">afei_ask@163.com</a> ” 是作者信息；</li>
+<li>“ COPY jpress.war /usr/local/tomcat/webapps ”意思是将当前目录下的jpress.war文件拷贝到tomcat的image中的/usr/local/tomcat/webapps的目录下，若要查看image中的具体目录位置，可以进入该image进行查看，命令如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it imageID bash</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>最后就可以执行image的构建了，输入下面命令执行image的构建：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/home/ahui/demos# docker build -t jpress .</span><br></pre></td></tr></table></figure></p>
+<p>其中的 “ -t jpress ” 表示构建的image的名字为jpress；最后的 “ . ” 表示在当前目录执行构建操作。</p>
+<p>完成后，在终端输入一下命令查看image是否构建成功:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure></p>
+<p>该命令的意思是查看当前所拥有的image。看到下面有 “ jpress ” 出现，即表示构建成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/home/ahui/demos# docker images</span><br><span class="line">REPOSITORY                     TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">jpress                         latest              d059622def4d        3 hours ago         355MB</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-4-运行我们自己的image"><a href="#4-4-运行我们自己的image" class="headerlink" title="4.4 运行我们自己的image"></a>4.4 运行我们自己的image</h3><p>构建好了自己的jpress的image，如何运行它呢，在终端输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8888:8080 jpress</span><br></pre></td></tr></table></figure></p>
+<p>其中 “ -d ” 表示在后台运行；“ -p 8888:8080 ” 表示外部的8888映射image中的8080端口；</p>
+<p>此时jpress的image就已经运行了，可以通过下面的命令查看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure></p>
+<p>该命令表示当前正在运行的container；“ docekr ps -a ” 可以查看所有存在的containers。</p>
+<p>这时就可以在浏览器中输入地址 “ loalhost:8888 ” 就可以进入tomcat的默认主页了，然后在浏览器中输入 “ loalhost:8888/jpress ” 就会进入jpress博客的主页，点击下一步，要求我们链接数据库；</p>
+<p><strong>注意：</strong>一个image一旦运行了，就转变成一个container了（如果多次执行运行image的命令就会创建多个不同container，可通过不同的端口区分）；以后再启动该container可以通过下面的命令执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start containerID</span><br></pre></td></tr></table></figure></p>
+<p>关闭某个运行的container可以通过以下命令执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop containerID</span><br></pre></td></tr></table></figure></p>
+<p>删除一个已有的container可以通过以下命令执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm containerID</span><br></pre></td></tr></table></figure></p>
+<p>而删除一个image的命令是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi imageID</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-5-docker-搭建一个mysql数据库的image"><a href="#4-5-docker-搭建一个mysql数据库的image" class="headerlink" title="4.5 docker 搭建一个mysql数据库的image"></a>4.5 docker 搭建一个mysql数据库的image</h3><p>在终端输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search mysql</span><br></pre></td></tr></table></figure></p>
+<p>然后选择一个image进行下载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql</span><br></pre></td></tr></table></figure></p>
+<p>运行这个mysql的image：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=000000 -e MYSQL_DATABASE=jpress mysql</span><br></pre></td></tr></table></figure></p>
+<p>其中 ： “ -e MYSQL_ROOT_PASSWORD=000000 -e MYSQL_DATABASE=jpress ” 表示环境变量mysql的数据库的密码为00000；创建一个jpress的数据库；</p>
+<p>这时我的的mysql环境久安装好了，然后就可以回到 “ loalhost:8888/jpress ”页面 继续jpress博客的数据库的配置情况了；此时需要注意在填写数据库ip时，不能填写 “ localhost ” ，应为mysql的iage的ip不一定和本地ip一致，可以在终端输入 “ ifconfig ” 查看image的ip，然后填写上去。最后对tomcat的image执行重启久完成了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart containerID</span><br></pre></td></tr></table></figure></p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>这一篇文章在好几天前都写好了，上传时发生了 “rm –rf ~”的悲剧。损失惨重，就不多说了，在此提示大家一定要常常备份。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/14/利用Docker搭建一个博客/" data-id="ck4jzi8pn0035rflrpbl50trv" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/19/SpringBoot基础/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SpringBoot基础
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/14/WebGIS中切片获取和展示的原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">WebGIS中切片获取和展示的原理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

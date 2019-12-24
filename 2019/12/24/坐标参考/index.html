@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>坐标参考 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在用webgl手撕一个三维GIS引擎，引擎内部使用4326的参考系，切片使用的3857的数据源，出现的效果就是经度正常，但是纬度方向被压缩了，如下图所示。 这是一个可以预见的情况，但是也引出了一些长期困扰自己的问题，趁这次机会深入理清一下。 一、Mercator投影mercator投影是一种”等角正切圆柱投影”，以地球为例，假设地球被围在一中空的圆柱里，其基准纬线与圆柱相切（赤道）接触，然后再">
+<meta name="keywords" content="GIS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="坐标参考">
+<meta property="og:url" content="http://yoursite.com/2019/12/24/坐标参考/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="最近在用webgl手撕一个三维GIS引擎，引擎内部使用4326的参考系，切片使用的3857的数据源，出现的效果就是经度正常，但是纬度方向被压缩了，如下图所示。 这是一个可以预见的情况，但是也引出了一些长期困扰自己的问题，趁这次机会深入理清一下。 一、Mercator投影mercator投影是一种”等角正切圆柱投影”，以地球为例，假设地球被围在一中空的圆柱里，其基准纬线与圆柱相切（赤道）接触，然后再">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/坐标参考/earth.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/坐标参考/mercator.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/坐标参考/realEarth.webp">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/坐标参考/wgs84.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/坐标参考/mercatorProject.webp">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/坐标参考/webMercatorProject.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/坐标参考/originCoord.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/坐标参考/infinity.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/24/坐标参考/level.png">
+<meta property="og:updated_time" content="2019-12-24T14:17:47.117Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="坐标参考">
+<meta name="twitter:description" content="最近在用webgl手撕一个三维GIS引擎，引擎内部使用4326的参考系，切片使用的3857的数据源，出现的效果就是经度正常，但是纬度方向被压缩了，如下图所示。 这是一个可以预见的情况，但是也引出了一些长期困扰自己的问题，趁这次机会深入理清一下。 一、Mercator投影mercator投影是一种”等角正切圆柱投影”，以地球为例，假设地球被围在一中空的圆柱里，其基准纬线与圆柱相切（赤道）接触，然后再">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/24/坐标参考/earth.png">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-坐标参考" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/坐标参考/" class="article-date">
+  <time datetime="2019-12-24T14:08:13.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      坐标参考
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在用webgl手撕一个三维GIS引擎，引擎内部使用4326的参考系，切片使用的3857的<a href="http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunityENG/MapServer" target="_blank" rel="noopener">数据源</a>，出现的效果就是经度正常，但是纬度方向被压缩了，如下图所示。<br><img src="/2019/12/24/坐标参考/earth.png" title="earth"></p>
+<p>这是一个可以预见的情况，但是也引出了一些长期困扰自己的问题，趁这次机会深入理清一下。</p>
+<h4 id="一、Mercator投影"><a href="#一、Mercator投影" class="headerlink" title="一、Mercator投影"></a>一、Mercator投影</h4><p>mercator投影是一种”<a href="https://baike.baidu.com/item/等角正切圆柱投影" target="_blank" rel="noopener">等角正切圆柱投影</a>”，以地球为例，<strong>假设地球被围在一中空的圆柱里，其基准纬线与圆柱相切（赤道）接触，然后再假想地球中心有一盏灯，把球面上的图形投影到圆柱体上，再把圆柱体展开</strong>，这就是一幅选定基准纬线上的“墨卡托投影”绘制出的地图，如下图：</p>
+<img src="/2019/12/24/坐标参考/mercator.jpg" title="mercator.jpg">
+<p>当然，这是一个对于任何一个giser都知道的概念，在这里重点强调的一点是：<strong>墨卡托投影的对象不仅仅是正球，对椭球也一样通用</strong>。</p>
+<p>更准确的来说，椭球才是标准对象。我们的地球是一种更接近与梨形的球体，如下</p>
+<img src="/2019/12/24/坐标参考/realEarth.webp" title="realEarth.webp">
+<p>每个地区高低不平，所以各个地区都会根据本区域特点，选取一个最适合本区域的椭球体作为参考了对象，往往一个地区的参考椭球体并不使用于另外一个区域。实际上，对于局部小区域，也可用会用圆锥切面投影，或是高斯-克吕格投影。</p>
+<p>Mercator 投影坐标系统，全球范围尺度上其基准面可以是 <code>WGS 1984</code> ，</p>
+<p><code>WGS 1984</code>定义如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GCS_WGS_1984</span><br><span class="line">WKID: <span class="number">4326</span> Authority: EPSG</span><br><span class="line">Angular Unit: Degree (<span class="number">0.0174532925199433</span>)</span><br><span class="line">Prime Meridian: Greenwich (<span class="number">0.0</span>)</span><br><span class="line">Datum: D_WGS_1984</span><br><span class="line">Spheroid: WGS_1984</span><br><span class="line">Semimajor Axis: <span class="number">6378137.0</span></span><br><span class="line">Semiminor Axis: <span class="number">6356752.314245179</span></span><br><span class="line">Inverse Flattening: <span class="number">298.257223563</span></span><br></pre></td></tr></table></figure>
+<img src="/2019/12/24/坐标参考/wgs84.png" title="wgs84.png">
+<p>墨卡托投影的“圆柱”特性，保证了南北（纬线）和东西（经线）都是平行直线，并且相互垂直。而且经线间隔是相同的，纬线间隔从标准纬线（此处是赤道，也可能是其他纬线）向两级逐渐增大。</p>
+<p>既然是投影了，肯定会涉及到投影的换算，它的投影计算公式应该是椭球的投影公司如下：</p>
+<ul>
+<li>x、y是投影展开成平面后以赤道本初子午线交点为原点的平面坐标系的坐标</li>
+<li>a 是椭球体长半轴，b是短半轴</li>
+<li>L是经度（弧度制），B是纬度（弧度制）</li>
+</ul>
+<img src="/2019/12/24/坐标参考/mercatorProject.webp" title="mercatorProject.webp">
+<h4 id="二、WebMercator投影"><a href="#二、WebMercator投影" class="headerlink" title="二、WebMercator投影"></a>二、WebMercator投影</h4><p> Web Mercator 坐标系使用的投影方法不是严格意义的墨卡托投影，而是一个被 EPSG（European Petroleum Survey Group）称为伪墨卡托的投影方法，这个伪墨卡托投影方法的大名是 Popular Visualization Pseudo Mercator，PVPM。</p>
+<p>因为这个坐标系统是 Google Map 最先使用的，或者更确切地说，是Google 最先发明的。在投影过程中，将表示地球的参考椭球体近似的作为正球体处理（正球体半径 R = 椭球体半长轴 a）。这也是为什么在 ArcGIS 中我们经常看到这个坐标系叫 WGS 1984 Web Mercator (Auxiliary Sphere)。Auxiliary Sphere 就是在告知你，这个坐标在投影过程中，将椭球体近似为正球体做投影变换，虽然基准面是WGS 1984 椭球面。</p>
+<img src="/2019/12/24/坐标参考/webMercatorProject.png" title="webMercatorProject.png">
+<p>后来，Web Mercator 在 Web 地图领域被广泛使用，这个坐标系就名声大噪。尽管这个坐标系由于精度问题一度不被GIS专业人士接受，但最终 EPSG 还是给了 WKID:3857</p>
+<h4 id="三、切片和切片原点"><a href="#三、切片和切片原点" class="headerlink" title="三、切片和切片原点"></a>三、切片和切片原点</h4><p>我们知道通过墨卡托投影后，x轴是经度投影的结果，经度区间是[-π，π]；y轴时纬度投影的结果，而纬度区间为[-π/2,π/2]。而我们的3857的切片服务，通常切片原点是[-2.0037508342787E7,2.0037508342787E7]。</p>
+<img src="/2019/12/24/坐标参考/originCoord.png" title="originCoord.png">
+<p>这就不好理解了，x轴是以赤道周长来算的，x轴的范围是[-2.0037508342787E7,2.0037508342787E7]可以计算出来，可是为啥y轴的的范围也是[-2.0037508342787E7,2.0037508342787E7]呢？另一个与此相光的问题是为什么在切片的每个级别上分辨率是一个值呢？常规理解应该是x轴一个分辨率，y轴一个分辨率的。并且由于切片是正方形，x轴的分辨率应该是y轴分辨率的2倍才对呀。</p>
+<p>其实虽然纬度区间[-π/2,π/2]只是经度区间[-π，π]的二分之一，但是在投影后同一纬度上的经度属于等间距投影，但是纬度却是随着纬度的增加投影距离不断增大，直到纬度为90度时，投影点趋于无穷大。纬度上的距离区间应该远远大于经度区间才对，如下图</p>
+<img src="/2019/12/24/坐标参考/infinity.png" title="infinity.png">
+<p>此时有两点可以明确：</p>
+<ul>
+<li>同一纬度上，经度投影分布是均匀的，线性的</li>
+<li>纬度的投影，随着纬度的增加，投影距离是不断增大，是非线性的。</li>
+</ul>
+<p>那么如何让纬度纬度线的区间分布也是均匀的呢？这场计算纬度线的投影距离公式是<code>y=f(φ)=R*tan(φ)</code>；有一个聪明的家伙模拟了一个近似函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">		-ln(tan(π/4 + abs(φ/2)))     φ&lt;0时</span><br><span class="line">y=g(φ)= +ln(tan(π/4 + abs(φ/2)))     φ=0时</span><br><span class="line">		+ln(tan(π/4 + abs(φ/2)))     φ&gt;0时</span><br></pre></td></tr></table></figure>
+<p>这种投影算法使得赤道附近的纬线较密，极地附近的纬线较稀。极点被投影到无穷远，所以这种投影不适合在高纬度地区使用。Google Maps的选取的范围为 -π&lt;y&lt;π ，这样近似的有 -85°&lt;Φ&lt;85°。这也就得到了y轴上的取值区间和x轴上的取值区间一致，一张方形的世界地图就出来了。</p>
+<p>这时就注意了，在做x轴的切片计算时，可以采用二分的方式直接计算，但是对于y轴切片的计算则不能使用二分了，因为y轴不是线性切片的，必须严格按照该界别切片提供的分辨率进行计算。这么做就将问题分离开了，可视化人员只需要按照既定的规则进行切片展示；制图人员可以自定义经纬度两个方向切片的计算方法（只需最终输出满足既定规则的切片即可）；</p>
+<h3 id="四、像素坐标"><a href="#四、像素坐标" class="headerlink" title="四、像素坐标"></a>四、像素坐标</h3><p>提到分辨率，就需要解释像素坐标了。</p>
+<p>分辨率表示一个像素代表的实际长度，可以同过分辨率和像素坐标来计算该像素点所在的实际位置。</p>
+<p>将地球表面通过墨卡托投影到一个方形平面时，依据展示内容的精细度，这个方形平面可大可小。通常全球范围内就不需要展示特别精细的内容，只需要轮廓就可以，而在一个工业园区级别就需要将具体的厂房道路展示出来。这样最终精细度的提高，我们这张世界地图的尺寸就越来越大。</p>
+<img src="/2019/12/24/坐标参考/level.png" title="level.png">
+<p>不过好在，我们通常在精细化程度较高时，往往只需要看到很小的一块区域，为了切分的方便，一般切分方式都是以2的次幂来切分。这方面的内容此处不再赘述。只强调一点：<strong>既定的级别都有自己的分辨率，无论经度还是纬度都可以依据这个分辨率来准确的计算某一像素点的实际位置，而不必再考虑该图是如何将经度和纬度统一起来制图的</strong>。</p>
+<p>地图学中一个重要的概念，就是比例尺，即<strong>地图上的一厘米代表着实际上的多少厘米</strong>；到了web地图中我们把比例尺转换成另一个概念，分辨率（Resolution），即<strong>图上一像素代表实际多少米</strong>。</p>
+<p>假设地图的坐标单位是米，整张地图的dpi为96，当前地图在赤道处的比例尺为1:125000000（即图上1米等于实地125000000米），1英寸=2.54厘米； 1英寸=96像素。那么计算可得地图赤道上1像素代表实地距离是 125000000*0.0254/96 = 33072.9166666667米。为什么要强调某一条纬度线（上述例子为赤道）的比例尺？因为根据墨卡托投影的特性，同一张地图中不同纬度线的比例尺是变化的，越靠近两极，图上1米相当于实地的距离越小。</p>
+<p>参考：</p>
+<p><a href="https://www.jianshu.com/p/778fc3e9f889" target="_blank" rel="noopener"><a href="https://www.jianshu.com/p/778fc3e9f889" target="_blank" rel="noopener">https://www.jianshu.com/p/778fc3e9f889</a></a></p>
+<p><a href="https://blog.csdn.net/mr_jianrong/article/details/72625811" target="_blank" rel="noopener"><a href="https://blog.csdn.net/mr_jianrong/article/details/72625811" target="_blank" rel="noopener">https://blog.csdn.net/mr_jianrong/article/details/72625811</a></a></p>
+<p><a href="https://blog.csdn.net/kikitamoon/article/details/46124935" target="_blank" rel="noopener"><a href="https://blog.csdn.net/kikitamoon/article/details/46124935" target="_blank" rel="noopener">https://blog.csdn.net/kikitamoon/article/details/46124935</a></a></p>
+<p><a href="https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/" target="_blank" rel="noopener"><a href="https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/" target="_blank" rel="noopener">https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/</a></a></p>
+<p><a href="https://blog.csdn.net/qq_35732147/article/details/83856513" target="_blank" rel="noopener"><a href="https://blog.csdn.net/qq_35732147/article/details/83856513" target="_blank" rel="noopener">https://blog.csdn.net/qq_35732147/article/details/83856513</a></a></p>
+<p><a href="[https://baike.baidu.com/item/%E5%A2%A8%E5%8D%A1%E6%89%98%E6%8A%95%E5%BD%B1/5477927?fr=kg_qa](https://baike.baidu.com/item/墨卡托投影/5477927?fr=kg_qa">https://baike.baidu.com/item/%E5%A2%A8%E5%8D%A1%E6%89%98%E6%8A%95%E5%BD%B1/5477927?fr=kg_qa</a>)</p>
+<p><a href="https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/" target="_blank" rel="noopener"><a href="https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/" target="_blank" rel="noopener">https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/</a></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/坐标参考/" data-id="ck4jzi8pm0033rflr7vsuunj2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GIS/">GIS</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/12/24/webpack的使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          webpack的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/12/24/WebGL绑定多纹理/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">WebGL绑定多纹理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

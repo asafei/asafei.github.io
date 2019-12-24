@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>位移运算 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="世界上有两种人，一种知道二进制，而另一种人不知道二进制。 前言：​    对二进制知道已久，但是对于位运算却始终云里雾里。直到半年前去网易面试实习生被问到“给定一个的整数，求出它的二进制数中1的个数”，回头我详细搜了一下相关的解决方案，有常规解法，但是无论从效率还是代码简洁性来说，位运算都是最适合的。                 ​    首先来普及一下二进制：二进制是指数字上的每一位都是0或">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="位移运算">
+<meta property="og:url" content="http://yoursite.com/2015/04/09/位移运算/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="世界上有两种人，一种知道二进制，而另一种人不知道二进制。 前言：​    对二进制知道已久，但是对于位运算却始终云里雾里。直到半年前去网易面试实习生被问到“给定一个的整数，求出它的二进制数中1的个数”，回头我详细搜了一下相关的解决方案，有常规解法，但是无论从效率还是代码简洁性来说，位运算都是最适合的。                 ​    首先来普及一下二进制：二进制是指数字上的每一位都是0或">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T13:40:49.462Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="位移运算">
+<meta name="twitter:description" content="世界上有两种人，一种知道二进制，而另一种人不知道二进制。 前言：​    对二进制知道已久，但是对于位运算却始终云里雾里。直到半年前去网易面试实习生被问到“给定一个的整数，求出它的二进制数中1的个数”，回头我详细搜了一下相关的解决方案，有常规解法，但是无论从效率还是代码简洁性来说，位运算都是最适合的。                 ​    首先来普及一下二进制：二进制是指数字上的每一位都是0或">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-位移运算" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/09/位移运算/" class="article-date">
+  <time datetime="2015-04-09T00:27:02.000Z" itemprop="datePublished">2015-04-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      位移运算
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>世界上有两种人，一种知道二进制，而另一种人不知道二进制。</p>
+<h4 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h4><p>​    对二进制知道已久，但是对于位运算却始终云里雾里。直到半年前去网易面试实习生被问到“给定一个的整数，求出它的二进制数中1的个数”，回头我详细搜了一下相关的解决方案，有常规解法，但是无论从效率还是代码简洁性来说，位运算都是最适合的。                </p>
+<p>​    首先来普及一下二进制：二进制是指数字上的每一位都是0或1，即所谓的逢二进一。例如十进制的2转化为二进制之后是10，十进制的10转换成二进制之后是1010。</p>
+<p>​    所以二进制的运算就只设计0和1的运算，这比十进制的计算简单多了，它只有五种运算：与、或、异或、左移和右移。根据这种特点你可以给0和1赋予任何你想要的含义，来提取日常中的问题。​     </p>
+<h3 id="一、与、或和异或"><a href="#一、与、或和异或" class="headerlink" title="一、与、或和异或"></a>一、与、或和异或</h3><p>规律如下表</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">| `与（&amp;）`   | `<span class="number">0</span> &amp; <span class="number">0</span> = <span class="number">0</span>` | `<span class="number">1</span> &amp; <span class="number">0</span> = <span class="number">0</span>` | `<span class="number">0</span> &amp; <span class="number">1</span> =`<span class="number">0</span>  | `<span class="number">1</span> &amp; <span class="number">1</span> = <span class="number">1</span>` |</span><br><span class="line">| `或（|）`   | `<span class="number">0</span> | <span class="number">0</span> = <span class="number">0</span>` | `<span class="number">1</span> | <span class="number">0</span> = <span class="number">1</span>` | `<span class="number">0</span> | <span class="number">1</span> = <span class="number">1</span>` | `<span class="number">1</span> | <span class="number">1</span> =<span class="number">1</span>` |</span><br><span class="line">| `异或（^）` | `<span class="number">0</span> &amp; <span class="number">0</span> = <span class="number">0</span>` | `<span class="number">1</span> ^ <span class="number">0</span> = <span class="number">1</span>` | `<span class="number">0</span> ^ <span class="number">1</span> = <span class="number">1</span>` | `<span class="number">1</span> ^ <span class="number">1</span> = <span class="number">0</span>` |</span><br></pre></td></tr></table></figure>
+<p> 对异或的理解可以是：不同值间异或为1。</p>
+<h3 id="二、位移运算："><a href="#二、位移运算：" class="headerlink" title="二、位移运算："></a>二、位移运算：</h3><p>​    左移运算符<code>m&lt;&lt;n</code>表示把m左移n位。左移n位时，最左边的n位将被丢弃，同时在最右边补上n个0。比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">00001010</span>&lt;&lt;<span class="number">2</span> = <span class="number">00101000</span></span><br><span class="line"></span><br><span class="line"><span class="number">10001010</span>&lt;&lt;<span class="number">3</span> = <span class="number">01010000</span></span><br></pre></td></tr></table></figure>
+<p>​    右移运算符<code>m&gt;&gt;n</code>表示把m右移n位。右移n位时最右边的n位将被丢弃，但是右移时处理最左边位的情形要稍微复杂一点。如果数字是一个无符号数值，则用0填补最左边的n位；如果数字是一个有符号数值，则用数字的符号位填补最左边的n位。也就是说如果数字原先是一个正数，右移之后最左边补n个0；如果数字原先是负数，则右移之后最左边补n个1。例如下面是对两个8位有符号数作为右移的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">00001010</span>&gt;&gt;<span class="number">2</span> = <span class="number">00000010</span></span><br><span class="line"></span><br><span class="line"><span class="number">10001010</span>&gt;&gt;<span class="number">2</span> = <span class="number">11100010</span></span><br></pre></td></tr></table></figure>
+<h3 id="三、思路"><a href="#三、思路" class="headerlink" title="三、思路"></a>三、思路</h3><p>现在回到问题本身，基本思路是：</p>
+<ul>
+<li><p>先判断整数的二进制表示中最右边的是不是1；</p>
+</li>
+<li><p>接着把输入的整数右移一位，此时原来处于从右边数起第二位被移到了最右边，再判断是不是1；</p>
+</li>
+<li><p>就这样每次移一位，直到整个整数变成0为止。</p>
+</li>
+</ul>
+<p>这样整个问题的核心就变成了<strong>判断一个整数的最右边是不是1</strong>了。这很简单，只要将整数和1做位与运算看结果是不是0就知道了。1除了最右边的一位之外所有位都是0，如果一个整数与1做与运算的结果是1，表示该整数的最右边一位是1，否则是0。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(n)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n&amp;<span class="number">1</span>)&#123;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        n&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运用除法当然也可以实现等价的功能，但是除法的效率上远远低于位移运算。</p>
+<p>​    到这里是捋清了基本的思路，接下来就该处理细节问题了。前边也说了，有符号的数字右移后在最左边补上与符号数相等的数字，而这个数字未必就是0 。如果输入的n是负数，怎么办呢，整数的最左边会一直补上数字1，这样整个计算就会变成一个死循环……</p>
+<p>​    如何避免死循环呢，一种做法是，既然我不确定输入的n是不是带符号的数，但是我可以确定我的1是无符号的，我可以将1左移来达到相同的效果。</p>
+<ul>
+<li><p>首先把n和1做与运算，判断最低位是不是1；</p>
+</li>
+<li><p>接着把1左移一位得到2，再和n做与运算，就能判断n的次低位是不是1；</p>
+</li>
+<li><p>这样反复左移，每次都能判断n的其中一位是不是1。</p>
+</li>
+</ul>
+<p>代码修改如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">    unsigned <span class="keyword">int</span> flag=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(flag)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n&amp;flag)&#123;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        flag&lt;&lt;<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    是不是很有成就感，到这里本应该就结束了。书中给我们分析，这种解法的循环次数等于整数的二进制位数，32位的整数需要循环32次。</p>
+<p>但是对原整数进行操作就没有更好的方法了吗？答案是有，而且书提出一个更好的解法，整数中有几个1就循环几次，而且理解起来比上边的更加简单。咱们的解体思路说白了不就是把整数最右边的1依次做归零计算吗，左移位只是一种途径，其它途径多的是。</p>
+<p>​    先来干货：<strong>把一个整数减去1，再和原来的整数做与运算，会把该整数的最右边的一个1变成0。</strong></p>
+<p>分析：</p>
+<ul>
+<li><p>如果一个整数不等于0，那么该整数的二进制表示中至少有一位是1，先假设这个数最右边一位是1，那么减去1时，最后一位变成0而其它所有位都保持不变。也就是最后一位相当于做了取反操作，由1变成了0；</p>
+</li>
+<li><p>接下来假设最后一位不是1而是0的情况。如果该整数的二进制表示中最右边的1位于第m位，那么减去1后，第m位变成了0，第m位之后的所有的0变成了1，第m为之前的所有位保持不变。例如二进制1100，减去1后，变成那个了1011。</p>
+</li>
+<li><p>由上边两种情况，可以得出一个整数减去1，都是把最右边的的1变成了0，如果它右边还有0的话，所有的0都变成1，而它左边的所有位保持不变。</p>
+</li>
+<li><p>最后就是，当我们用减1之后的数字与原数字做位与运算，就相当于把原整数最右边的1变成了0。例如1100，减1之后变成1011，然后1100&amp;1011 = 1000。</p>
+</li>
+</ul>
+<p>就下来就是代码了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">NumberOf1</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> count =<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(n)&#123;</span><br><span class="line">		++count;</span><br><span class="line">		n=(n-<span class="number">1</span>)&amp;n;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> count</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>好了，接下来补充一些相关知识：</p>
+<ul>
+<li><p>一个整数如果是2的整数次方，那么它的二进制表示中只有一位是1，其它的所以位都是0。根据前面的结论，把这样的整数减1之后再和它自己做与运算，这个整数中唯一的1就变成了0。</p>
+</li>
+<li><p>输入两个整数m和n，计算要改变m二进制表示中的多少位才能得到n。可以分两步走：①求这两个数的异或，②统计异或结果中1的位数。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/04/09/位移运算/" data-id="ck4jzi8oq001wrflrj6pq3dpu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/14/hexo创建github博客/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          hexo创建github博客
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

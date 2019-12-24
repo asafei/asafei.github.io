@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>react实战1 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="React实战-简书一、安装React创建名为jiashu的react-app，并且清理工程目录，仅保留index.js、index.css和App.js文件。步骤略。 二、css样式管理2.1 react中css使用在index.css文件中添加样式 123.dell &amp;#123;	background:red;&amp;#125; 然后在App.js文件中，给div添加className，这时页面的d">
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react实战1">
+<meta property="og:url" content="http://yoursite.com/2018/10/18/react实战1/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="React实战-简书一、安装React创建名为jiashu的react-app，并且清理工程目录，仅保留index.js、index.css和App.js文件。步骤略。 二、css样式管理2.1 react中css使用在index.css文件中添加样式 123.dell &amp;#123;	background:red;&amp;#125; 然后在App.js文件中，给div添加className，这时页面的d">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T13:40:49.461Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react实战1">
+<meta name="twitter:description" content="React实战-简书一、安装React创建名为jiashu的react-app，并且清理工程目录，仅保留index.js、index.css和App.js文件。步骤略。 二、css样式管理2.1 react中css使用在index.css文件中添加样式 123.dell &amp;#123;	background:red;&amp;#125; 然后在App.js文件中，给div添加className，这时页面的d">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-react实战1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/18/react实战1/" class="article-date">
+  <time datetime="2018-10-18T14:19:18.000Z" itemprop="datePublished">2018-10-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      react实战1
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="React实战-简书"><a href="#React实战-简书" class="headerlink" title="React实战-简书"></a>React实战-简书</h2><h3 id="一、安装React"><a href="#一、安装React" class="headerlink" title="一、安装React"></a>一、安装React</h3><p>创建名为<code>jiashu</code>的react-app，并且清理工程目录，仅保留index.js、index.css和App.js文件。步骤略。</p>
+<h3 id="二、css样式管理"><a href="#二、css样式管理" class="headerlink" title="二、css样式管理"></a>二、css样式管理</h3><h4 id="2-1-react中css使用"><a href="#2-1-react中css使用" class="headerlink" title="2.1 react中css使用"></a>2.1 react中css使用</h4><p>在index.css文件中添加样式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.dell &#123;</span><br><span class="line">	background:red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在App.js文件中，给div添加className，这时页面的div就变成了红色。</p>
+<p>注意：并没有给App.js文件引入index.css，只有文件index.js中引用了index.css文件，但是我们在App.js中依然可以使用其中的样式文件。这是因为css文件一旦在一个文件被引入，那么就会全局生效，即全局任何一个文件都能使用这里面的样式。</p>
+<p>但是这样容易产生混乱，不建议这么做，这时推荐使用一个第三方的css管理，名为<code>styled-compenents</code></p>
+<h4 id="2-2-react中使用styled-compenents管理css"><a href="#2-2-react中使用styled-compenents管理css" class="headerlink" title="2.2 react中使用styled-compenents管理css"></a>2.2 react中使用styled-compenents管理css</h4><p>首先安装该包</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --save styled-components</span><br><span class="line"><span class="comment">//或</span></span><br><span class="line">yarn add styled-components</span><br></pre></td></tr></table></figure>
+<p>然后我们给<code>index.css</code>文件改名为<code>style.js</code>，然后在index.js文件中修改对应的引用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~~ <span class="keyword">import</span> <span class="string">'./index.css'</span>; ~~</span><br><span class="line"><span class="keyword">import</span> <span class="string">'./style.js'</span>;</span><br></pre></td></tr></table></figure>
+<p>然后在style.js中如何创建全局样式呢，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; injectGlobal &#125; <span class="keyword">from</span> <span class="string">'styled-components'</span>;</span><br><span class="line">injectGlobal<span class="string">`</span></span><br><span class="line"><span class="string">	body &#123;</span></span><br><span class="line"><span class="string">      margin: 0;</span></span><br><span class="line"><span class="string">      padding: 0;</span></span><br><span class="line"><span class="string">      font-family: sans-serif;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    .dell &#123;</span></span><br><span class="line"><span class="string">        background:red;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">`</span></span><br></pre></td></tr></table></figure>
+<p>这时再看页面，又能正常显示了。</p>
+<p>那么如何数据跟组件一对一的样式呢，后面会有介绍。</p>
+<p>由于浏览器的差异，如何做到让不同浏览器的样式统一呢？这时需要用到一个reset.css的文件</p>
+<h4 id="2-3-完成浏览器样式的统一"><a href="#2-3-完成浏览器样式的统一" class="headerlink" title="2.3 完成浏览器样式的统一"></a>2.3 完成浏览器样式的统一</h4><p>不同浏览器内核中对body等标签默认样式的设置是不同的，为了代码再所有浏览器上表现是一致的，这就可以使用<a href="https://meyerweb.com/eric/tools/css/reset/" target="_blank" rel="noopener">reset.css</a>，将里面的内容，拷贝到我们的全局样式里面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; injectGlobal &#125; <span class="keyword">from</span> <span class="string">'styled-components'</span>;</span><br><span class="line">injectGlobal<span class="string">`</span></span><br><span class="line"><span class="string">	html, body, div, span, applet, object, iframe,</span></span><br><span class="line"><span class="string">    h1, h2, h3, h4, h5, h6, p, blockquote, pre,</span></span><br><span class="line"><span class="string">    a, abbr, acronym, address, big, cite, code,</span></span><br><span class="line"><span class="string">    del, dfn, em, img, ins, kbd, q, s, samp,</span></span><br><span class="line"><span class="string">    small, strike, strong, sub, sup, tt, var,</span></span><br><span class="line"><span class="string">    b, u, i, center,</span></span><br><span class="line"><span class="string">    dl, dt, dd, ol, ul, li,</span></span><br><span class="line"><span class="string">    fieldset, form, label, legend,</span></span><br><span class="line"><span class="string">    table, caption, tbody, tfoot, thead, tr, th, td,</span></span><br><span class="line"><span class="string">    article, aside, canvas, details, embed, </span></span><br><span class="line"><span class="string">    figure, figcaption, footer, header, hgroup, </span></span><br><span class="line"><span class="string">    menu, nav, output, ruby, section, summary,</span></span><br><span class="line"><span class="string">    time, mark, audio, video &#123;</span></span><br><span class="line"><span class="string">        margin: 0;</span></span><br><span class="line"><span class="string">        padding: 0;</span></span><br><span class="line"><span class="string">        border: 0;</span></span><br><span class="line"><span class="string">        font-size: 100%;</span></span><br><span class="line"><span class="string">        font: inherit;</span></span><br><span class="line"><span class="string">        vertical-align: baseline;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    /* HTML5 display-role reset for older browsers */</span></span><br><span class="line"><span class="string">    article, aside, details, figcaption, figure, </span></span><br><span class="line"><span class="string">    footer, header, hgroup, menu, nav, section &#123;</span></span><br><span class="line"><span class="string">        display: block;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    body &#123;</span></span><br><span class="line"><span class="string">        line-height: 1;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    ol, ul &#123;</span></span><br><span class="line"><span class="string">        list-style: none;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    blockquote, q &#123;</span></span><br><span class="line"><span class="string">        quotes: none;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    blockquote:before, blockquote:after,</span></span><br><span class="line"><span class="string">    q:before, q:after &#123;</span></span><br><span class="line"><span class="string">        content: '';</span></span><br><span class="line"><span class="string">        content: none;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    table &#123;</span></span><br><span class="line"><span class="string">        border-collapse: collapse;</span></span><br><span class="line"><span class="string">        border-spacing: 0;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">`</span></span><br></pre></td></tr></table></figure>
+<h3 id="三、头部区块的编写"><a href="#三、头部区块的编写" class="headerlink" title="三、头部区块的编写"></a>三、头部区块的编写</h3><p>一般头部区块，是很多页面都要公用的。</p>
+<h4 id="3-1-创建header组件"><a href="#3-1-创建header组件" class="headerlink" title="3.1 创建header组件"></a>3.1 创建header组件</h4><p>首先在src目录下创建一个文件夹common，在common文件夹中再创建一个header的文件夹，然后再header文件夹中创建index.js文件，这个就是header的组件。接下来我们来定义这个组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React , &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Header</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">            	header</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default Header;</span></span><br></pre></td></tr></table></figure>
+<p>然后再<code>src/App.js</code>文件中引入Header组件，并使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Header <span class="keyword">from</span> <span class="string">'./common/header/index.js'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            &lt;Header /&gt;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure>
+<h4 id="3-2创建header样式"><a href="#3-2创建header样式" class="headerlink" title="3.2创建header样式"></a>3.2创建header样式</h4><p>在<code>src/common/header/</code>文件夹下，创建一个<code>style.js</code>的样式文件，在里面编写Header自己用的样式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> styled <span class="keyword">from</span> <span class="string">'styled-components'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> HeaderWrapper=styled.div<span class="string">`</span></span><br><span class="line"><span class="string">	height:56px;</span></span><br><span class="line"><span class="string">	background:red;</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+<p>这样就可以在Header组件(<code>src\common\header\index.js</code>)中，引入该样式并使用了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React , &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;HeaderWrapper&#125; <span class="keyword">from</span> <span class="string">'./style.js'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Header</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            &lt;HeaderWrapper&gt;</span><br><span class="line">            	header</span><br><span class="line">            &lt;<span class="regexp">/HeaderWrapper&gt;</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default Header;</span></span><br></pre></td></tr></table></figure>
+<p>这时header的简易样式就出来了。</p>
+<p>查看简书官网可以看到header有58px高，并且有个1px的边框，可以这么修改</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">height:<span class="number">58</span>px;</span><br><span class="line">border-bottom:1px soid #f0f0f0;</span><br></pre></td></tr></table></figure>
+<h4 id="3-3-展示logo"><a href="#3-3-展示logo" class="headerlink" title="3.3 展示logo"></a>3.3 展示logo</h4><p>首先去简书官网，将左上角的logo下载到我们项目的<code>src/state/</code>目录下，命名为<code>logo.png</code>。</p>
+<p>接下来我们在<code>src/common/header/style.js</code>中定义一个Logo的组件，由于点击该组件可以进行条状，所以该组件是一个a标签</p>
+<p>注意在属性url的不能这么写<code>background:url(&#39;../../statics/logo.png&#39;)</code>因为webpack打包时会当成字符串，而因该使用引用的方式引用该图片，然后使用<code>${}</code>形式进行使用;</p>
+<p>图片有点大，还要注意给图片设置大小<code>background-size</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logoPic <span class="keyword">from</span> <span class="string">'../../common/statics/logo.png'</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> Logo=styled.a<span class="string">`</span></span><br><span class="line"><span class="string">	position: absolute;</span></span><br><span class="line"><span class="string">	top: 0;</span></span><br><span class="line"><span class="string">	left: 0;</span></span><br><span class="line"><span class="string">	display:block;</span></span><br><span class="line"><span class="string">	width: 100px;</span></span><br><span class="line"><span class="string">	height: 58px;</span></span><br><span class="line"><span class="string">	background:url(<span class="subst">$&#123;logoPic&#125;</span>);</span></span><br><span class="line"><span class="string">	background-size:contain;</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+<p>然后就可以在<code>/src/common/header/index.js</code>文件中使用它了，a标签是一个链接，如何让点击时回到首页呢？可以直接给Logo设置<code>href=&quot;/&quot;</code>属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React , &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HeaderWrapper , Logo&#125; <span class="keyword">from</span> <span class="string">'./style.js'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Header</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">			&lt;HeaderWrapper&gt;</span><br><span class="line">				&lt;Logo href=<span class="string">'/'</span> /&gt;</span><br><span class="line">			&lt;<span class="regexp">/HeaderWrapper&gt;</span></span><br><span class="line"><span class="regexp">        )   </span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default Header;</span></span><br></pre></td></tr></table></figure>
+<p>当然也可以在style.js中设置href属性，可以这么写style</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> Logo=styled.a.attrs(&#123;</span><br><span class="line">    href:<span class="string">'/'</span></span><br><span class="line">&#125;)<span class="string">`</span></span><br><span class="line"><span class="string">	position: absolute;</span></span><br><span class="line"><span class="string">	top: 0;</span></span><br><span class="line"><span class="string">	left: 0;</span></span><br><span class="line"><span class="string">	display:block;</span></span><br><span class="line"><span class="string">	width: 100px;</span></span><br><span class="line"><span class="string">	height: 58px;</span></span><br><span class="line"><span class="string">	background:url(<span class="subst">$&#123;logoPic&#125;</span>);</span></span><br><span class="line"><span class="string">	background-size:contain;</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+<p>然后我们编写header的中间组件</p>
+<h4 id="3-4-编写header中间部分Nav"><a href="#3-4-编写header中间部分Nav" class="headerlink" title="3.4 编写header中间部分Nav"></a>3.4 编写header中间部分Nav</h4><p>可以现在<code>/src/common/header/index.js</code>文件中添加一个新组件Nav，再编写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React , &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HeaderWrapper , Logo, Nav&#125; <span class="keyword">from</span> <span class="string">'./style.js'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Header</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">			&lt;HeaderWrapper&gt;</span><br><span class="line">				&lt;Logo href=<span class="string">'/'</span> /&gt;</span><br><span class="line">            	&lt;Nav /&gt;</span><br><span class="line">			&lt;<span class="regexp">/HeaderWrapper&gt;</span></span><br><span class="line"><span class="regexp">        )   </span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default Header;</span></span><br></pre></td></tr></table></figure>
+<p>然后在<code>src/common/header/style.js</code>中定义一个Nav的组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> Nav=styled.div<span class="string">`</span></span><br><span class="line"><span class="string">	width:960px;</span></span><br><span class="line"><span class="string">	height:100%;</span></span><br><span class="line"><span class="string">	margin:0px;</span></span><br><span class="line"><span class="string">	background:green;</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="3-5-填充Nav"><a href="#3-5-填充Nav" class="headerlink" title="3.5 填充Nav"></a>3.5 填充Nav</h4><p>这样就能看到我们的中间了，接下来我们往Nav中添加东西，添加4个NavItem，为了给它们添加浮动，给它们添加样式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; HeaderWrapper , Logo , Nav ,NavItem&#125; <span class="keyword">from</span> <span class="string">'./style.js'</span>;</span><br><span class="line">...</span><br><span class="line">&lt;Nav&gt;</span><br><span class="line">    &lt;NavItem className=<span class="string">'left'</span>&gt;首页&lt;<span class="regexp">/NavItem&gt;</span></span><br><span class="line"><span class="regexp">    &lt;NavItem className='left'&gt;下载App&lt;/</span>NavItem&gt;</span><br><span class="line">    &lt;NavItem className=<span class="string">'right'</span>&gt;登陆&lt;<span class="regexp">/NavItem&gt;</span></span><br><span class="line"><span class="regexp">    &lt;NavItem className='right'&gt;Aa&lt;/</span>NavItem&gt;</span><br><span class="line">&lt;<span class="regexp">/Nav&gt;</span></span><br></pre></td></tr></table></figure>
+<p>接下来我们就能在<code>src/common/header/style.js</code>中定义一个NavItem的组件了，其中<code>&amp;.left</code>表示NavItem组件有left属性的话，就执行向左浮动；</p>
+<p>同时它们也有一些共有的属性如line-height、padding、font-size等；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> NavItem=styled.div<span class="string">`</span></span><br><span class="line"><span class="string">	line-height:58px;</span></span><br><span class="line"><span class="string">	padding:0 15px;</span></span><br><span class="line"><span class="string">	font-size:17px;</span></span><br><span class="line"><span class="string">    &amp;.left&#123;</span></span><br><span class="line"><span class="string">        float:left;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">	&amp;.right&#123;</span></span><br><span class="line"><span class="string">        float:right;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+<p>同时也可以给文字指定颜色，比如让首页为红色，其它设为黑色，右侧文字黑色浅一些：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;NavItem className=<span class="string">'left active'</span>&gt;首页&lt;<span class="regexp">/NavItem&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> NavItem=styled.div<span class="string">`</span></span><br><span class="line"><span class="string">	line-height:58px;</span></span><br><span class="line"><span class="string">	padding:0 15px;</span></span><br><span class="line"><span class="string">	font-size:17px;</span></span><br><span class="line"><span class="string">	color:#333;</span></span><br><span class="line"><span class="string">    &amp;.left&#123;</span></span><br><span class="line"><span class="string">        float:left;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">	&amp;.right&#123;</span></span><br><span class="line"><span class="string">        float:right;</span></span><br><span class="line"><span class="string">		color:#969696;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    &amp;.active&#123;</span></span><br><span class="line"><span class="string">		color:#ea6f5a;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="3-6-编写NavSearch组件"><a href="#3-6-编写NavSearch组件" class="headerlink" title="3.6 编写NavSearch组件"></a>3.6 编写NavSearch组件</h4><p>再Nav中添加NavSearch组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; HeaderWrapper , Logo , Nav ,NavItem, NavSearch&#125; <span class="keyword">from</span> <span class="string">'./style.js'</span>;</span><br><span class="line">...</span><br><span class="line">&lt;Nav&gt;</span><br><span class="line">    &lt;NavItem className=<span class="string">'left'</span>&gt;首页&lt;<span class="regexp">/NavItem&gt;</span></span><br><span class="line"><span class="regexp">    &lt;NavItem className='left'&gt;下载App&lt;/</span>NavItem&gt;</span><br><span class="line">    &lt;NavItem className=<span class="string">'right'</span>&gt;登陆&lt;<span class="regexp">/NavItem&gt;</span></span><br><span class="line"><span class="regexp">    &lt;NavItem className='right'&gt;Aa&lt;/</span>NavItem&gt;</span><br><span class="line">	&lt;NavSearch&gt;<span class="xml"><span class="tag">&lt;/<span class="name">NavSearch</span>&gt;</span></span></span><br><span class="line">&lt;<span class="regexp">/Nav&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后在<code>src/common/header/style.js</code>中定义一个NavSearch的组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> NavSearch=styled.input.attrs(&#123;</span><br><span class="line">	placeholder:<span class="string">'搜索'</span></span><br><span class="line">&#125;)<span class="string">`</span></span><br><span class="line"><span class="string">	width:160px;</span></span><br><span class="line"><span class="string">	height:38px;</span></span><br><span class="line"><span class="string">	padding:0 20px;</span></span><br><span class="line"><span class="string">	box-sizing:border-box;</span></span><br><span class="line"><span class="string">	border:none;</span></span><br><span class="line"><span class="string">	outline:none;</span></span><br><span class="line"><span class="string">	margin-top:9px;</span></span><br><span class="line"><span class="string">	margin-left:20px;</span></span><br><span class="line"><span class="string">	border-radius:19px;</span></span><br><span class="line"><span class="string">	background:#eee;</span></span><br><span class="line"><span class="string">	font-size:14px;</span></span><br><span class="line"><span class="string">	&amp;::placeholder&#123;</span></span><br><span class="line"><span class="string">		color:#999;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+<p>其中<code>box-sizing:border-box;</code>    表示input框不拉伸；<code>&amp;::placeholder</code>表示框内文字颜色；</p>
+<h4 id="3-7-写注册组件"><a href="#3-7-写注册组件" class="headerlink" title="3.7 写注册组件"></a>3.7 写注册组件</h4><p>首先引入Addition，仔里面添加两个Button然后编写style，通过给Button设置className来自定义属性，相应的再style中可以使用<code>&amp;.XXX</code>来编写对应的样式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; HeaderWrapper , Logo , Nav ,NavItem, NavSearch,Addition,Button&#125; <span class="keyword">from</span> <span class="string">'./style.js'</span>;</span><br><span class="line">...</span><br><span class="line">&lt;Nav&gt;</span><br><span class="line">    ...</span><br><span class="line">&lt;<span class="regexp">/Nav&gt;</span></span><br><span class="line"><span class="regexp">&lt;Addition&gt;</span></span><br><span class="line"><span class="regexp">	&lt;Button className='writting'&gt;写文章&lt;/</span>Button&gt;</span><br><span class="line">	&lt;Button className=<span class="string">'reg'</span>&gt;注册&lt;<span class="regexp">/Button&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>Addition&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> Addition=styled.div<span class="string">`</span></span><br><span class="line"><span class="string">	position:absolute;</span></span><br><span class="line"><span class="string">	right:0;</span></span><br><span class="line"><span class="string">	top:0;</span></span><br><span class="line"><span class="string">	height:56px;</span></span><br><span class="line"><span class="string">`</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> Button=styled.div<span class="string">`</span></span><br><span class="line"><span class="string">	float:right;</span></span><br><span class="line"><span class="string">	margin-top:9px;</span></span><br><span class="line"><span class="string">	margin-right:20px;</span></span><br><span class="line"><span class="string">	padding:0 20px;</span></span><br><span class="line"><span class="string">	line-height:38px;</span></span><br><span class="line"><span class="string">	border-radius:19px;</span></span><br><span class="line"><span class="string">	border:1px solid #ec6149;</span></span><br><span class="line"><span class="string">	font-size:14px;</span></span><br><span class="line"><span class="string">	&amp;.reg&#123;</span></span><br><span class="line"><span class="string">		color:#ec6149;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">	&amp;.writting&#123;</span></span><br><span class="line"><span class="string">		color:#fff;</span></span><br><span class="line"><span class="string">		background:#ec6149;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="3-8-使用iconfont"><a href="#3-8-使用iconfont" class="headerlink" title="3.8 使用iconfont"></a>3.8 使用iconfont</h4><p>首先进入<a href="iconfont.cn">iconfont.cn</a>下载几个iconfont图标，放在<code>src/statics/iconfont/</code>文件夹下，包括下面五个文件：</p>
+<ul>
+<li>iconfont.css</li>
+<li>iconfont.eot</li>
+<li>iconfont.svg</li>
+<li>iconfont.ttf</li>
+<li>iconfont.woff</li>
+</ul>
+<p>然后打开iconfont.css文件，在里面将iconfont开头内容，改为添加相对引用的，并且可以删除下面没用的内容</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//before</span><br><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: <span class="string">"iconfont"</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">'iconfont.eot?t=1536939256958'</span>); <span class="comment">/* IE9*/</span></span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">'iconfont.eot?t=1536939256958#iefix'</span>) <span class="built_in">format</span>(<span class="string">'embedded-opentype'</span>), <span class="comment">/* IE6-IE8 */</span></span><br><span class="line">  <span class="built_in">url</span>(<span class="string">'iconfont.ttf?t=1536939256958'</span>) <span class="built_in">format</span>(<span class="string">'truetype'</span>), <span class="comment">/* chrome, firefox, opera, Safari, Android, iOS 4.2+*/</span></span><br><span class="line">  <span class="built_in">url</span>(<span class="string">'iconfont.svg?t=1536939256958#iconfont'</span>) <span class="built_in">format</span>(<span class="string">'svg'</span>); <span class="comment">/* iOS 4.1- */</span></span><br><span class="line">&#125;</span><br><span class="line">//after</span><br><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: <span class="string">"iconfont"</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">'./iconfont.eot?t=1536939256958'</span>); <span class="comment">/* IE9*/</span></span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">'./iconfont.eot?t=1536939256958#iefix'</span>) <span class="built_in">format</span>(<span class="string">'embedded-opentype'</span>), <span class="comment">/* IE6-IE8 */</span></span><br><span class="line">  <span class="built_in">url</span>(<span class="string">'./iconfont.ttf?t=1536939256958'</span>) <span class="built_in">format</span>(<span class="string">'truetype'</span>), <span class="comment">/* chrome, firefox, opera, Safari, Android, iOS 4.2+*/</span></span><br><span class="line">  <span class="built_in">url</span>(<span class="string">'./iconfont.svg?t=1536939256958#iconfont'</span>) <span class="built_in">format</span>(<span class="string">'svg'</span>); <span class="comment">/* iOS 4.1- */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>iconfont我们倾向于将它们全局使用</p>
+<p>首先我们将iconfont.css文件改名为iconfont.js，并且引入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; injectGlobal &#125; <span class="keyword">from</span> <span class="string">'styled-components'</span>;</span><br></pre></td></tr></table></figure>
+<p>然后就可以将里面的内容引入全局语法，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; injectGlobal &#125; <span class="keyword">from</span> <span class="string">'styled-components'</span>;</span><br><span class="line"></span><br><span class="line">injectGlobal<span class="string">`</span></span><br><span class="line"><span class="string">  @font-face &#123;font-family: "iconfont";</span></span><br><span class="line"><span class="string">    src: url('./iconfont.eot?t=1536939256958'); /* IE9*/</span></span><br><span class="line"><span class="string">    src: url('./iconfont.eot?t=1536939256958#iefix') format('embedded-opentype'), /* IE6-IE8 */</span></span><br><span class="line"><span class="string">    url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAW0AAsAAAAACEAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFY8hEjPY21hcAAAAYAAAABeAAABnLRjHYpnbHlmAAAB4AAAAdIAAAIA2xiyuGhlYWQAAAO0AAAALwAAADYSoy/taGhlYQAAA+QAAAAcAAAAJAfeA4VobXR4AAAEAAAAAA4AAAAQEAAAAGxvY2EAAAQQAAAACgAAAAoBSgCEbWF4cAAABBwAAAAeAAAAIAESAFluYW1lAAAEPAAAAUUAAAJtPlT+fXBvc3QAAAWEAAAAMAAAAEHS0b6peJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkYWCcwMDKwMHUyXSGgYGhH0IzvmYwYuRgYGBiYGVmwAoC0lxTGBye8T27y9zwv4EhhrmBoQEozAiSAwDusgzOeJztkEEOgDAIBAdbTWOML/Fo+iBPfrpXvlGBevARLhkCmw0HgBlIxmFkkBvBdZkr4SfW8DPV9mI1ge5atfX+nUISiRJXxZOy8GuLfr5b8q8NYq4D/7e2AdMDWkcVrgAAeJw1jk1PE1EUhs+ZO/ejfsw47W3HkrY6HWamk0g7zrRTg7VIQg1SExsSiAsVo1GwwkpXJGyElf4G2PAPuurKVBP30BUr/oihtYWQnMWb532S94AKMB6TAQHgoMMsVAAs27O4jVGKuJ7NOKFxFObRrtnMLrq16gJW7SI3NUzLTBTGT1AZfFoenbU+ov5+6QtlCuVdPAuaXx+htViud98+na9slPL3Z5xgOCQw8nHhjmunRr9p7tvfShz469qttvOK5rLpXOgUAECZ/NQnf8gypMECcJpYK6OnIS+gGcZ1MxPGVc+ZoCbWJ0hDZWh75PTw6ERVT44aO5VzY65oXPw76BHSO9jvqWrvorLTuKoPT4lz79ywHyS/q739a+Vyc0z2CIG78GKyKZnnMq5hAetNNAsYNaehjOgWdbzMU56ZKtfW9GLXK+MVMzmTmbCOcZU839rcO2YJdkMm1B/bfis/31CEcjs9Gggpdul6J/gw50c8tbrpddwEvSkT/pofdbIWTeorrYdb1dfbss91KXBDrLC8V/YES6UYZVbJ0JS8yqWh4DMhdks/V4O2KYXIHHe9RZPJJKUzS370OWi1dYMVsy+jN78e94XUOb7jEuA/i1FlEwAAeJxjYGRgYADiF3ZLN8bz23xl4GZhAIHrB7/+QND/d7AwMHsAuRwMTCBRAHx7DUcAeJxjYGRgYG7438AQw8IAAkCSkQEVsAAARwoCbXicY2FgYGBBwgAAsAARAAAAAAAAAEoAhAEAAAB4nGNgZGBgYGHwBWIQYAJiLiBkYPgP5jMAABCXAWwAAHicZY9NTsMwEIVf+gekEqqoYIfkBWIBKP0Rq25YVGr3XXTfpk6bKokjx63UA3AejsAJOALcgDvwSCebNpbH37x5Y08A3OAHHo7fLfeRPVwyO3INF7gXrlN/EG6QX4SbaONVuEX9TdjHM6bCbXRheYPXuGL2hHdhDx18CNdwjU/hOvUv4Qb5W7iJO/wKt9Dx6sI+5l5XuI1HL/bHVi+cXqnlQcWhySKTOb+CmV7vkoWt0uqca1vEJlODoF9JU51pW91T7NdD5yIVWZOqCas6SYzKrdnq0AUb5/JRrxeJHoQm5Vhj/rbGAo5xBYUlDowxQhhkiMro6DtVZvSvsUPCXntWPc3ndFsU1P9zhQEC9M9cU7qy0nk6T4E9XxtSdXQrbsuelDSRXs1JErJCXta2VELqATZlV44RelzRiT8oZ0j/AAlabsgAAAB4nGNgYoAALgbsgIWRiZGZkYWRlYHJMZErLTEvPSUxKzMvnbUiM7Uqk4EBAFR3Bwg=') format('woff'),</span></span><br><span class="line"><span class="string">    url('./iconfont.ttf?t=1536939256958') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/</span></span><br><span class="line"><span class="string">    url('./iconfont.svg?t=1536939256958#iconfont') format('svg'); /* iOS 4.1- */</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  .iconfont &#123;</span></span><br><span class="line"><span class="string">    font-family:"iconfont" !important;</span></span><br><span class="line"><span class="string">    font-size:16px;</span></span><br><span class="line"><span class="string">    font-style:normal;</span></span><br><span class="line"><span class="string">    -webkit-font-smoothing: antialiased;</span></span><br><span class="line"><span class="string">    -moz-osx-font-smoothing: grayscale;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">`</span></span><br></pre></td></tr></table></figure>
+<p> 现在这个样式文件还没有全局生效，要生效该怎么做呢？</p>
+<p>我们在<code>src/index.js</code>文件中引入该样式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'./statics/iconfont/iconfont.js'</span>;</span><br></pre></td></tr></table></figure>
+<p>这时我们看页面控制台没有报错，就说明引用成功，接下来我们就可以使用它了。</p>
+<p>进入<code>src/common/header/index.js</code>文件，用iconfont标签插入到相应的组件即可，可以通过i标签引入。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">			&lt;HeaderWrapper&gt;</span><br><span class="line">				&lt;Logo href=<span class="string">'/'</span>/&gt;</span><br><span class="line">				&lt;Nav&gt;</span><br><span class="line">				    &lt;NavItem className=<span class="string">'left active'</span>&gt;首页&lt;<span class="regexp">/NavItem&gt;</span></span><br><span class="line"><span class="regexp">				    &lt;NavItem className='left'&gt;下载App&lt;/</span>NavItem&gt;</span><br><span class="line">				    &lt;NavItem className=<span class="string">'right'</span>&gt;登陆&lt;<span class="regexp">/NavItem&gt;</span></span><br><span class="line"><span class="regexp">				    &lt;NavItem className='right'&gt;</span></span><br><span class="line"><span class="regexp">				    	&lt;i className='iconfont'&gt;&amp;#xe636;&lt;/i</span>&gt;</span><br><span class="line">				    &lt;<span class="regexp">/NavItem&gt;</span></span><br><span class="line"><span class="regexp">				    &lt;NavSearch&gt;&lt;/</span>NavSearch&gt;</span><br><span class="line">				    &lt;i className='iconfont'&gt;&amp;#xe6dd;&lt;/i&gt;</span><br><span class="line">				&lt;<span class="regexp">/Nav&gt;</span></span><br><span class="line"><span class="regexp">				&lt;Addition&gt;</span></span><br><span class="line"><span class="regexp">					&lt;Button className='writting'&gt;</span></span><br><span class="line"><span class="regexp">						&lt;i className='iconfont'&gt;&amp;#xe60e;&lt;/i</span>&gt;</span><br><span class="line">						写文章</span><br><span class="line">					&lt;<span class="regexp">/Button&gt;</span></span><br><span class="line"><span class="regexp">					&lt;Button className='reg'&gt;注册&lt;/</span>Button&gt;</span><br><span class="line">				&lt;<span class="regexp">/Addition&gt;</span></span><br><span class="line"><span class="regexp">			&lt;/</span>HeaderWrapper&gt;</span><br><span class="line">        )   </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>此时我们的页面就展示出来了iconfont元素了。</p>
+<p>接下来对搜索地方进行优化，创建一个SeachWrapper样式，将NavSearch和搜索标签包起来，并且在<code>src/common/header/style.js</code>中定义该样式，如何给里面的iconfont添加样式呢？只需要使用<code>.iconfont{}</code>即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> SearchWrapper=styled.div<span class="string">`</span></span><br><span class="line"><span class="string">	float:left;</span></span><br><span class="line"><span class="string">	position:relative;</span></span><br><span class="line"><span class="string">	.iconfont &#123;</span></span><br><span class="line"><span class="string">		position:absolute;</span></span><br><span class="line"><span class="string">		right:5px;</span></span><br><span class="line"><span class="string">		bottom:5px;</span></span><br><span class="line"><span class="string">		width:30px;</span></span><br><span class="line"><span class="string">		line-height:30px;</span></span><br><span class="line"><span class="string">		border-radius:15px;</span></span><br><span class="line"><span class="string">		text-align:center;</span></span><br><span class="line"><span class="string">	&#125;</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+<p>这里给iconfont搜索按钮添加了圆角框，是为了以后动画服务。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/18/react实战1/" data-id="ck4jzi8pi002xrflrpbyeopkp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/18/react实战2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          react实战2
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/12/redux中间件/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">redux中间件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

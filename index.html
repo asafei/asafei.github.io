@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="afei_ask">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="afei_ask">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-webgl2基础" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/webgl2基础/" class="article-date">
+  <time datetime="2019-12-24T14:46:42.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/webgl2基础/">webgl2基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>翻译自<a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html" target="_blank" rel="noopener">https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html</a></p>
+<p>这些文章是讲解WebGL2的，如果你对WebGL1.0感兴趣，<a href="https://webglfundamentals.org/" target="_blank" rel="noopener">点击这</a>。WebGL2完全兼容WebGL1，也就是说一旦你开启WebGL2，它会像以往的方式来工作。</p>
+<p>WebGL通常被认为是一种3D的apis。人们常说“我要使用WebGL来完成炫酷的3D效果”。实际上WebGL只是一个光栅化引擎。它基于你提供的代码来绘制点、线和三角面。想让WebGL来完成炫酷的任务就要看你掌控点线三角面运作的能力了。</p>
+<p>WebGL在计算机的GPU中运行。所以你需要提供可以在GPU中运行的代码。这样的代码有两种函数形式。这两种函数被称为<strong>顶点着色器（vertex shader）</strong>和<strong>片元着色器（fragment shader）</strong>，它们的书写格式严格遵循一种类C/C++的名的<a href="https://webgl2fundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html" target="_blank" rel="noopener">GLSL</a>的语言。这两个着色器成对出现，被称为一个<strong>程序(program)</strong></p>
+<p>顶点着色器的任务是计算顶点的位置。函数可以做基于这些位置的输出（包含点、线、三角面的基元），然后WebGL就可以对这些基元进行光栅化处理。当进行光栅化处理时，就会调用片元着色器了，片元着色器的任务是计算当前绘制的每一个基元的像素颜色值。</p>
+<p>几乎整个WebGL的API都是用来设置这两个着色器状态的。任何需要绘制的对象都需要设置一系列的状态，然后通过函数在GPU中执行这对着色器，通过<code>gl.drawArrays</code>和<code>gl.drawElements</code>函数执行。</p>
+<p>任何这些函数可以访问的到的数据都必须提供给GPU。着色器有四种方式来接收数据：</p>
+<ol>
+<li><p>Attributes(属性),Buffers(缓冲区)和Vertex Arrays(顶点数组)</p>
+<p>Buffers(缓冲区)是需要上传给GPU的二进制数据的数组。通常Buffers(缓冲区)包含信息：位置、法线，纹理坐标，顶点颜色等，尽管你有权传递任意数据进去。</p>
+<p>Attributes(属性)用来指定如何从Buffers(缓冲区)中提取数据，并且提供给顶点着色器。例如你可以向缓冲区中添加32位浮点数的位置数据，你需要告诉一个指定的Attributes(属性)包括：哪一个缓冲区来提取数据、它要提取的数据是什么类型、在缓存区中从偏移量多少的位置开始提取数据、从一个位置到下一个位置有多少个字节。</p>
+<p>Buffers(缓冲区)不是随机访问的。相反，顶点着色器需要指定没执行的次数。每一次执行时，都需要从指定的Buffers(缓冲区)提取下一个值分配给一个Attributes(属性)。</p>
+<p>Attributes(属性)的状态，会被buffers用到的，以及如何从这些buffers中提取数据，被搜集在一个顶点数组对象中（VAO），</p>
+</li>
+<li><p>Uniforms</p>
+<p>在你执行你的着色器程序之前，Uniforms是有效的全局变量。</p>
+</li>
+<li><p>Textures（纹理）</p>
+<p>纹理是数据数组，你可以在你的着色器程序中随机访问。最常见的传递给纹理的对象是image数据，但是纹理只是数据，可以包含除颜色之外的其它数据。</p>
+</li>
+<li><p>Varyings</p>
+<p>Varyings是顶点着色器向片元着色器传递数据的一种方式。根据要渲染的内容（点、线或三角面），当执行片元着色器时，通过顶点着色器给Varying设置的值会执行内插值计算。</p>
+</li>
+</ol>
+<h2 id="WebGL-Hello-World"><a href="#WebGL-Hello-World" class="headerlink" title="WebGL Hello World"></a>WebGL Hello World</h2><p>WebGL只关心两个事情：裁剪空间坐标和颜色。作为一个WebGL程序员,你的工作就是给WebGL提供这两个东西。这些工作通过提供两个着色器来完成，顶点着色器负责提供裁剪空间坐标，片元着色器负责提供颜色。</p>
+<p>裁剪空间坐标通常介于（-1,1）的区间，不管canvas的尺寸多大。下面是一个简单的WebGL的例子，以简单的形式展示WebGL。</p>
+<p>以顶点着色器开始</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#version 300 es</span><br><span class="line"></span><br><span class="line"><span class="comment">//一个attribute是一个顶点着色器的输入</span></span><br><span class="line"><span class="comment">//它会从buffer中接收数据</span></span><br><span class="line"><span class="keyword">in</span> vec4 a_position;</span><br><span class="line"></span><br><span class="line"><span class="comment">//所有的着色器，都有一个main函数</span></span><br><span class="line"><span class="keyword">void</span> main()&#123;</span><br><span class="line">    gl_position=a_position;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当执行的时候，如果整个都是使用JavaScript编写的，而不是GLSL，你需要考虑这样书写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> positionBuffer=[</span><br><span class="line">    <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">  	<span class="number">0</span>,<span class="number">0.5</span>,<span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">  	<span class="number">0.7</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> attributes=&#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> gl_Psition;</span><br><span class="line"></span><br><span class="line">drawArrays(..., offset, count)&#123;</span><br><span class="line">  <span class="keyword">var</span>  stride=<span class="number">4</span>;</span><br><span class="line">  <span class="keyword">var</span>  size=<span class="number">4</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;count;++i)&#123;</span><br><span class="line">    <span class="comment">//从positionBuffer中复制4个值给a_position attribute</span></span><br><span class="line">    attributes.a_position=positionBuffer.slice((offset+<span class="number">1</span>)*stide,size);</span><br><span class="line">    runVertexShader();</span><br><span class="line">    ...</span><br><span class="line">    doSomethingWith_gl_Position();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上并没有那么简单，因为<code>positionBuffer</code>需要转换成二进制数据（如下所示），所以实际从buffer中获取数据的计算会有一些不同，但是希望通过这样能让你了解到顶点着色器是如何执行的。</p>
+<p>下面需要一个片元着色器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#version 300es</span><br><span class="line"><span class="comment">//片元着色器没有默认的精度，所以我们需要指定一个。medium是很好的默认值</span></span><br><span class="line">precision mediump float;</span><br><span class="line"></span><br><span class="line"><span class="comment">//需要给片元着色器声明一个输出</span></span><br><span class="line">out.vec4 outColor;</span><br><span class="line"><span class="keyword">void</span> main()&#123;</span><br><span class="line">  	<span class="comment">//将输出设置成紫色</span></span><br><span class="line">    outColor=vec4(<span class="number">1</span>,<span class="number">0</span>,<span class="number">0.5</span>,<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上边声明<code>outColor</code>作为片元着色器的输出，将<code>outColor</code>设置为<code>1,0,0.5,1</code>，1表示红色，0表示绿色，0.5表示蓝色，1表示透明度。在WebGL中颜色介于(0,1)之间。</p>
+<p>现在已经写好了两个着色器函数，接下来可以使用WebGL执行了</p>
+<p>首先需要HTML的canvas元素</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"c"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在JavaScript中如下面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas=<span class="built_in">document</span>.getElementById(<span class="string">"c"</span>);</span><br></pre></td></tr></table></figure>
+<p>现在可以创建一个WebGL2的渲染背景了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gl=canvas.getContext(<span class="string">"webgl2"</span>);</span><br><span class="line"><span class="keyword">if</span>(!gl)&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">  	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在需要编译这些着色器了，将它们提供给GPU。所以首先我们需要将它们转为字符串。可以以任何正常的方式创建GLSL字符串。可以通过拼接字符串，可以使用、AJAX下载它们，通过将它们放在非JavaScript标签中，或者以如下多行模板的方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vertexShaderSource=<span class="string">'#version 300 es</span></span><br><span class="line"><span class="string">in vec4 a_position;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">void main()&#123;</span></span><br><span class="line"><span class="string">    gl_Position=a_position;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> fragmentShaderSource=<span class="string">'#version 300 es</span></span><br><span class="line"><span class="string">precision mediump float;</span></span><br><span class="line"><span class="string">out vec4 outColor;</span></span><br><span class="line"><span class="string">void main()&#123;</span></span><br><span class="line"><span class="string">    outColor=vec4(1,0,0.5,1);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">'</span>;</span><br></pre></td></tr></table></figure>
+<p>实际上，大多数3D引擎使用各种各样的模板快速生成GLSL着色器。本网站上的例子都没有复杂到在运行时生生GLSL。</p>
+<blockquote>
+<p>注意：<code>#verison 300 es</code>必须是着色器的首行。它之前不允许有任何命令或空格。<code>#verison 300 es</code>告诉WebGL2你要使用WebGL2的名为GLSL ES3.00的着色器语言。如果你不在首行放置它，着色器语言会默认使用WebGL 1.0的GLSL ES 1.00语言，它们之间有很大的不同，缺少很多特性。</p>
+</blockquote>
+<p>下面需要一个函数来创建一个着色器，上传GLSL源码，并且编译着色器。注意饿哦并没有编写任何评论因为函数的命名清晰的展示了发生了什么</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createShader</span>(<span class="params">gl, type, source</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> shader=gl.createShader(type);</span><br><span class="line">  	gl.shaderSource(shader,source);</span><br><span class="line">  	gl.compileShader(shader);</span><br><span class="line">  	<span class="keyword">var</span> success=gl.getShaderParameter(shader,gl.COMPILE_STATUS);</span><br><span class="line">  	<span class="keyword">if</span>(success)&#123;</span><br><span class="line">        <span class="keyword">return</span> shader;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="built_in">console</span>.log(gl.getShaderInfoLog(shader));</span><br><span class="line">  	gl.deleteShader(shader);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在可以调用函数创建第二个着色器了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vertexShader = createShader(gl,gl.VERTEX_SHADER, vertexShaderSource);</span><br><span class="line"><span class="keyword">var</span> fragmentShader=createShader(gl,gl.FRAGMENT_SHADER,fragmentShaderSource);</span><br></pre></td></tr></table></figure>
+<p>然后将这两个着色器连接到程序（program）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createProgram</span>(<span class="params">gl,vertexShader,fragmentShader</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> program=gl.createProgram();</span><br><span class="line">  	gl.attachShader(program,vertexShader);</span><br><span class="line">  	gl.attachShader(program,fragmentShader);</span><br><span class="line">  	gl.linkProgram(program);</span><br><span class="line">  	<span class="keyword">var</span>  success=gl.getProgramParameter(program,gl.LINK_STATUS);</span><br><span class="line">  	<span class="keyword">if</span>(success)&#123;</span><br><span class="line">        <span class="keyword">return</span> program;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="built_in">console</span>.log(gl.getProgramInfoLog(program));</span><br><span class="line">  	gl.deleteProgram(program);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并且调用它</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> program=createProgram(gl,vertexShader,fragmentShader);</span><br></pre></td></tr></table></figure>
+<p>现在我们在GPU中创建一个GLSL程序，并且需要给它提供数据。大部分的WebGL API都是涉及到给供给给GLSL程序提供的数据设置状态。在这个例子中给GLSL 程序提供的输入只有<code>a_position</code>，它是一个attribute。首先要做的是给我们创建的程序找到attribute的位置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vav positionAttributeLocation=gl.getAttributeLocation(program,<span class="string">"a_position"</span>);</span><br></pre></td></tr></table></figure>
+<p>找到attribute的位置（唯一的位置）是在初始化阶段要完成的事情，而不是在渲染阶段。</p>
+<p>Attribute需要从buffers中获取数据，所以需要创建一个buffer</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> positionBuffer=gl.createBuffer();</span><br></pre></td></tr></table></figure>
+<p>WebGL允许我们操纵许多全局绑定点中的WebGL资源。可以将绑定点看做是WebGL内部的去哪局变量。首先给绑定点绑定资源，然后所有的其它函数通过绑定点来绑定这些资源。所以我们绑定位置buffer</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffer);</span><br></pre></td></tr></table></figure>
+<p>现在可以通过绑定点将数据提供给buffer了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> positions=[</span><br><span class="line">    <span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">  	<span class="number">0</span>,<span class="number">0.5</span>,</span><br><span class="line">  	<span class="number">0.7</span>,<span class="number">0</span>,</span><br><span class="line">];</span><br><span class="line">gl.bufferData(gl.ARRAY_BUFFER,<span class="keyword">new</span> <span class="built_in">Float32Array</span>(positions),gl.STATIC_DRAW);</span><br></pre></td></tr></table></figure>
+<p>在这里做了很多事情，首先我们有一个<code>positions</code>的JavaScript数组。WebGL需要强类型的数据，所以通过<code>new Float32Array(positions);</code>创建一个新的32位浮点型点数据数组，并且从<code>positions</code>拷贝数据。通过<code>gl.bufferData</code>将数据拷贝到GPU的<code>positionBuffer</code>中。它使用了位置buffer，因为我们通过绑定点将它绑定到了<code>ARRAY_BUFFER</code>。</p>
+<p>最后一个参数<code>gl.STATIC_DRAW</code>是对WebGL的一个提示，提示如何使用数据。WebGL可以通过有这些提示来优化一些事情。<code>gl.STATIC_DRAW</code>告诉WebGL我们不太可能会改变这些数据。</p>
+<p>现在，我们已经将需要告诉attribute如何和提取数据的数据放进了buffer中。我们需要通过调用一个顶点数组来创建一个attribute状态的集合。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vao=gl.createVertexArray();</span><br></pre></td></tr></table></figure>
+<p>并且需要让它成为当前的顶点数组，所以所有的attribute设置会应用在那个attribute状态集上。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.bindVertexArray(vao);</span><br></pre></td></tr></table></figure>
+<p>接下来在顶点数组中设置attribute。首先我们需要开启attribute，这告诉WebGL我们想要从buffer中提取数据。如果我们没有开启attribute那么attribute就会是一个常量值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.enableVertexAttribArray(positionAttributeLocation);</span><br></pre></td></tr></table></figure>
+<p>然后我们需要指定如何将数据提取出来</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> size=<span class="number">4</span>;</span><br><span class="line"><span class="keyword">var</span> type=gl.FLOAT;</span><br><span class="line"><span class="keyword">var</span> normalize=<span class="literal">false</span>;</span><br><span class="line"><span class="keyword">var</span> stride=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> offset=<span class="number">0</span>;</span><br><span class="line">gl.vertexAttribPointer(positionAttributeLocation,size,type,normalize,stride,offset);</span><br></pre></td></tr></table></figure>
+<p><code>gl.vertexAttribPointer</code>的作用是将当前的<code>ARRAY_BUFFER</code>绑定给attribute。也就是说现在attribute绑定给了<code>positionBuffer</code>。这意味着我们可以绑定其它东西给<code>ARRAY_BUFFER</code>绑定点。attribute会集训使用<code>positionBuffer</code></p>
+<p>注意从我们的GLSL 顶点着色器视图的点，<code>a_position</code>attrubute是一个<code>vec4</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">in</span> vec4 a_position;</span><br></pre></td></tr></table></figure>
+<p><code>vec4</code>是一个4个浮点值。在JavaScript中你可以把它看做是<code>a_position={x:0,y:0,z:0,w:0}</code>。在设置<code>size=2</code>之前，attribute默认是<code>0,0,0,1</code>所以这个attribute就会从我们的buffer中获取前两个值（x和y）。z和w分别是是默认的0和1。</p>
+<p>在绘制之前，需要重置canvas的尺寸来匹配展示尺寸。canvas们就像图像一样拥有两个尺寸。像素的数量通常位于它的内部，和它的展示尺寸是相分离的。CSS决定了canvas的展示尺寸。你应该优先选择使用css改变canvas的尺寸，因为这是最便利的方法。</p>
+<p>为了让canvas的内部像素数量和展示尺寸相匹配。我使用了一个<a href="https://webgl2fundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html" target="_blank" rel="noopener">辅助函数</a>。</p>
+<p>几乎所有的例子的canvas的尺寸都是400*300像素，它会在自己的窗口上运行。如果位于iframe内部，那么它就会拉伸填充整个可用区域，就像位于这个页面之上一样。通过让CSS控制尺寸，然后调整匹配，可以轻松的处理这两种情况。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webglUtils.resizeCanvasToDisplaySize(gl.canvas);</span><br></pre></td></tr></table></figure>
+<p>我们需要告诉WebGL如何进行剪裁空间值的转换，需要设置<code>gl_Position</code>返还给像素，通常被称为屏幕空间。为了做到它，可以调用<code>gl.viewport</code>并且给它传递canvas的当前尺寸。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.viewport(<span class="number">0</span>,<span class="number">0</span>,gl.canvas.width,gl.canvas.height);</span><br></pre></td></tr></table></figure>
+<p>它告诉WebGL将（-1，1）的剪裁空间映射到（0，gl.canvas.width）给x轴，（0,gl.canvas.height）给y轴</p>
+<p>我们清空画布。<code>0,0,0,0</code>分别代表红、绿、蓝、透明度。所以在这个例子中，我们让画布透明</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gl.clearColor(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,);</span><br><span class="line">gl.clear(gl.COLOR_BUFFER_BIT);</span><br></pre></td></tr></table></figure>
+<p>接下来我们需要告诉WebGL执行哪一个着色器程序</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.useProgram(program);</span><br></pre></td></tr></table></figure>
+<p>然后我们需要告诉它需要用到哪一个buffers集，并且如何从这些buffers中提取数据给attributes</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.bindVertexArray(vao);</span><br></pre></td></tr></table></figure>
+<p>最后需要请求WebGL来执行GLSL程序</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> primitiveType=gl.TRIANGLES;</span><br><span class="line"><span class="keyword">var</span> offset=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> count=<span class="number">3</span>;</span><br><span class="line">gl.drawArrays(primitiveType,offset,count);</span><br></pre></td></tr></table></figure>
+<p>因为count是3，所以会执行顶点着色器3次。第一次中顶点着色器attribute的<code>a_position.x</code>和<code>a_position.y</code>会被设置成positionBuffer的前两个值；第二次中<code>a_position.xy</code>会别设置成随后的两个值；最后一次中会别设置成最后两个值。</p>
+<p>因为我们将<code>primitiveType</code>设置为了<code>gl.TRIANGLES</code>，每次我们的顶点着色器都执行三次，WebGL会基于我们设置给<code>gl.Position</code>de 三个值来绘制三角形。无论canvas的尺寸是多少，在剪裁空间中的这些值在每个方向上都是（-1,1）的区间。 </p>
+<p>由于顶点着色器只是简单的将positionBuffer中的值拷贝到<code>gl_Position</code>，三角形会在剪裁空间坐标中绘制。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line"><span class="number">0</span>,<span class="number">0.5</span>,</span><br><span class="line"><span class="number">0.7</span>,<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>如果canvas的尺寸正好是400*300，从剪裁空间向屏幕坐标的转化会如下：</p>
+<table>
+<thead>
+<tr>
+<th>clip space</th>
+<th></th>
+<th>screen space</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0,0</td>
+<td>—&gt;</td>
+<td>200,150</td>
+</tr>
+<tr>
+<td>0,0.5</td>
+<td>—&gt;</td>
+<td>200,225</td>
+</tr>
+<tr>
+<td>0.7,0</td>
+<td>—&gt;</td>
+<td>340,150</td>
+</tr>
+</tbody>
+</table>
+<p>WebGL现在就回渲染这个三角形面了。对于每一个要绘制的像素，WebGL都会调用片元着色器。我们的片元着色器仅仅设置了<code>outColor</code>为<code>1,0,0.5,1</code>。由于Canvas在每个通道都是8位的，意味着WebGL可以将<code>[255,0,127,255]</code>写进canvas、</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/webgl2基础/" data-id="ck4jzi8pl0031rflrncopqgnx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webgl/">webgl</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-low-graphics-mode解决方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/low-graphics-mode解决方法/" class="article-date">
+  <time datetime="2019-12-24T14:43:12.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>虚拟机运行ubuntu系统时，有时候会出现<code>The system is running in low-graphics mode</code>而进不了系统。怎么办呢？<br><strong>1、命令行</strong><br>如果你要做的工作不用图形化界面，可以<code>Ctrl</code> + <code>Alt</code> + <code>F1 || F2 || F3 || F4 || F5 || F6</code> 使用命令行登录。<br><strong>2、其它</strong><br>但是命令行内不可以运行可视化的软件，想要恢复图形化界面怎么办呢？<br>上网上收了一下，有很多解决方法，好多都需要敲命令。其实不需要，出现问题的原因是由于显卡的不匹配，只需要把虚拟机的显卡虚拟化一下即可，在<code>虚拟机设置</code>-<code>硬件</code>-<code>处理器</code>-<code>虚拟化引擎</code>中勾选<code>虚拟化Intel VT-x/EPT 或 AMD-V/RVI(V)</code>即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/low-graphics-mode解决方法/" data-id="ck4jzi8om001orflregks4bet" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Ubuntu固定ip和软件愿" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/Ubuntu固定ip和软件愿/" class="article-date">
+  <time datetime="2019-12-24T14:41:39.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、固定ip"><a href="#一、固定ip" class="headerlink" title="一、固定ip"></a>一、固定ip</h2><h3 id="1-1-设置静态ip"><a href="#1-1-设置静态ip" class="headerlink" title="1.1 设置静态ip"></a>1.1 设置静态ip</h3><p>在<code>compute-allsetting-network</code>中选择<code>wired</code>在右下角<code>options</code>中选择<code>IPv4 Setting</code>中</p>
+<ul>
+<li>Method中选择Manual；</li>
+<li>Address中点击右侧add按钮，在里面添加Address、Netmask、Geteway；</li>
+<li>DNS servers中添加相应的地址。<br>其中dns servers的地址可以在任意一台电脑上cmd中输入<code>ipconfig -all</code>的本地连接中查看，可以有多个。<br>可以参考：<a href="https://jingyan.baidu.com/article/b7001fe18f85fe0e7282ddaf.html" target="_blank" rel="noopener">ubuntu静态IP教程</a></li>
+</ul>
+<h3 id="1-2-关闭防火墙"><a href="#1-2-关闭防火墙" class="headerlink" title="1.2 关闭防火墙"></a>1.2 关闭防火墙</h3><p>如果是虚拟机的话，首先将网络连接方式设为<code>桥接模式(B)：直接连接物理网络</code>，并且勾选<code>复制物理网络连接状态(p)</code>。<br>接下来就需要命令行了，首先进入管理员模式，</p>
+<blockquote>
+<ol>
+<li>关闭防火墙：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; ufw disable</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>开启防火墙<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; ufw enable</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<p>一般这样就可以了，可以ping一下其它地址试一试，不行的话就重启一下系统。</p>
+<h2 id="二、更换软件源"><a href="#二、更换软件源" class="headerlink" title="二、更换软件源"></a>二、更换软件源</h2><p>软件源文件位于<code>/etc/apt/sources.list</code>,<br>2.1 最好先做一下备份<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apt</span><br><span class="line"></span><br><span class="line">cp sources.list sources.list.bak</span><br></pre></td></tr></table></figure></p>
+<p>2.1 然后编辑sources.list<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi sources.list sources.list</span><br></pre></td></tr></table></figure></p>
+<p>2.3 然后替换里面的地址，可以使用批量替换的命令<br><code>:%s#旧字符#新字符#g</code><br>其中g表示全部替换.<br>2.4 最后更新一下软件源：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/Ubuntu固定ip和软件愿/" data-id="ck4jzi8o5000vrflrntw2ww9n" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-浏览器跨域" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/浏览器跨域/" class="article-date">
+  <time datetime="2019-12-24T14:39:38.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="常见的跨域问题"><a href="#常见的跨域问题" class="headerlink" title="常见的跨域问题"></a>常见的跨域问题</h2><hr>
+<p>今天在测试提出以一个问题，具体情形不说了，就是报错出现了这么个问题：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cross origin requests are only supported <span class="keyword">for</span> protocol schemes: http, data, chrome, chrome-extension, https, chrome-extension-resource.</span><br></pre></td></tr></table></figure>
+<p>一眼看出就是跨域问题，说也奇怪，每次发送请求都是直接报错，但是请求还是可以正常发送成功，就是不能执行正确的回调函数了，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> successHandler=<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">	callback(res);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> errorHandler = <span class="function"><span class="keyword">function</span>(<span class="params">errorInfo</span>) </span>&#123;</span><br><span class="line">	alert(errorInfo);</span><br><span class="line">&#125;;</span><br><span class="line">HGIS.Utils.send(routeNetAnlyseURL.shortestPathPoints,param,<span class="string">"POST"</span>,<span class="string">"json"</span>,successHandler,errorHandler);</span><br></pre></td></tr></table></figure>
+<p>具体情形就是：每次发送请求HGIS.Utils.send的请求，它就立即直接回调<code>errorHandler</code>返回了，但是通过监听Network中该请求，当处理<code>errorHandler</code>时，该网络请求为阻塞状态，当点击alert中的确定按钮后console中提示上面的跨域错误信息，但是网络请求居然可以请求成功，并且返回正确的结果。不过这个正确的结果没有走我的<code>successHandler</code>函数。</p>
+<p>出现跨域问题可以理解，毕竟我的html是离线文件。疑惑的是之前测试的时候就没有问题，可以正常访问，为啥现在出现这个问题了呢，说是跨域，可明明可以访问的到，为啥就不按我设定的流程走呢？</p>
+<p>寻找陈老师帮忙，首先确定这个跨域是浏览器拦截的，相当与在网络请求没有发出时就没浏览器给提前处理了，直接进入错误处理流程。</p>
+<p>如何让浏览器可以进行跨域的请求的，通过百度<a href="https://www.cnblogs.com/micua/p/chrome-file-protocol-support-ajax.html" target="_blank" rel="noopener">https://www.cnblogs.com/micua/p/chrome-file-protocol-support-ajax.html</a>找到一个方法。</p>
+<blockquote>
+<ul>
+<li>在桌面建立一个chrome的快捷方式</li>
+<li>右键该快捷方式，点击属性</li>
+<li>在<code>属性-快捷方式-目标</code>框中后天添加<code>--allow-file-access-from-files</code>，注意该字符串之前要有一个空格键，最终的结果可能是<code>&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot; --allow-file-access-from-files</code>；</li>
+<li>然后关闭所有的chrome浏览器，再双击该快捷方式打开浏览器</li>
+<li>最后将离线html文件拖入浏览器即可</li>
+</ul>
+</blockquote>
+<p>问题解决了，可以为啥会出现这么问题呢，为啥上个月的时候不用有这些设置就可以正常访问呢？</p>
+<p>原因是浏览器版本的缘故，原来由于某些原因，我本地的chrome被更新到最新的版本了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Google Chrome 已是最新版本</span><br><span class="line"></span><br><span class="line">版本 65.0.3325.181（正式版本） （64 位）</span><br></pre></td></tr></table></figure>
+<p>，而chrome最新版本增强了对网络请求的安全限制</p>
+<p>最后查看chrome的安装位置，发现确实是在一周前的时候我的浏览器被更新了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/浏览器跨域/" data-id="ck4jzi8ot0021rflr5cijjhzw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-git-rebase" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/git-rebase/" class="article-date">
+  <time datetime="2019-12-24T14:35:01.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/git-rebase/">git rebase</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="git-rebase命令"><a href="#git-rebase命令" class="headerlink" title="git rebase命令"></a>git rebase命令</h2><h4 id="一、rebase的作用"><a href="#一、rebase的作用" class="headerlink" title="一、rebase的作用"></a>一、rebase的作用</h4><p>先看例子，假设我们的操作如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、master分支已有文件master.txt；</span><br><span class="line"><span class="number">2</span>、从master拉取分支B，并创建文件b1.txt,add-commit;</span><br><span class="line"><span class="number">3</span>、从master拉取分支C，并创建文件c1.txt,add-commit;</span><br><span class="line"><span class="number">4</span>、切换分支B，并创建文件b2.txt,add-commit;</span><br><span class="line"><span class="number">5</span>、切换分支C，并创建文件c2.txt,add-commit;</span><br><span class="line"></span><br><span class="line"><span class="number">6</span>、在分支C，合并master分支，然后将结果合并到master；</span><br><span class="line"><span class="number">7</span>、在分支B，合并master分支，然后将结果合并到master；</span><br></pre></td></tr></table></figure>
+<p>此时结果怎么样呢？会发现分支B和分支C的提交，相互交叉，按照DATE排序的，如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">commit 17efaf6eeb99ecf9e6af5e78781279ae2e88af86 (HEAD -&gt; master, B)</span><br><span class="line">Merge: e791fb5 4d25aef</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 12:06:34 2019 +0800</span><br><span class="line"></span><br><span class="line">    Merge branch 'master' into B</span><br><span class="line"></span><br><span class="line">commit 4d25aef5fdadd54bf68ab6a6cd0f83ade7a46fe7 (C)</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:56:24 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]C添加文档2</span><br><span class="line"></span><br><span class="line">commit e791fb50580a2eaecac426df07bec10fb3d59ddc</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:55:43 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]B添加文件2</span><br><span class="line"></span><br><span class="line">commit 1567f12c0739fa898a89348422038507ab2cfd01</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:54:44 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]C添加文件1</span><br><span class="line"></span><br><span class="line">commit cecc88eca0f9b8d37d2f92fd99250cbb5b0da7e7</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:53:38 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]B添加文件1</span><br><span class="line"></span><br><span class="line">commit 8207c1f12cc1430208e2273d9429c04675afddbc</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:52:44 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]master添加文件1</span><br></pre></td></tr></table></figure>
+<p>如果我们不想让B和C的commit交叉，该怎么做呢，就可以使用rebase命令了，只需要修改第6、7步即可</p>
+<p><del>7、在分支B，合并master分支，然后将结果合并到master；</del></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">7</span>、在分支B， rebase master分支，然后将结果合并到master；</span><br></pre></td></tr></table></figure>
+<p>此时我们再看一下log，就会返现日志是将C的commit完成之后，然后再有commitB中的提交</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">commit 552d2ba40803fc9ab013b6571efc2cda58f71236 (HEAD -&gt; master, B)</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:55:43 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]B添加文件2</span><br><span class="line"></span><br><span class="line">commit 07686a4be8a2ba5fb94810f1f23fdf96478a4193</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:53:38 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]B添加文件1</span><br><span class="line"></span><br><span class="line">commit 4d25aef5fdadd54bf68ab6a6cd0f83ade7a46fe7 (C)</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:56:24 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]C添加文档2</span><br><span class="line"></span><br><span class="line">commit 1567f12c0739fa898a89348422038507ab2cfd01</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:54:44 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]C添加文件1</span><br><span class="line"></span><br><span class="line">commit 8207c1f12cc1430208e2273d9429c04675afddbc</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:52:44 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]master添加文件1</span><br></pre></td></tr></table></figure>
+<p>什么原因呢？rebase命令会把分支B中的commit取消掉，将它们保存为补丁（patch），然后将分支B更新为master中最新的内容，最后将补丁应用到分支B中。</p>
+<h4 id="二、冲突的解决"><a href="#二、冲突的解决" class="headerlink" title="二、冲突的解决"></a>二、冲突的解决</h4><p>在merge过程中如果出现的冲突，一般需要add并且commit进行处理。</p>
+<p>但是在rebase过程中若出现冲突，解决完冲突后并不需要add和commit，只需要执行</p>
+<p><code>git  rebase --continue</code>即可，</p>
+<h4 id="三、rebase的取消"><a href="#三、rebase的取消" class="headerlink" title="三、rebase的取消"></a>三、rebase的取消</h4><p>在任何时候都可以使用命令<code>git rebase --abort</code>来终止rebase的动作，并且分支会回到rebase之前的状态</p>
+<p>参考：<a href="http://gitbook.liuhui998.com/4_2.html" target="_blank" rel="noopener">http://gitbook.liuhui998.com/4_2.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/git-rebase/" data-id="ck4jzi8od001arflrg1t97inu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-sublime的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/sublime的使用/" class="article-date">
+  <time datetime="2019-12-24T14:28:21.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/sublime的使用/">sublime的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="sublime插件的安装使用"><a href="#sublime插件的安装使用" class="headerlink" title="sublime插件的安装使用"></a>sublime插件的安装使用</h4><p><a href="https://blog.csdn.net/wxl1555/article/details/69941451/" target="_blank" rel="noopener">参考</a></p>
+<h5 id="1-直接安装"><a href="#1-直接安装" class="headerlink" title="1.直接安装"></a>1.直接安装</h5><p>安装Sublime text 3插件很方便，可以直接下载安装包解压缩到Packages目录（菜单-&gt;preferences-&gt;Browse Packages）。</p>
+<h5 id="2-使用Package-Control组件安装"><a href="#2-使用Package-Control组件安装" class="headerlink" title="2.使用Package Control组件安装"></a>2.使用Package Control组件安装</h5><p>也可以安装package control组件，然后直接在线安装：</p>
+<p>按Ctrl+ `(此符号为tab按键上面的按键) 调出console（注：避免热键冲突）<br>粘贴以下代码到命令行并回车：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request,os; pf = <span class="string">'Package Control.sublime-package'</span>; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), <span class="string">'wb'</span>).write(urllib.request.urlopen( <span class="string">'http://sublime.wbond.net/'</span> + pf.replace(<span class="string">' '</span>,<span class="string">'%20'</span>)).read())</span><br></pre></td></tr></table></figure>
+<p>按回车键，会看到下面出现东西在左右摆动，说明正在下载。</p>
+<h5 id="3-下载完成之后重启Sublime-Text-3。"><a href="#3-下载完成之后重启Sublime-Text-3。" class="headerlink" title="3. 下载完成之后重启Sublime Text 3。"></a>3. 下载完成之后重启Sublime Text 3。</h5><h5 id="4-如果在Perferences-gt-中看到package-control这一项，则安装成功。"><a href="#4-如果在Perferences-gt-中看到package-control这一项，则安装成功。" class="headerlink" title="4. 如果在Perferences-&gt;中看到package control这一项，则安装成功。"></a>4. 如果在Perferences-&gt;中看到package control这一项，则安装成功。</h5><h5 id="5-用Package-Control安装插件的方法："><a href="#5-用Package-Control安装插件的方法：" class="headerlink" title="5.用Package Control安装插件的方法："></a>5.用Package Control安装插件的方法：</h5><ul>
+<li>按下Ctrl+Shift+P调出命令面板</li>
+<li>输入install 调出 Install Package 选项并回车，</li>
+<li>然后在列表中选中要安装的插件。</li>
+</ul>
+<p>其它：</p>
+<h5 id="JSFormat-JS代码格式化插件。"><a href="#JSFormat-JS代码格式化插件。" class="headerlink" title="JSFormat  JS代码格式化插件。"></a>JSFormat  JS代码格式化插件。</h5><p>使用方法：使用快捷键ctrl+alt+f</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/sublime的使用/" data-id="ck4jzi8oo001rrflrzsw6gi0z" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sublime/">sublime</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-es6引入css" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/es6引入css/" class="article-date">
+  <time datetime="2019-12-24T14:26:40.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/es6引入css/">es6引入css</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>假设我们有一个名为<code>style.css</code>的css文件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.default</span> &#123;</span><br><span class="line">    <span class="attribute">cursor</span>:null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.drag</span> &#123;</span><br><span class="line">    <span class="attribute">cursor</span>:move;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.rotate</span> &#123;</span><br><span class="line">    <span class="attribute">cursor</span>: <span class="built_in">url</span>(<span class="string">'../../assets/mouse/closedhand.cur'</span>) <span class="number">8</span> <span class="number">8</span>, default;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在其它js文件中如何引入并使用这个css文件呢，总不能一直只使用js来编写吧</p>
+<p>假设我们在<code>EventManager.js</code>文件中要使用，有两种方式引入：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'./style/style.css'</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'./style/style.css'</span>);</span><br></pre></td></tr></table></figure>
+<p>然后在代码中就可以直接使用了，如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">this</span>._dom.className=<span class="string">'rotate'</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">this</span>._dom.className=<span class="string">'drag'</span>;</span><br></pre></td></tr></table></figure>
+<p>此时，css的效果就出来了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/es6引入css/" data-id="ck4jzi8oc0017rflrs3b3zms4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-drawArrays和drawElements" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/drawArrays和drawElements/" class="article-date">
+  <time datetime="2019-12-24T14:25:29.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/drawArrays和drawElements/">drawArrays和drawElements</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用<code>drawArrays</code>时，我们通常是</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bufferPosition = <span class="keyword">this</span>.gl.createBuffer();</span><br><span class="line">gl.bindBuffer(<span class="keyword">this</span>.gl.ARRAY_BUFFER, bufferPosition);</span><br><span class="line">gl.bufferData(<span class="keyword">this</span>.gl.ARRAY_BUFFER,<span class="keyword">new</span> <span class="built_in">Float32Array</span>(positions),<span class="keyword">this</span>.gl.STATIC_DRAW);</span><br></pre></td></tr></table></figure>
+<p>然后再绑定vao时，指定一下数据就可以了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gl.enableVertexAttribArray(positionLocation);</span><br><span class="line">gl.vertexAttribPointer(positionLocation, size, type, normalize, stride, offset);</span><br></pre></td></tr></table></figure>
+<p>这里说明一下：<code>ARRAY_BUFFER</code>绑定的数据属于全局状态。</p>
+<p>而使用<code>drawElements</code>时，通常配合绑定<code>ARRAY_BUFFER</code>，还需要创建索引buffer</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建索引</span></span><br><span class="line"><span class="keyword">const</span> indexBuffer = gl.createBuffer();</span><br><span class="line">gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);</span><br><span class="line"><span class="keyword">const</span> indices = <span class="keyword">this</span>.earth.getFillIndices(<span class="number">64</span>,<span class="number">64</span>);</span><br><span class="line">gl.bufferData(</span><br><span class="line">    gl.ELEMENT_ARRAY_BUFFER,</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Uint16Array</span>(indices),</span><br><span class="line">	gl.STATIC_DRAW</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> indexCount=indices.length;</span><br></pre></td></tr></table></figure>
+<p>这里的<code>ELEMENT_ARRAY_BUFFER</code>是当前定点数组的一部分</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/drawArrays和drawElements/" data-id="ck4jzi8oa0015rflrq1tsmwtx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webgl/">webgl</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-webpack的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/webpack的使用/" class="article-date">
+  <time datetime="2019-12-24T14:22:38.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/webpack的使用/">webpack的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、工程初始化"><a href="#一、工程初始化" class="headerlink" title="一、工程初始化"></a>一、工程初始化</h3><h4 id="1-1-入门"><a href="#1-1-入门" class="headerlink" title="1.1 入门"></a>1.1 入门</h4><ul>
+<li><p>创建目录catirl</p>
+</li>
+<li><p>进入目录，执行初始化</p>
+</li>
+<li><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd catirl</span><br><span class="line">npm init -y</span><br><span class="line">npm install webpack webpack-cli --save-dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建源文件夹，并添加文件index.js</p>
+</li>
+<li><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">catirl</span><br><span class="line">  |- package.json</span><br><span class="line">+ |- index.html</span><br><span class="line">+ |- <span class="regexp">/src</span></span><br><span class="line"><span class="regexp">+   |- index.js</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>注意：</strong>此时我们在<code>package.json</code>中保留<code>&quot;main&quot;: &quot;index.js&quot;</code>即可，没有必要改为<code>&quot;private&quot;: true</code>，保留的好处是，我们可以随时调试源代码，但是这样的不支持源代码中带有<code>import</code>和<code>export</code>语法 。</p>
+<h4 id="1-2-支持import语法"><a href="#1-2-支持import语法" class="headerlink" title="1.2 支持import语法"></a>1.2 支持import语法</h4><p>为了支持<code>import</code>和<code>export</code>语法 ,webpack可以做转，在<code>package.json</code>文件，修改如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+   <span class="string">"private"</span>: <span class="literal">true</span>,</span><br><span class="line">-   <span class="string">"main"</span>: <span class="string">"index.js"</span>,</span><br></pre></td></tr></table></figure>
+<p>然后创建一个dist的目录，将<code>index.html</code>移动进去，并执行命令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx webpack</span><br></pre></td></tr></table></figure>
+<p>此时会将我们的脚本作为<a href="https://www.webpackjs.com/concepts/entry-points" target="_blank" rel="noopener">入口起点</a>，然后 <a href="https://www.webpackjs.com/concepts/output" target="_blank" rel="noopener">输出</a> 为 <code>main.js</code>，将<code>main.js</code>引入<code>index.html</code>就可以继续访问页面了。</p>
+<p>通过npm进行打包，在<code>package.json</code>中补充</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"build"</span>: <span class="string">"webpack"</span></span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<p>就可以使用npm命令进行构建了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-进一步定制webpack"><a href="#1-3-进一步定制webpack" class="headerlink" title="1.3 进一步定制webpack"></a>1.3 进一步定制webpack</h4><p>以上使用的都是默认的webpack的配置，如何定制呢，比如修改源文件入口文件、输出文件路径、输出文件名称，这时候就得配置<code>webpack.config.js</code>文件了。</p>
+<p>新建<code>webpack.config.js</code>文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="string">'./src/index.js'</span>,    <span class="comment">//入口文件</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'bundle.js'</span>,    <span class="comment">//输出文件名称</span></span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>)<span class="comment">//输出文件路径</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>还有很多更复杂的配置，以后再讲</p>
+<h4 id="1-4-可调试源码"><a href="#1-4-可调试源码" class="headerlink" title="1.4 可调试源码"></a>1.4 可调试源码</h4><p>此时碰到一个问题，打包出来的 <code>main.js</code>或 <code>bundle.js</code>是压缩过的代码，很难调试，这时候怎么办呢？<a href="https://www.jb51.net/article/150357.htm" target="_blank" rel="noopener">参考</a></p>
+<p>此时就需要配置<code>webpack.config.js</code>了，在里面添加</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"> devtool: <span class="string">'source-map'</span>,</span><br><span class="line"> entry:<span class="string">""</span>,</span><br><span class="line"> output: &#123;</span><br><span class="line"> &#125;</span><br><span class="line"> ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再次执行<code>npm run build</code>就可以看到，生成的文件多了一个<code>bundle.js.map</code>文件,</p>
+<p>有了它，就可以调试源码的页面了。</p>
+<p>但是这样还不是很方便，在编写代码过程中，我们往往需要实时热更新加载。这该怎么办呢？</p>
+<h4 id="1-5-热更新加载"><a href="#1-5-热更新加载" class="headerlink" title="1.5 热更新加载"></a>1.5 热更新加载</h4><p><a href="https://blog.csdn.net/a2013126370/article/details/88249664" target="_blank" rel="noopener">参考</a></p>
+<p>首先需要一个本地web服务器，可以使用<code>webpack-dev-server</code>，安装该模块，并启动</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack-dev-server</span><br><span class="line">npx webpack-dev-server</span><br></pre></td></tr></table></figure>
+<p>这样就启动了，打开浏览器输入<a href="http://localhost:8080/就可以访问当前目录了" target="_blank" rel="noopener">http://localhost:8080/就可以访问当前目录了</a></p>
+<p>当然，我们可以定制启动的路径，端口号等。</p>
+<p>在<code>webpack.config.js</code>中添加：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  devServer: &#123;<span class="comment">//开发服务器的配置</span></span><br><span class="line">    <span class="comment">//端口号配置，默认为8080</span></span><br><span class="line">    port: <span class="number">3000</span>,</span><br><span class="line">    <span class="comment">//进度条</span></span><br><span class="line">    progress: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">//指定打开浏览器显示的目录，默认为根目录（项目目录）</span></span><br><span class="line">    contentBase: <span class="string">'./dist'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候就可以通过输入<a href="http://localhost:3030/" target="_blank" rel="noopener">http://localhost:3030/</a> 直接访问<code>dist</code>根目录了，</p>
+<p>此时我们在源码中直接修改代码，就可以在页面中实时更新了。</p>
+<p><strong>疑问</strong></p>
+<p>这里我有个疑问，如果之前我没有构建<code>bundle.js</code>或<code>bundle.js.map</code>文件，该server还能继续使用吗，我在<code>dist</code>文件夹下删除其余的文件，启动server，照样可以看到内容，奇怪。</p>
+<p>然后我将html文件中对<code>bundle.js</code>的引用给注销掉，再次启动server就不行了，说明server自动构建了临时<code>bundle.js</code>了。这个构建规则遵从之前的打包配置规则。验证了一下，确实如此。</p>
+<p>在<code>webpack.config.js</code>中将<code>bundle.js</code>名字改为<code>main.js</code>，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    <span class="comment">// filename: 'bundle.js',</span></span><br><span class="line">    filename: <span class="string">'main.js'</span>, </span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>再次启动server，页面就不正常显示了。但是在浏览器中输入<a href="http://localhost:3030/main.js，是可以看到代码内容的，说明web服务器中生成了`main.js`文件。" target="_blank" rel="noopener">http://localhost:3030/main.js，是可以看到代码内容的，说明web服务器中生成了`main.js`文件。</a></p>
+<p><strong>结论：</strong>说明通过server启动访问的页面，优先访问web服务器内部生成的js文件。</p>
+<p>如何让这个html文件中对js文件的引用也自动化起来呢，不至于这么摸不着头脑。</p>
+<h4 id="1-6-通过模版html自动配置js文件"><a href="#1-6-通过模版html自动配置js文件" class="headerlink" title="1.6 通过模版html自动配置js文件"></a>1.6 通过模版html自动配置js文件</h4><p>使用<code>html-webpack-plugin</code>插件</p>
+<p>首先安装该插件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install html-webpack-plugin</span><br></pre></td></tr></table></figure>
+<p>然后在<code>webpack.config.js</code>文件中配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入</span></span><br><span class="line"><span class="keyword">let</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line">...</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">...</span><br><span class="line"> plugins: [ <span class="comment">//数组：放着所有的webpack插件</span></span><br><span class="line"> 	<span class="comment">// 配置</span></span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="string">'./dist/template.html'</span>,</span><br><span class="line">      filename: <span class="string">'./dist/index.html'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中template是模版路径，<code>template.html</code>是模版内容，内容为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Catirl<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>而<code>filename</code>属性的意思就是所生成HTML文件名，内容只是比<code>template</code>所指的HTML文件多引入你之前在<code>output-filename</code>中输出的js文件。</p>
+<p><strong>注意：</strong> 通过server生成的html和js文件都没有保存在本地。</p>
+<p>至此就完成了热加载的配置工作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/webpack的使用/" data-id="ck4jzi8op001trflrvet752rj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-坐标参考" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/坐标参考/" class="article-date">
+  <time datetime="2019-12-24T14:08:13.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/坐标参考/">坐标参考</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在用webgl手撕一个三维GIS引擎，引擎内部使用4326的参考系，切片使用的3857的<a href="http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunityENG/MapServer" target="_blank" rel="noopener">数据源</a>，出现的效果就是经度正常，但是纬度方向被压缩了，如下图所示。<br><img src="/2019/12/24/坐标参考/earth.png" title="earth"></p>
+<p>这是一个可以预见的情况，但是也引出了一些长期困扰自己的问题，趁这次机会深入理清一下。</p>
+<h4 id="一、Mercator投影"><a href="#一、Mercator投影" class="headerlink" title="一、Mercator投影"></a>一、Mercator投影</h4><p>mercator投影是一种”<a href="https://baike.baidu.com/item/等角正切圆柱投影" target="_blank" rel="noopener">等角正切圆柱投影</a>”，以地球为例，<strong>假设地球被围在一中空的圆柱里，其基准纬线与圆柱相切（赤道）接触，然后再假想地球中心有一盏灯，把球面上的图形投影到圆柱体上，再把圆柱体展开</strong>，这就是一幅选定基准纬线上的“墨卡托投影”绘制出的地图，如下图：</p>
+<img src="/2019/12/24/坐标参考/mercator.jpg" title="mercator.jpg">
+<p>当然，这是一个对于任何一个giser都知道的概念，在这里重点强调的一点是：<strong>墨卡托投影的对象不仅仅是正球，对椭球也一样通用</strong>。</p>
+<p>更准确的来说，椭球才是标准对象。我们的地球是一种更接近与梨形的球体，如下</p>
+<img src="/2019/12/24/坐标参考/realEarth.webp" title="realEarth.webp">
+<p>每个地区高低不平，所以各个地区都会根据本区域特点，选取一个最适合本区域的椭球体作为参考了对象，往往一个地区的参考椭球体并不使用于另外一个区域。实际上，对于局部小区域，也可用会用圆锥切面投影，或是高斯-克吕格投影。</p>
+<p>Mercator 投影坐标系统，全球范围尺度上其基准面可以是 <code>WGS 1984</code> ，</p>
+<p><code>WGS 1984</code>定义如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GCS_WGS_1984</span><br><span class="line">WKID: <span class="number">4326</span> Authority: EPSG</span><br><span class="line">Angular Unit: Degree (<span class="number">0.0174532925199433</span>)</span><br><span class="line">Prime Meridian: Greenwich (<span class="number">0.0</span>)</span><br><span class="line">Datum: D_WGS_1984</span><br><span class="line">Spheroid: WGS_1984</span><br><span class="line">Semimajor Axis: <span class="number">6378137.0</span></span><br><span class="line">Semiminor Axis: <span class="number">6356752.314245179</span></span><br><span class="line">Inverse Flattening: <span class="number">298.257223563</span></span><br></pre></td></tr></table></figure>
+<img src="/2019/12/24/坐标参考/wgs84.png" title="wgs84.png">
+<p>墨卡托投影的“圆柱”特性，保证了南北（纬线）和东西（经线）都是平行直线，并且相互垂直。而且经线间隔是相同的，纬线间隔从标准纬线（此处是赤道，也可能是其他纬线）向两级逐渐增大。</p>
+<p>既然是投影了，肯定会涉及到投影的换算，它的投影计算公式应该是椭球的投影公司如下：</p>
+<ul>
+<li>x、y是投影展开成平面后以赤道本初子午线交点为原点的平面坐标系的坐标</li>
+<li>a 是椭球体长半轴，b是短半轴</li>
+<li>L是经度（弧度制），B是纬度（弧度制）</li>
+</ul>
+<img src="/2019/12/24/坐标参考/mercatorProject.webp" title="mercatorProject.webp">
+<h4 id="二、WebMercator投影"><a href="#二、WebMercator投影" class="headerlink" title="二、WebMercator投影"></a>二、WebMercator投影</h4><p> Web Mercator 坐标系使用的投影方法不是严格意义的墨卡托投影，而是一个被 EPSG（European Petroleum Survey Group）称为伪墨卡托的投影方法，这个伪墨卡托投影方法的大名是 Popular Visualization Pseudo Mercator，PVPM。</p>
+<p>因为这个坐标系统是 Google Map 最先使用的，或者更确切地说，是Google 最先发明的。在投影过程中，将表示地球的参考椭球体近似的作为正球体处理（正球体半径 R = 椭球体半长轴 a）。这也是为什么在 ArcGIS 中我们经常看到这个坐标系叫 WGS 1984 Web Mercator (Auxiliary Sphere)。Auxiliary Sphere 就是在告知你，这个坐标在投影过程中，将椭球体近似为正球体做投影变换，虽然基准面是WGS 1984 椭球面。</p>
+<img src="/2019/12/24/坐标参考/webMercatorProject.png" title="webMercatorProject.png">
+<p>后来，Web Mercator 在 Web 地图领域被广泛使用，这个坐标系就名声大噪。尽管这个坐标系由于精度问题一度不被GIS专业人士接受，但最终 EPSG 还是给了 WKID:3857</p>
+<h4 id="三、切片和切片原点"><a href="#三、切片和切片原点" class="headerlink" title="三、切片和切片原点"></a>三、切片和切片原点</h4><p>我们知道通过墨卡托投影后，x轴是经度投影的结果，经度区间是[-π，π]；y轴时纬度投影的结果，而纬度区间为[-π/2,π/2]。而我们的3857的切片服务，通常切片原点是[-2.0037508342787E7,2.0037508342787E7]。</p>
+<img src="/2019/12/24/坐标参考/originCoord.png" title="originCoord.png">
+<p>这就不好理解了，x轴是以赤道周长来算的，x轴的范围是[-2.0037508342787E7,2.0037508342787E7]可以计算出来，可是为啥y轴的的范围也是[-2.0037508342787E7,2.0037508342787E7]呢？另一个与此相光的问题是为什么在切片的每个级别上分辨率是一个值呢？常规理解应该是x轴一个分辨率，y轴一个分辨率的。并且由于切片是正方形，x轴的分辨率应该是y轴分辨率的2倍才对呀。</p>
+<p>其实虽然纬度区间[-π/2,π/2]只是经度区间[-π，π]的二分之一，但是在投影后同一纬度上的经度属于等间距投影，但是纬度却是随着纬度的增加投影距离不断增大，直到纬度为90度时，投影点趋于无穷大。纬度上的距离区间应该远远大于经度区间才对，如下图</p>
+<img src="/2019/12/24/坐标参考/infinity.png" title="infinity.png">
+<p>此时有两点可以明确：</p>
+<ul>
+<li>同一纬度上，经度投影分布是均匀的，线性的</li>
+<li>纬度的投影，随着纬度的增加，投影距离是不断增大，是非线性的。</li>
+</ul>
+<p>那么如何让纬度纬度线的区间分布也是均匀的呢？这场计算纬度线的投影距离公式是<code>y=f(φ)=R*tan(φ)</code>；有一个聪明的家伙模拟了一个近似函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">		-ln(tan(π/4 + abs(φ/2)))     φ&lt;0时</span><br><span class="line">y=g(φ)= +ln(tan(π/4 + abs(φ/2)))     φ=0时</span><br><span class="line">		+ln(tan(π/4 + abs(φ/2)))     φ&gt;0时</span><br></pre></td></tr></table></figure>
+<p>这种投影算法使得赤道附近的纬线较密，极地附近的纬线较稀。极点被投影到无穷远，所以这种投影不适合在高纬度地区使用。Google Maps的选取的范围为 -π&lt;y&lt;π ，这样近似的有 -85°&lt;Φ&lt;85°。这也就得到了y轴上的取值区间和x轴上的取值区间一致，一张方形的世界地图就出来了。</p>
+<p>这时就注意了，在做x轴的切片计算时，可以采用二分的方式直接计算，但是对于y轴切片的计算则不能使用二分了，因为y轴不是线性切片的，必须严格按照该界别切片提供的分辨率进行计算。这么做就将问题分离开了，可视化人员只需要按照既定的规则进行切片展示；制图人员可以自定义经纬度两个方向切片的计算方法（只需最终输出满足既定规则的切片即可）；</p>
+<h3 id="四、像素坐标"><a href="#四、像素坐标" class="headerlink" title="四、像素坐标"></a>四、像素坐标</h3><p>提到分辨率，就需要解释像素坐标了。</p>
+<p>分辨率表示一个像素代表的实际长度，可以同过分辨率和像素坐标来计算该像素点所在的实际位置。</p>
+<p>将地球表面通过墨卡托投影到一个方形平面时，依据展示内容的精细度，这个方形平面可大可小。通常全球范围内就不需要展示特别精细的内容，只需要轮廓就可以，而在一个工业园区级别就需要将具体的厂房道路展示出来。这样最终精细度的提高，我们这张世界地图的尺寸就越来越大。</p>
+<img src="/2019/12/24/坐标参考/level.png" title="level.png">
+<p>不过好在，我们通常在精细化程度较高时，往往只需要看到很小的一块区域，为了切分的方便，一般切分方式都是以2的次幂来切分。这方面的内容此处不再赘述。只强调一点：<strong>既定的级别都有自己的分辨率，无论经度还是纬度都可以依据这个分辨率来准确的计算某一像素点的实际位置，而不必再考虑该图是如何将经度和纬度统一起来制图的</strong>。</p>
+<p>地图学中一个重要的概念，就是比例尺，即<strong>地图上的一厘米代表着实际上的多少厘米</strong>；到了web地图中我们把比例尺转换成另一个概念，分辨率（Resolution），即<strong>图上一像素代表实际多少米</strong>。</p>
+<p>假设地图的坐标单位是米，整张地图的dpi为96，当前地图在赤道处的比例尺为1:125000000（即图上1米等于实地125000000米），1英寸=2.54厘米； 1英寸=96像素。那么计算可得地图赤道上1像素代表实地距离是 125000000*0.0254/96 = 33072.9166666667米。为什么要强调某一条纬度线（上述例子为赤道）的比例尺？因为根据墨卡托投影的特性，同一张地图中不同纬度线的比例尺是变化的，越靠近两极，图上1米相当于实地的距离越小。</p>
+<p>参考：</p>
+<p><a href="https://www.jianshu.com/p/778fc3e9f889" target="_blank" rel="noopener"><a href="https://www.jianshu.com/p/778fc3e9f889" target="_blank" rel="noopener">https://www.jianshu.com/p/778fc3e9f889</a></a></p>
+<p><a href="https://blog.csdn.net/mr_jianrong/article/details/72625811" target="_blank" rel="noopener"><a href="https://blog.csdn.net/mr_jianrong/article/details/72625811" target="_blank" rel="noopener">https://blog.csdn.net/mr_jianrong/article/details/72625811</a></a></p>
+<p><a href="https://blog.csdn.net/kikitamoon/article/details/46124935" target="_blank" rel="noopener"><a href="https://blog.csdn.net/kikitamoon/article/details/46124935" target="_blank" rel="noopener">https://blog.csdn.net/kikitamoon/article/details/46124935</a></a></p>
+<p><a href="https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/" target="_blank" rel="noopener"><a href="https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/" target="_blank" rel="noopener">https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/</a></a></p>
+<p><a href="https://blog.csdn.net/qq_35732147/article/details/83856513" target="_blank" rel="noopener"><a href="https://blog.csdn.net/qq_35732147/article/details/83856513" target="_blank" rel="noopener">https://blog.csdn.net/qq_35732147/article/details/83856513</a></a></p>
+<p><a href="[https://baike.baidu.com/item/%E5%A2%A8%E5%8D%A1%E6%89%98%E6%8A%95%E5%BD%B1/5477927?fr=kg_qa](https://baike.baidu.com/item/墨卡托投影/5477927?fr=kg_qa">https://baike.baidu.com/item/%E5%A2%A8%E5%8D%A1%E6%89%98%E6%8A%95%E5%BD%B1/5477927?fr=kg_qa</a>)</p>
+<p><a href="https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/" target="_blank" rel="noopener"><a href="https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/" target="_blank" rel="noopener">https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/</a></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/坐标参考/" data-id="ck4jzi8pm0033rflr7vsuunj2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GIS/">GIS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

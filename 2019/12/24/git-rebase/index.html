@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>git rebase | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="git rebase命令一、rebase的作用先看例子，假设我们的操作如下： 123456781、master分支已有文件master.txt；2、从master拉取分支B，并创建文件b1.txt,add-commit;3、从master拉取分支C，并创建文件c1.txt,add-commit;4、切换分支B，并创建文件b2.txt,add-commit;5、切换分支C，并创建文件c2.txt,a">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git rebase">
+<meta property="og:url" content="http://yoursite.com/2019/12/24/git-rebase/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="git rebase命令一、rebase的作用先看例子，假设我们的操作如下： 123456781、master分支已有文件master.txt；2、从master拉取分支B，并创建文件b1.txt,add-commit;3、从master拉取分支C，并创建文件c1.txt,add-commit;4、切换分支B，并创建文件b2.txt,add-commit;5、切换分支C，并创建文件c2.txt,a">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T14:36:18.172Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git rebase">
+<meta name="twitter:description" content="git rebase命令一、rebase的作用先看例子，假设我们的操作如下： 123456781、master分支已有文件master.txt；2、从master拉取分支B，并创建文件b1.txt,add-commit;3、从master拉取分支C，并创建文件c1.txt,add-commit;4、切换分支B，并创建文件b2.txt,add-commit;5、切换分支C，并创建文件c2.txt,a">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-git-rebase" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/git-rebase/" class="article-date">
+  <time datetime="2019-12-24T14:35:01.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      git rebase
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="git-rebase命令"><a href="#git-rebase命令" class="headerlink" title="git rebase命令"></a>git rebase命令</h2><h4 id="一、rebase的作用"><a href="#一、rebase的作用" class="headerlink" title="一、rebase的作用"></a>一、rebase的作用</h4><p>先看例子，假设我们的操作如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、master分支已有文件master.txt；</span><br><span class="line"><span class="number">2</span>、从master拉取分支B，并创建文件b1.txt,add-commit;</span><br><span class="line"><span class="number">3</span>、从master拉取分支C，并创建文件c1.txt,add-commit;</span><br><span class="line"><span class="number">4</span>、切换分支B，并创建文件b2.txt,add-commit;</span><br><span class="line"><span class="number">5</span>、切换分支C，并创建文件c2.txt,add-commit;</span><br><span class="line"></span><br><span class="line"><span class="number">6</span>、在分支C，合并master分支，然后将结果合并到master；</span><br><span class="line"><span class="number">7</span>、在分支B，合并master分支，然后将结果合并到master；</span><br></pre></td></tr></table></figure>
+<p>此时结果怎么样呢？会发现分支B和分支C的提交，相互交叉，按照DATE排序的，如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">commit 17efaf6eeb99ecf9e6af5e78781279ae2e88af86 (HEAD -&gt; master, B)</span><br><span class="line">Merge: e791fb5 4d25aef</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 12:06:34 2019 +0800</span><br><span class="line"></span><br><span class="line">    Merge branch 'master' into B</span><br><span class="line"></span><br><span class="line">commit 4d25aef5fdadd54bf68ab6a6cd0f83ade7a46fe7 (C)</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:56:24 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]C添加文档2</span><br><span class="line"></span><br><span class="line">commit e791fb50580a2eaecac426df07bec10fb3d59ddc</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:55:43 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]B添加文件2</span><br><span class="line"></span><br><span class="line">commit 1567f12c0739fa898a89348422038507ab2cfd01</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:54:44 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]C添加文件1</span><br><span class="line"></span><br><span class="line">commit cecc88eca0f9b8d37d2f92fd99250cbb5b0da7e7</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:53:38 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]B添加文件1</span><br><span class="line"></span><br><span class="line">commit 8207c1f12cc1430208e2273d9429c04675afddbc</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:52:44 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]master添加文件1</span><br></pre></td></tr></table></figure>
+<p>如果我们不想让B和C的commit交叉，该怎么做呢，就可以使用rebase命令了，只需要修改第6、7步即可</p>
+<p><del>7、在分支B，合并master分支，然后将结果合并到master；</del></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">7</span>、在分支B， rebase master分支，然后将结果合并到master；</span><br></pre></td></tr></table></figure>
+<p>此时我们再看一下log，就会返现日志是将C的commit完成之后，然后再有commitB中的提交</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">commit 552d2ba40803fc9ab013b6571efc2cda58f71236 (HEAD -&gt; master, B)</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:55:43 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]B添加文件2</span><br><span class="line"></span><br><span class="line">commit 07686a4be8a2ba5fb94810f1f23fdf96478a4193</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:53:38 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]B添加文件1</span><br><span class="line"></span><br><span class="line">commit 4d25aef5fdadd54bf68ab6a6cd0f83ade7a46fe7 (C)</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:56:24 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]C添加文档2</span><br><span class="line"></span><br><span class="line">commit 1567f12c0739fa898a89348422038507ab2cfd01</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:54:44 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]C添加文件1</span><br><span class="line"></span><br><span class="line">commit 8207c1f12cc1430208e2273d9429c04675afddbc</span><br><span class="line">Author: yahui.yang &lt;yahui.yang@ecarx.com.cn&gt;</span><br><span class="line">Date:   Thu Oct 10 11:52:44 2019 +0800</span><br><span class="line"></span><br><span class="line">    [add]master添加文件1</span><br></pre></td></tr></table></figure>
+<p>什么原因呢？rebase命令会把分支B中的commit取消掉，将它们保存为补丁（patch），然后将分支B更新为master中最新的内容，最后将补丁应用到分支B中。</p>
+<h4 id="二、冲突的解决"><a href="#二、冲突的解决" class="headerlink" title="二、冲突的解决"></a>二、冲突的解决</h4><p>在merge过程中如果出现的冲突，一般需要add并且commit进行处理。</p>
+<p>但是在rebase过程中若出现冲突，解决完冲突后并不需要add和commit，只需要执行</p>
+<p><code>git  rebase --continue</code>即可，</p>
+<h4 id="三、rebase的取消"><a href="#三、rebase的取消" class="headerlink" title="三、rebase的取消"></a>三、rebase的取消</h4><p>在任何时候都可以使用命令<code>git rebase --abort</code>来终止rebase的动作，并且分支会回到rebase之前的状态</p>
+<p>参考：<a href="http://gitbook.liuhui998.com/4_2.html" target="_blank" rel="noopener">http://gitbook.liuhui998.com/4_2.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/git-rebase/" data-id="ck4jzi8od001arflrg1t97inu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/12/24/浏览器跨域/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          浏览器跨域
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/12/24/sublime的使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">sublime的使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

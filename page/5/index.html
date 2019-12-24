@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="afei_ask">
+<meta property="og:url" content="http://yoursite.com/page/5/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="afei_ask">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Gradle入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/19/Gradle入门/" class="article-date">
+  <time datetime="2017-09-19T14:48:53.000Z" itemprop="datePublished">2017-09-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/19/Gradle入门/">Gradle入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、构建工具"><a href="#一、构建工具" class="headerlink" title="一、构建工具"></a>一、构建工具</h2><p>1、构建工具的作用</p>
+<ul>
+<li>依赖管理</li>
+<li>测试、打包、发布</li>
+<li>机器能干的活，绝不自己动手<br>*</li>
+</ul>
+<p>2、主流构建工具</p>
+<ul>
+<li>Ant：编译、测试、打包</li>
+<li>Maven： 依赖管理、发布</li>
+<li>Gradle：</li>
+</ul>
+<p>3、Gradle是什么<br>一个开源的 <strong>项目自动化构架工具</strong> ，建立在Apache Ant和Apache Maven概念的基础之上，并且引入基于Groovy的特定领域语言（DSL），而不再使用XML形式管理构建脚本。</p>
+<h2 id="二、Gradle的安装"><a href="#二、Gradle的安装" class="headerlink" title="二、Gradle的安装"></a>二、Gradle的安装</h2><ol>
+<li>确保本地已经安装JDK</li>
+<li>从Gradle官网下载<a href="https://gradle.org" target="_blank" rel="noopener">Gradle</a></li>
+<li>配置环境变量：GRADLE_HOME，并且添加到path，%GRADLE_HOME%\bin</li>
+<li>验证是是否安装成功，gradle -v</li>
+</ol>
+<h2 id="三、Groovy是什么"><a href="#三、Groovy是什么" class="headerlink" title="三、Groovy是什么"></a>三、Groovy是什么</h2><p>Groovy是用于java虚拟机的一种敏捷的动态语言，它是一种成熟的面向对象编程语言，既可以用于面向对象编程，又可以用作纯粹的脚本语言。使用该语言不必编写过多的代码，同时又具有闭包和动态语言中的其它特性。 </p>
+<h5 id="3-1-与java比较"><a href="#3-1-与java比较" class="headerlink" title="3.1 与java比较"></a>3.1 与java比较</h5><ul>
+<li>Groovy完全兼容java语法</li>
+<li>分号可选</li>
+<li>类、方法默认是public</li>
+<li>编译器给属性自动添加getter／setter方法</li>
+<li>属性可以直接用点号获取</li>
+<li>最后一个表达式的汁会被作为返回值（也就是return字符串可以不写）</li>
+<li>== 等同于equals()，不会有NullPointerExceptioins</li>
+</ul>
+<h5 id="3-2-高效的grovvy特性"><a href="#3-2-高效的grovvy特性" class="headerlink" title="3.2 高效的grovvy特性"></a>3.2 高效的grovvy特性</h5><ul>
+<li>可选类型定义 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def version=1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>assert语句</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assert version==2</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可选的括号</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//有没有括号，效果是一样的</span><br><span class="line"> println(version)  // 1</span><br><span class="line"> println version   // 1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字符串（单引号、双引号、三引号）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//单引号就是字符串</span><br><span class="line">def s1=&apos;com&apos;</span><br><span class="line"></span><br><span class="line">//双引号可以插入字符串,$&#123;&#125;</span><br><span class="line">def s2=&quot;afei&quot;</span><br><span class="line">def s22=&quot;afei is a $&#123;version&#125;&quot;</span><br><span class="line"></span><br><span class="line">//三引号可以换行</span><br><span class="line">def s3=&apos;&apos;&apos; wo shi ni die&apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line">def s32=&apos;&apos;&apos;wo </span><br><span class="line">shi </span><br><span class="line">ni</span><br><span class="line">ma </span><br><span class="line">&apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>集合API</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//list</span><br><span class="line">def buildTools=[&apos;ant&apos;,&apos;maven&apos;]</span><br><span class="line">buildTools&lt;&lt; &apos;gradle&apos;</span><br><span class="line">assert buildTools.getClass()== ArrayList</span><br><span class="line">assert buildTools.size() == 3</span><br><span class="line"></span><br><span class="line">//map</span><br><span class="line">def buidYears=[&apos;ant&apos;:2000,&apos;maven&apos;:2004] </span><br><span class="line">buildYears.gradle=2009</span><br><span class="line"></span><br><span class="line">println buildYears.ant  //2000</span><br><span class="line">printlb=n buildYears[&apos;gradle&apos;] //2009</span><br><span class="line"></span><br><span class="line">println buildYears.getClass()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>闭包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">def c1=&#123;</span><br><span class="line">	v -&gt;</span><br><span class="line">		println v</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">def c2=&#123;</span><br><span class="line">	println &apos;hello&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">def method1(Closure closure)&#123;</span><br><span class="line">	closure(&apos;param&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">def method2(Closure closure)&#123;</span><br><span class="line">	closure();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">method1(c1) //param</span><br><span class="line">method(c2)  //hello</span><br></pre></td></tr></table></figure>
+<h5 id="3-3-grovvy基础知识"><a href="#3-3-grovvy基础知识" class="headerlink" title="3.3 grovvy基础知识"></a>3.3 grovvy基础知识</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//构建脚本默认都有个Project实例</span><br><span class="line"></span><br><span class="line">apply  plugn : &apos;java&apos; //命名参数 </span><br><span class="line"></span><br><span class="line">version=&apos;0.1&apos;</span><br><span class="line"></span><br><span class="line">repositories&#123;</span><br><span class="line">	mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies&#123;</span><br><span class="line">	compile &apos;common-codec:commons-codec:1.6&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四、Gradle项目"><a href="#四、Gradle项目" class="headerlink" title="四、Gradle项目"></a>四、Gradle项目</h2><h5 id="4-1-Gradle目录结构"><a href="#4-1-Gradle目录结构" class="headerlink" title="4.1 Gradle目录结构"></a>4.1 Gradle目录结构</h5><ul>
+<li>src</li>
+<li>main</li>
+<li>java</li>
+<li>resources   配置文件</li>
+<li>webapp      web资源</li>
+<li>test</li>
+<li>java</li>
+<li>resources</li>
+</ul>
+<h2 id="五、构建脚本"><a href="#五、构建脚本" class="headerlink" title="五、构建脚本"></a>五、构建脚本</h2><h5 id="项目-project"><a href="#项目-project" class="headerlink" title="项目 project"></a>项目 project</h5><p>一个项目代表一个正在构建的组件（比如一个jar文件），当构建启动后，Gradle会基于build.gradle实例化一个org.gradle.api.Project类，并且能够通过project变量使其隐式可用。</p>
+<ul>
+<li>group 、 name 、 version</li>
+<li>apply（应用一个插件）、 dependencies（用来声明依赖，）、 repositories（声明仓库，去哪个仓库找jar包）、 task（声明项目中有哪些任务）</li>
+<li>属性等其它配置方式：ext、gradle.properties(键值对的方式声明属性)</li>
+</ul>
+<h5 id="任务-task"><a href="#任务-task" class="headerlink" title="任务 task"></a>任务 task</h5><p>任务对应org.gradle.api.Task。主要包括任务动作和任务依赖。任务动作定义了一个最小的工作单元。可以定义依赖于其它任务、动作序列和执行条件。  </p>
+<ul>
+<li>dependsOn</li>
+<li>doFirst(在动作列表最前边添加动作)、doLast（在动作列表最后边添加动作） &lt;&lt;</li>
+</ul>
+<h5 id="自定义一个task"><a href="#自定义一个task" class="headerlink" title="自定义一个task"></a>自定义一个task</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">def cresteDir=&#123;</span><br><span class="line">	path -&gt;</span><br><span class="line">		File dir=new File(path);</span><br><span class="line">		if(!dir.exists())&#123;</span><br><span class="line">			dir.mkdirs();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task makeJavaDir()&#123;</span><br><span class="line">	def paths=[&apos;src/main/java&apos;,&apos;src/main/resources&apos;,&apos;src/test/java&apos;,&apos;src/rest/resources&apos;];</span><br><span class="line">	doFirst&#123; //动作代码，执行阶段会执行</span><br><span class="line">		path.forEach(createDir);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task makeWebDir()&#123;</span><br><span class="line">	dependsOn &apos;makeJavaDir&apos;  //声明依赖makeJavaDir,执行makeWebDir时先执行makeJavaDir</span><br><span class="line">	def paths=[&apos;src/main/webapp&apos;,&apos;src/test/webapp&apos;];</span><br><span class="line">	doLast&#123;//动作代码，执行阶段会执行</span><br><span class="line">		paths.forEach(createDir);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="依赖管理"><a href="#依赖管理" class="headerlink" title="依赖管理"></a>依赖管理</h2><h5 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h5><p>几乎所有的基于JVM的软件项目都需要依赖外部类库来重用现有的功能。自动化的依赖管理可以明确依赖的版本，可以解决因传递性依赖带来的版本冲突。</p>
+<h5 id="工件坐标"><a href="#工件坐标" class="headerlink" title="工件坐标"></a>工件坐标</h5><p>group、name、version</p>
+<h5 id="常用仓库"><a href="#常用仓库" class="headerlink" title="常用仓库"></a>常用仓库</h5><ul>
+<li>mavenLocal（本地仓库）／mavenCentral（公网仓库）／jcenter（公网仓库）</li>
+<li>自定义的maven仓库</li>
+<li>文件仓库</li>
+</ul>
+<h5 id="依赖的传递性"><a href="#依赖的传递性" class="headerlink" title="依赖的传递性"></a>依赖的传递性</h5><ul>
+<li>B依赖A，如果C依赖B，那么C依赖A</li>
+</ul>
+<h5 id="依赖阶段配置"><a href="#依赖阶段配置" class="headerlink" title="依赖阶段配置"></a>依赖阶段配置</h5><ul>
+<li>compile、runtime</li>
+<li>testCompile、testRuntime</li>
+</ul>
+<p>配置maven仓库地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">respositories&#123;</span><br><span class="line">	mavenLocal()     //配置本地仓库</span><br><span class="line">	mavenCentral()   //配置公网仓库</span><br><span class="line">	maven&#123;           //配置私服仓库</span><br><span class="line">		url &apos;私服仓库地址&apos;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="解决版本冲突"><a href="#解决版本冲突" class="headerlink" title="解决版本冲突"></a>解决版本冲突</h6><p>传递依赖可能产生版本冲突</p>
+<p>解决版本冲突</p>
+<ul>
+<li>产看依赖报告</li>
+<li><ul>
+<li>修改默认解决策略（gradle默认使用最新的版本）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">configurations.all&#123;</span><br><span class="line">	resolutionStrategy&#123;</span><br><span class="line">		failOnVersionConflict()  //强制冲突报错</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>排除传递性依赖</p>
+</li>
+<li><ul>
+<li>修改默认解决策略<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">compile(&apos;org.hibernate:hibernate-core:3.6.3.Final&apos;)&#123;</span><br><span class="line">	exclude group:&quot;org.sef4j&quot;,module:&quot;slf4j-api&quot; //module就是坐标中的name属性</span><br><span class="line">	//transitive=false //排除所有的传递性依赖</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>强制一个版本</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">configurations.all&#123;</span><br><span class="line">	resolutionStrategy&#123;</span><br><span class="line">		force &apos;org.sef4j:slf4j-api:1.7.24&apos;	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="多项目构建"><a href="#多项目构建" class="headerlink" title="多项目构建"></a>多项目构建</h2><h5 id="项目模块化"><a href="#项目模块化" class="headerlink" title="项目模块化"></a>项目模块化</h5><p>settings.gradle就是用来多项目构建的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rootProject.name = &apos;todo&apos;</span><br><span class="line">include &apos;respository&apos;</span><br><span class="line">include &apos;model&apos;</span><br><span class="line">include &apos;web&apos;</span><br></pre></td></tr></table></figure></p>
+<h5 id="如果每个module都配置相同的东西，可以将它们删除，然后在根build-gradle文件中添加："><a href="#如果每个module都配置相同的东西，可以将它们删除，然后在根build-gradle文件中添加：" class="headerlink" title="如果每个module都配置相同的东西，可以将它们删除，然后在根build.gradle文件中添加："></a>如果每个module都配置相同的东西，可以将它们删除，然后在根build.gradle文件中添加：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">allprojects&#123;</span><br><span class="line">	apply plugn: &apos;java&apos;</span><br><span class="line">	sourceCompactibility=1.8</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="如果需要将某个模块大包成war包，需要在改模块下面的build-gradle下添加"><a href="#如果需要将某个模块大包成war包，需要在改模块下面的build-gradle下添加" class="headerlink" title="如果需要将某个模块大包成war包，需要在改模块下面的build.gradle下添加"></a>如果需要将某个模块大包成war包，需要在改模块下面的build.gradle下添加</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply plugn: &apos;war&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="如果要依赖另一个modele"><a href="#如果要依赖另一个modele" class="headerlink" title="如果要依赖另一个modele"></a>如果要依赖另一个modele</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">	compile project(&quot;: repository&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="在根build-gradle文件中给子module添加依赖"><a href="#在根build-gradle文件中给子module添加依赖" class="headerlink" title="在根build.gradle文件中给子module添加依赖"></a>在根build.gradle文件中给子module添加依赖</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">subprojects &#123;</span><br><span class="line">	respositories&#123;</span><br><span class="line">		mavenCentral()</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	dependencies&#123;</span><br><span class="line">		compile &apos;ch.qos.logback:logback-class^^^&apos;</span><br><span class="line">		testCompile group: &apos;junit&apos;, name: &apos;jnuit&apos;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="如果要版本统一"><a href="#如果要版本统一" class="headerlink" title="如果要版本统一"></a>如果要版本统一</h5><p>可以先将子模块中的版本号都取消，然后新建一个gradle.properites，在里面写入要添加的版本号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">group = ‘com.afei.gradle’</span><br><span class="line">version=1.0</span><br></pre></td></tr></table></figure>
+<h2 id="自动化测试"><a href="#自动化测试" class="headerlink" title="自动化测试"></a>自动化测试</h2><p>测试配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies&#123;</span><br><span class="line">	testCompile &apos;junit:junit:4.11&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="测试发现"><a href="#测试发现" class="headerlink" title="测试发现"></a>测试发现</h5><ul>
+<li>任何即成自junit.framework.TestCase或groovy.util.GroovyTestCase</li>
+<li>任何使用@RunWith注解的类</li>
+<li>任何至少包含一个被@Test注解的类</li>
+</ul>
+<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>gradle没有自己的仓库，一般发布到maven仓库。<br>gradle使用插件发布，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">apply plugn:&apos;maven-pulish&apos;</span><br><span class="line">publishing&#123;</span><br><span class="line">	publications&#123;</span><br><span class="line">		myPublish(MavenPulication)&#123;</span><br><span class="line">			from components.java</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	repositories&#123;</span><br><span class="line">		maven&#123;</span><br><span class="line">			name &quot;myrepo&quot;</span><br><span class="line">			url &quot;私服地址&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/19/Gradle入门/" data-id="ck4jzi8ng0001rflrdeuuhws6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gradle/">Gradle</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java反射" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/19/Java反射/" class="article-date">
+  <time datetime="2017-09-19T14:45:20.000Z" itemprop="datePublished">2017-09-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/19/Java反射/">Java反射</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1、Class类"><a href="#1、Class类" class="headerlink" title="1、Class类"></a>1、Class类</h4><p>java语言中万物皆对象，（基础类型有包装类，静态成员除外）。</p><br><p>类也是对象，类是谁的对象呢？–java.lang.Class的实例对象</p>
+
+<p>eg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">public class ClassDemo()&#123;</span><br><span class="line">	public static void main(String[] args)&#123;</span><br><span class="line">		//Foo的实例对象如何表示</span><br><span class="line">		Foo foo=new Foo();</span><br><span class="line">		</span><br><span class="line">		//Foo这个类也是一个实例对象，Class类的实例对象，如何表示呢</span><br><span class="line">		//任何一个类都是Class的实例对象，这个实例对象有三种表示方式</span><br><span class="line">		</span><br><span class="line">		//第一种表示方式--&gt;任何一个类都有一个隐含的静态成员变量</span><br><span class="line">		Class c1=Foo.class;</span><br><span class="line">		</span><br><span class="line">		//第二种表达方式，已经知道的该类的对象通过getClass方法</span><br><span class="line">		Class c2=foo1.getClass();</span><br><span class="line">		</span><br><span class="line">		/*官网c1，c2表示了Foo类的类类型（class type）</span><br><span class="line">		 *万物皆对象，</span><br><span class="line">		 *类也是对象</span><br><span class="line">		 *这个对象我们成为该类的类类型</span><br><span class="line">		 */</span><br><span class="line">		</span><br><span class="line">		//不管c1，c2都代表了Foo类的类类型，一个类只可能是Class类的一个实例对象</span><br><span class="line">		System.out.println(c1==c2);</span><br><span class="line">		</span><br><span class="line">		//第三种表达方式</span><br><span class="line">		Class c3=null;</span><br><span class="line">		try&#123;</span><br><span class="line">			c3=Class.forName(&quot;com.afei.reflect.Foo&quot;);</span><br><span class="line">		&#125;catch(ClassNotFoundException e)&#123;</span><br><span class="line">			e.printStaticTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(c3==c2);</span><br><span class="line">		</span><br><span class="line">		//完全可以通过类的类类型创建该类的对象实例，--&gt;通过c1，c2，c3创建Foo的实例</span><br><span class="line">		try&#123;</span><br><span class="line">			Foo foo=c1.newInstance();//需要有无参数的构造方法</span><br><span class="line">			foo.print();</span><br><span class="line">		&#125;catch(InstantictionException e)&#123;</span><br><span class="line">			e.printStaticTrace();</span><br><span class="line">		&#125;catch(IllegalAccessException e)&#123;</span><br><span class="line">			e.printStaticTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Fool&#123;</span><br><span class="line">	void print()&#123;</span><br><span class="line">		System.out.println(&quot;Foo&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="动态加载类"><a href="#动态加载类" class="headerlink" title="动态加载类"></a>动态加载类</h4><p>Class.forName(“类的全称”);</p>
+<ul>
+<li>不仅表示了类的类类型，还代表了动态加载类</li>
+<li></li>
+<li>请区分编译，运行</li>
+<li></li>
+<li>编译时刻加载类是静态加载类，运行时刻加载类hi动态加载类</li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Office&#123;</span><br><span class="line">	public static void main(String[] args)&#123;</span><br><span class="line">		</span><br><span class="line">		//new 创建的对象，是静态加载类，在编译时刻就需要加载所有的可能使用到的类</span><br><span class="line">		//通过动态加载类可以解决该问题</span><br><span class="line">		if(&quot;World&quot;.equals(args[0]))&#123;</span><br><span class="line">			World w=new World();</span><br><span class="line">			w.start();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		if(&quot;Excell&quot;.equals(args[0]))&#123;</span><br><span class="line">			Excell e=new Excell();</span><br><span class="line">			e.start();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class World&#123;</span><br><span class="line">	void start()&#123;</span><br><span class="line">		System.out.println(&quot;我是world！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Excell&#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class OfficeBetter&#123;</span><br><span class="line">	public static void main(String[] args)&#123;</span><br><span class="line">		</span><br><span class="line">		try&#123;</span><br><span class="line">			//动态加载类，在运行时刻加载</span><br><span class="line">			Class c=ClassforName(args[0]);</span><br><span class="line">			</span><br><span class="line">			OfficeAble oa=(OfficeAble)c.newInstance();</span><br><span class="line">			c.start();</span><br><span class="line">		&#125;catch(Exception e)&#123;</span><br><span class="line">			e.printStaticTrace();</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">interface OfficeAble&#123;</span><br><span class="line">	void start();</span><br><span class="line">&#125;</span><br><span class="line">class World implements OfficeAble&#123;</span><br><span class="line">	public void start()&#123;</span><br><span class="line">		System.out.println(&quot;我是world！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Excell implements OfficeAble&#123;</span><br><span class="line">	public void start()&#123;</span><br><span class="line">		System.out.println(&quot;我是Excell！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以使用 <code>java OfficeBetter Excell</code>  研验证</p>
+<h4 id="Java-获取方法信息"><a href="#Java-获取方法信息" class="headerlink" title="Java 获取方法信息"></a>Java 获取方法信息</h4><p>基本的数据类型</p>
+<ul>
+<li></li>
+<li>void关键字 都存在类类型</li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class ClassDemo2()&#123;</span><br><span class="line">	public static void main(String[] args)&#123;</span><br><span class="line">		//</span><br><span class="line">		Class c1=int.class;//int的类类型</span><br><span class="line">		Class c2=String.class;//String类的类类型，String类字节码</span><br><span class="line">		</span><br><span class="line">		Class c3=double.class;//</span><br><span class="line">		Class c4=Double,class;//</span><br><span class="line">		Class c5=void.class;//</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		//返回不包含包名的类的名称</span><br><span class="line">		System.out.println(c1.getName());</span><br><span class="line">		System.out.println(c2.getName());</span><br><span class="line">		System.out.println(c3.getName());</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Class类的基本操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 打印类的信息，包括类的成员函数，成员变量</span><br><span class="line"> */</span><br><span class="line">public class ClassUtil()&#123;</span><br><span class="line">	/**</span><br><span class="line">	 * 打印成员函数</span><br><span class="line">	 */</span><br><span class="line">	public static void printClassMessage(Object obj)&#123;</span><br><span class="line">		//获取类的信息，首先要获取类的类类型</span><br><span class="line">	</span><br><span class="line">		Class c=obj.getClass();//传递的是哪个字类的对象，c就是改字类的类类型</span><br><span class="line">	</span><br><span class="line">		//获取类的名称</span><br><span class="line">		System.out.println(&quot;类的名称是：&quot;+c.getName());</span><br><span class="line">	</span><br><span class="line">		/**</span><br><span class="line">		 * Method类，方法和对象</span><br><span class="line">		 * 一个成员方法就是一个Method对象</span><br><span class="line">		 * getMethods()方法获取的是所有public的函数</span><br><span class="line">		 * getDeclareMethods()获取的是该类自己声明的方法，不问访问权限</span><br><span class="line">		 */</span><br><span class="line">		 Method[] ms=c.getMethods();//c.getDeclareMethos();</span><br><span class="line">		 </span><br><span class="line">		 for(int i=0,int len=ms.length;i&lt;len;i++)&#123;</span><br><span class="line">			 //得到方法的返回值类型--&gt;返回值类型的类类型</span><br><span class="line">			 Class returnType=ms[i].getReturnType();</span><br><span class="line">			 System.out.print(returnType.getName()+&quot; &quot;);</span><br><span class="line">			 </span><br><span class="line">			 //得到方法的名称</span><br><span class="line">			 System.out.print(ms[i].getName()+&quot; ( &quot;);</span><br><span class="line">			 </span><br><span class="line">			 //得到参数类型--&gt;得到的是参数列表的类型的类类型</span><br><span class="line">			 Class[] paramTypes=ms[i].getParameterType();</span><br><span class="line">			 </span><br><span class="line">			 //</span><br><span class="line">			 for(Class class1:paramTypes)&#123;</span><br><span class="line">			 	System.out.print(class1.getName()+&quot; , &quot;);</span><br><span class="line">			 &#125;</span><br><span class="line">			 </span><br><span class="line">			 System.out.println(&quot; ) &quot;);</span><br><span class="line">	</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		/**</span><br><span class="line">		 * 获取字段的函数</span><br><span class="line">		 */</span><br><span class="line">		public static void getFieldMessage(Object obj)&#123;</span><br><span class="line">			Class c=obj.getClass();</span><br><span class="line">		</span><br><span class="line">			 /**</span><br><span class="line">			  * 成员变量也是对象</span><br><span class="line">			  * java.lang.reflect.Field</span><br><span class="line">			  * Field类封装了关于成员变量的操作</span><br><span class="line">			  * getFields()获取的是所有的public的成员变量的信息</span><br><span class="line">			  * getDeclaredFields()获取所有该类自己声明的成员变量（可以是公有，也可以是私有）</span><br><span class="line">			  */</span><br><span class="line">			  //Field[] fs=c.getFields();</span><br><span class="line">			  Field[] fs=c.getDeclaredFields();</span><br><span class="line">			  for(Field field:fs)&#123;</span><br><span class="line">			  	//得到成员变量的类型的类类型</span><br><span class="line">			  	Class fieldType=field.getType();</span><br><span class="line">			  	String typeName=fieldType.getName();</span><br><span class="line">			  	</span><br><span class="line">			  	//得到成员变量的名称</span><br><span class="line">			  	String fieldName=field.getName();</span><br><span class="line">			  	System.out.println(typeName+&quot; &quot;+ fieldName);</span><br><span class="line">			  &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		/**</span><br><span class="line">		 * 获取构造函数</span><br><span class="line">		 */</span><br><span class="line">		 public static void getConMessage(Object obj)&#123;</span><br><span class="line">			Class c=obj.getClass();</span><br><span class="line">			/**</span><br><span class="line">			 *构造函数也是对象</span><br><span class="line">			 *java.lang.Constructor中封装了构造函数的信息</span><br><span class="line">			 *getConstructor获取所有的public的构造函数</span><br><span class="line">			 *getDeclareConstrutor获取所有的构造函数</span><br><span class="line">			 */</span><br><span class="line">			//Constructor[] cs=c.getConstructor();</span><br><span class="line">			Constructor[] cs=c.getDeclareConstructor();</span><br><span class="line">			for(Constructor constructor: cs)&#123;</span><br><span class="line">				System.out.print(constructor.getName+&quot;(&quot;);</span><br><span class="line">				</span><br><span class="line">				//获取构造函数的参数列表--&gt;得到的是参数列表的类类型</span><br><span class="line">				Class[] paramTypes=constructor.getParameterTypes();</span><br><span class="line">				for(Class class1:paramTypes)&#123;</span><br><span class="line">					System.out.print(class1.getName+&quot;,&quot;);</span><br><span class="line">				&#125;</span><br><span class="line">				System.out.print(&quot;)&quot;);</span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">		 &#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="方法反射的基本操作"><a href="#方法反射的基本操作" class="headerlink" title="方法反射的基本操作"></a>方法反射的基本操作</h2><p>如何获取某个方法：方法的名称和方法的参数列表才能为宜决定某了列表</p><br><p>方法的反射操作：<code>method.invoke(对象，参数列表)</code></p>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public class MethodDemo1&#123;</span><br><span class="line">	public static void main(String[] args)&#123;</span><br><span class="line">		//获取print(int , int)方法,1、要获取一个方法就是获取类的信息，获取类的信息首先要获取类的类类型</span><br><span class="line">		A a1=new A();</span><br><span class="line">		Class c=a1.getClass();</span><br><span class="line">		/**</span><br><span class="line">		 *2 获取方法，名称和参数列表来决定</span><br><span class="line">		 * getMethod获取的是public的方法</span><br><span class="line">		 * getDelcaredMethod自己声明的方法</span><br><span class="line">		 */</span><br><span class="line">		try&#123;</span><br><span class="line">			//Method m=c.getMethod(&quot;print&quot;,new Class[]&#123;int.class,int.class&#125;);</span><br><span class="line">			Method m=c.getMethod(&quot;print&quot;,int.class,int.class);</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">		//方法的反射操作；</span><br><span class="line">		//a1.print(10,20); 方法的反射操作时用m对象来进行方法调用，和a1.print效果相同</span><br><span class="line">		//方法如果没有返回值返回null，有返回值返回具体的返回值</span><br><span class="line">		//Object obj=m.invoke(a1,new Object[]&#123;10,20&#125;);</span><br><span class="line">		Object obj=m.invoke(a1,10,20);</span><br><span class="line">		</span><br><span class="line">		//获取方法print(String,String)</span><br><span class="line">		Method m1=c.getMethod(&quot;print&quot;,String.class,String.class);</span><br><span class="line">		//用方法进行反射操作</span><br><span class="line">		o=m1.invoke(a1,&quot;hello&quot;,&quot;world&quot;);</span><br><span class="line">		&#125;catch(Exception e)&#123;</span><br><span class="line">			e.printStaticTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		//获取没有参数的方法</span><br><span class="line">		//Method m2=c.getMethod(&quot;print&quot;,new Class[]&#123;&#125;);</span><br><span class="line">		Method m2=c.getMethod(&quot;print&quot;);</span><br><span class="line">		//m2.invoke(a1,new Object[]&#123;&#125;);</span><br><span class="line">		m2.invoke(a1);		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class A&#123;</span><br><span class="line">	public void print()&#123;</span><br><span class="line">		System.out.println(&quot;我没有参数&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void print(int a,int b)&#123;</span><br><span class="line">		System.out.println(a+b);</span><br><span class="line">	&#125;</span><br><span class="line">	public void print(String a,String b)&#123;</span><br><span class="line">		System.out.println(a.toUpperCase()+&quot;,&quot;+b.toLowerCase());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="通过反射了解集合泛型的本质"><a href="#通过反射了解集合泛型的本质" class="headerlink" title="通过反射了解集合泛型的本质"></a>通过反射了解集合泛型的本质</h2><ul>
+<li>通过Class, Method来认识泛型的本质</li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class MethodDemo4&#123;</span><br><span class="line">	public static void main(String[] args)&#123;</span><br><span class="line">		ArrayList list=new ArrayList();//没有泛型，可以放任何数据；</span><br><span class="line">		</span><br><span class="line">		ArrayList&lt;String&gt; list1=new ArrayList&lt;String&gt;();//泛型指定只能放指定的类型</span><br><span class="line">		list1.add(&quot;hello&quot;);</span><br><span class="line">		//list1.add(20);//错误</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		Class c1=list.getClass();</span><br><span class="line">		Class c2=list.getClass();</span><br><span class="line">		System.out.println(c1==c2);//true</span><br><span class="line">		//反射的操作都是编译之后的操作</span><br><span class="line">		</span><br><span class="line">		/**</span><br><span class="line">		 *c1==c2结果返回true，说明编译之后的集合的泛型时去泛型化的</span><br><span class="line">		 * java中集合的泛型，是防止错误输入的，只在编译阶段有效，绕过编译就无效了</span><br><span class="line">		 * 验证：通过反射操作，绕过编译</span><br><span class="line">		 */</span><br><span class="line">		 try&#123;</span><br><span class="line">		 	Method m=c2.getClass(&quot;add&quot;,Object.class);</span><br><span class="line">		 	m.invoke(list1,100);//绕过编译操作就绕过了泛型</span><br><span class="line">		 	System.out.println(list1.size());</span><br><span class="line">		 	System.out.println(list1);</span><br><span class="line">		 	</span><br><span class="line">		 	/*for(String string:list1)&#123;</span><br><span class="line">			 		System.out.println(string);</span><br><span class="line">			 	&#125;</span><br><span class="line">			 &#125;catch(Exception e)&#123;</span><br><span class="line">			 	e.printStaticTrace();</span><br><span class="line">		  &#125;*///现在不能这样遍历，因为100不能转化为String</span><br><span class="line">		 </span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/19/Java反射/" data-id="ck4jzi8p4002erflrswto0hly" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-SpringBoot进阶" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/19/SpringBoot进阶/" class="article-date">
+  <time datetime="2017-09-19T14:33:32.000Z" itemprop="datePublished">2017-09-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/19/SpringBoot进阶/">SpringBoot进阶</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><ul>
+<li>1、使用@Valid表单验证</li>
+<li>2、使用AOP处理请求</li>
+<li>3、统一一场处理</li>
+<li>4、单元测试</li>
+</ul>
+<h4 id="一、表单验证"><a href="#一、表单验证" class="headerlink" title="一、表单验证"></a>一、表单验证</h4><p>首先说一下git的使用，将项目clone下来之后，使用<code>git check -b web-2 web-2</code>就可以在本地使用分枝web-2了。<br>当参数过多的时候，在函数里面的参数很多就显得很业余，如果还要往里面添加属性，怎么办呢？可以将单个的属性参数换作一个类，这样的话就可以不更新函数了。<br>比如girlAdd方法原来是这样的，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@PostMapping(value = &quot;/girls&quot;)</span><br><span class="line">public Girl girlAdd(@RequestParam(&quot;cupSize&quot;) String cupSize,</span><br><span class="line">                      @RequestParam(&quot;age&quot;) Integer age)&#123;</span><br><span class="line"></span><br><span class="line">    Girl girl=new Girl();</span><br><span class="line">    girl.setCupSize(cupSize);</span><br><span class="line">    girl.setAge(age);</span><br><span class="line"></span><br><span class="line">    return girlRepository.save(girl);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(value = &quot;/girls&quot;)</span><br><span class="line">   public Girl girlAdd(Girl g)&#123;</span><br><span class="line"></span><br><span class="line">       Girl girl=new Girl();</span><br><span class="line">       girl.setCupSize(g.getCupSize());</span><br><span class="line">       girl.setAge(g.getAge());</span><br><span class="line"></span><br><span class="line">       return girlRepository.save(girl);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>如果想让未满18岁的少女插入不成功，怎么做呢，首先进入Girl类内部，在age的属性上添加注解@Min，value写入最小年龄，message写入错误信息，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Min(value = 18, message = &quot;未成年少女禁止入内&quot;)</span><br><span class="line">    private Integer age;</span><br></pre></td></tr></table></figure>
+<p>然后在GirlController中的函数girlAdd参数钱加上注解@Valid即可，还要考虑到如何获取验证结果呢，这是虎需要用到BindingResult添加到参数重，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(value = &quot;/girls&quot;)</span><br><span class="line">    public Girl girlAdd(@Valid Girl g , BindingResult bindingResult)&#123;</span><br><span class="line">        if (bindingResult.hasErrors())&#123;</span><br><span class="line">            System.out.println(bindingResult.getFieldError().getDefaultMessage());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Girl girl=new Girl();</span><br><span class="line">        girl.setCupSize(g.getCupSize());</span><br><span class="line">        girl.setAge(g.getAge());</span><br><span class="line"></span><br><span class="line">        return girlRepository.save(girl);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>总结：表单验证，首先在类（Girl）中添加@Min注解，设置阈值和错误信息；在Controller的类（GirlController）中相应函数（girlAdd）的参数用@Valid注解响应的参数类（Girl g）；并且用BindingResult来获取验证信息。</p>
+<h4 id="二、AOP统一处理请求日志"><a href="#二、AOP统一处理请求日志" class="headerlink" title="二、AOP统一处理请求日志"></a>二、AOP统一处理请求日志</h4><ul>
+<li>AOP是一种编程范式</li>
+<li><ul>
+<li>与语言无关，是一种程序设计思想</li>
+</ul>
+</li>
+<li><ul>
+<li>面向切面（AOP）Aspect Oriented Programming</li>
+</ul>
+</li>
+<li><ul>
+<li>面向对象（OOP）Object Oriented Programming</li>
+</ul>
+</li>
+<li><ul>
+<li>面向过程（POP）Procedure Oriented Programming</li>
+</ul>
+</li>
+</ul>
+<p>AOP将通用逻辑从业务逻辑中分离出来。</p>
+<p>2.1</p>
+<p>在获取请求之前判断用户是否已登陆，难道需要在每一个方法中都做判断吗？不需要。使用aop就可以解决。<br>首先在porm中添加依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>2.2</p>
+<p>然后新建一个类HttpAspect添加注解@Aspect，并且添加@Component将这个类引入到spring容器中去。然后在里面使用@Before注解，规定要拦截的函数，这样就可以在每次调用这个函数之前都做响应处理了。如果是想对所有的函数度做拦截，可以将@Before中的函数换作*；如果想让函数执行之后再调用某个方法，可以使用@After注解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class HttpAspect &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 拦截girlList方法</span><br><span class="line">     * girllist只要是这个方法，不论是任何参数都会被拦截。</span><br><span class="line">     * 在girlList放置执行之前被拦截</span><br><span class="line">     *</span><br><span class="line">     * 如果想拦截所有的方法，只需要吧girlList换为*即可</span><br><span class="line">     */</span><br><span class="line">    @Before(&quot;execution(public * com.afei.controller.GirlController.girlList())&quot;)</span><br><span class="line">    public void log()&#123;</span><br><span class="line">        System.out.println(&quot;1111111111&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 同理这个方法，会在拦截函数执行之后触发</span><br><span class="line">     */</span><br><span class="line">    @After(&quot;execution(public * com.afei.controller.GirlController.girlList())&quot;)</span><br><span class="line">    public void doAfter()&#123;</span><br><span class="line">        System.out.println(&quot;222222222&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.3</p>
+<p>可是这时候再@Before和@After之中的拦截函数有重复，这时候可以做以下改进：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class HttpAspect &#123;</span><br><span class="line"></span><br><span class="line">    @Pointcut(&quot;execution(public * com.afei.controller.GirlController.girlList())&quot;)</span><br><span class="line">    public void log()&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 拦截girlList方法</span><br><span class="line">     * girllist只要是这个方法，不论是任何参数都会被拦截。</span><br><span class="line">     * 在girlList放置执行之前被拦截</span><br><span class="line">     *</span><br><span class="line">     * 如果想拦截所有的方法，只需要吧girlList换为*即可</span><br><span class="line">     */</span><br><span class="line">    @Before(&quot;execution(public * com.afei.controller.GirlController.girlList())&quot;)</span><br><span class="line">    public void doBefore()&#123;</span><br><span class="line">        System.out.println(&quot;1111111111&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 同理这个方法，会在拦截函数执行之后触发</span><br><span class="line">     */</span><br><span class="line">    @After(&quot;execution(public * com.afei.controller.GirlController.girlList())&quot;)</span><br><span class="line">    public void doAfter()&#123;</span><br><span class="line">        System.out.println(&quot;222222222&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.4</p>
+<p>通常使用System.out.println()方法不如使用日志打印，可以使用<code>private final static Logger logger= LoggerFactory.getLogger(HttpAspect.class);</code>来替代，只需要在相应的地方打印信息<code>logger.info(&quot;222222222&quot;));</code>即可</p>
+<p>2.5 如何获取方法的http请求参数呢</p>
+<p>只需要在HttpAspect类中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Before(&quot;log()&quot;)</span><br><span class="line">    public void doBefore(JoinPoint joinPoint)&#123;</span><br><span class="line">        //System.out.println(&quot;1111111111&quot;);</span><br><span class="line">        //logger.info(&quot;1111111111&quot;);</span><br><span class="line">        ServletRequestAttributes attributes= (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</span><br><span class="line">        HttpServletRequest request=attributes.getRequest();</span><br><span class="line"></span><br><span class="line">        //获取http请求的内容</span><br><span class="line"></span><br><span class="line">        logger.info(&quot;url=&#123;&#125;&quot;,request.getRequestURI());</span><br><span class="line"></span><br><span class="line">        logger.info(&quot;method=&#123;&#125;&quot;,request.getMethod());</span><br><span class="line"></span><br><span class="line">        logger.info(&quot;ip=&#123;&#125;&quot;,request.getRemoteAddr());</span><br><span class="line"></span><br><span class="line">        logger.info(&quot;class_method=&#123;&#125;&quot;,joinPoint.getSignature().getDeclaringTypeName());</span><br><span class="line"></span><br><span class="line">        logger.info(&quot;args=&#123;&#125;&quot;,joinPoint.getArgs());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>如何获取http请求的结果呢，需要使用到@AfterReturning的注解，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//获取请求返回的结果 @AfterReturning(returning=&quot;object&quot; ,pointcut = &quot;log()&quot;)</span><br><span class="line">   public void doAfterReturning(Object object)&#123;</span><br><span class="line">       logger.info(&quot;response=&#123;&#125;&quot;,object);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="三、统一异常处理"><a href="#三、统一异常处理" class="headerlink" title="三、统一异常处理"></a>三、统一异常处理</h4><p> 需求：<br> 获取某个女生的年龄并判断<br> 小于10，返回“应该上小学”<br> 大于10且小于16，返回“可能在上高中”</p>
+<p> 如何在有异常发生时，按照指定的数据格式处理回应呢</p>
+<p> 3.1 异常的捕获处理：</p>
+<p> 首先新建一个类ExceptionHandle用@ControllerAdvice注解，在后在里面声明一个方法handler并且用@ExceptionHandler注解，value值为Exception.class，和@ReponseBody注解。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> @ControllerAdvice</span><br><span class="line">public class ExceptionHandle &#123;</span><br><span class="line">    @ExceptionHandler(value = Exception.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Result handler(Exception e)&#123;</span><br><span class="line">        return ResultUtil.error(100,e.getMessage());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 然后在一些位置抛异常，比如girlService中的getAge方法<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public void getAge(Integer id) throws Exception&#123;</span><br><span class="line">       Girl girl=girlRepository.findOne(id);</span><br><span class="line">       Integer age=girl.getAge();</span><br><span class="line">       if (age&lt;10)&#123;</span><br><span class="line">           //</span><br><span class="line">           throw new Exception(&quot;你还在上小学吧&quot;);</span><br><span class="line">       &#125;else if(age&gt;10 &amp;&amp; age&lt;16)&#123;</span><br><span class="line">           throw new Exception(&quot;你可能上初中&quot;);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p> 这样抛的异常就全部交给了ExceptionHandle来处理,此时用户再传入相应的参数的就可以按照指定的Result的方式来输出了。</p>
+<p> 3.2 自定义异常</p>
+<p> 如果我想你上小学的时候返回100，上初中的时候返回101,但是抛异常时又没有自定义错误码的方法，这时就需要我们自定义异常类了。<br> 新建一个GirlException的类继承自RuntimeException。spring只对RuntimeException进行回滚，对Exception是不会进行回滚的。在GirlException中增加错误码的属性：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> public class GirlException extends RuntimeException&#123;</span><br><span class="line"></span><br><span class="line">    private Integer code;</span><br><span class="line">    public GirlException(Integer code,String message)&#123;</span><br><span class="line">        super(message);</span><br><span class="line">        this.code=code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getCode() &#123;</span><br><span class="line">        return code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCode(Integer code) &#123;</span><br><span class="line">        this.code = code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 然后就可以在GirlService中抛异常时使用自定义的异常了：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public void getAge(Integer id) throws Exception&#123;</span><br><span class="line">       Girl girl=girlRepository.findOne(id);</span><br><span class="line">       Integer age=girl.getAge();</span><br><span class="line">       if (age&lt;10)&#123;</span><br><span class="line">           //</span><br><span class="line">           throw new GirlException(100,&quot;你还在上小学吧&quot;);</span><br><span class="line">       &#125;else if(age&gt;10 &amp;&amp; age&lt;16)&#123;</span><br><span class="line">           throw new GirlException(101,&quot;你可能上初中&quot;);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p> 最后在ExceptionHandle类中的handler方法中对GirlException进行处理：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> @ControllerAdvice</span><br><span class="line">public class ExceptionHandle &#123;</span><br><span class="line">    @ExceptionHandler(value = Exception.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Result handler(Exception e)&#123;</span><br><span class="line"></span><br><span class="line">        if (e instanceof GirlException)&#123;</span><br><span class="line">            GirlException girlException=(GirlException) e;</span><br><span class="line">            return ResultUtil.error(girlException.getCode(),girlException.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        return ResultUtil.error(100,e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 此时传入相应的请求就会安规定返回相应的数据了.<br> 要过要抛出系统异常，但是如何跟踪异常呢，这时需要使用日志工具了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> @ControllerAdvice</span><br><span class="line">public class ExceptionHandle &#123;</span><br><span class="line">    private final static Logger logger= LoggerFactory.getLogger(Exception.class);</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(value = Exception.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Result handler(Exception e)&#123;</span><br><span class="line"></span><br><span class="line">        if (e instanceof GirlException)&#123;</span><br><span class="line">            GirlException girlException=(GirlException) e;</span><br><span class="line">            return ResultUtil.error(girlException.getCode(),girlException.getMessage());</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            logger.error(&quot;[系统异常]&#123;&#125;&quot;,e);</span><br><span class="line">            return ResultUtil.error(-1,&quot;未知错误&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样发生系统异常时，就可以在控制台打印消息了</p>
+<p>额外的错误码管理</p>
+<p>此时异常捕获已经差不多，有个小地方可以优化，就是错误码管理，可以将code和msg用枚举进行管理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public enum ResultEnum &#123;</span><br><span class="line"></span><br><span class="line">    UNKONW_ERROR(-1,&quot;未知错误&quot;),</span><br><span class="line">    SUCCESS(0,&quot;成功&quot;),</span><br><span class="line">    PROMARY_SCHOOL(100,&quot;你在上小学吧&quot;),</span><br><span class="line">    MIDDLE_SCHOOL(101,&quot;你可能在上初中&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private Integer code;</span><br><span class="line">    private String msg;</span><br><span class="line"></span><br><span class="line">    ResultEnum(Integer code, String msg) &#123;</span><br><span class="line">        this.code = code;</span><br><span class="line">        this.msg = msg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getCode() &#123;</span><br><span class="line">        return code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getMsg() &#123;</span><br><span class="line">        return msg;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在GirlService中修改相应的异常：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public void getAge(Integer id) throws Exception&#123;</span><br><span class="line">        Girl girl=girlRepository.findOne(id);</span><br><span class="line">        Integer age=girl.getAge();</span><br><span class="line">        if (age&lt;10)&#123;</span><br><span class="line">            //</span><br><span class="line">            throw new GirlException(ResultEnum.PROMARY_SCHOOL);</span><br><span class="line">        &#125;else if(age&gt;10 &amp;&amp; age&lt;16)&#123;</span><br><span class="line">            throw new GirlException(ResultEnum.MIDDLE_SCHOOL);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>此时会有错误，将GirlException中的构造函数进行改造:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public GirlException(ResultEnum resultEnum)&#123;</span><br><span class="line">    super(resultEnum.getMsg());</span><br><span class="line">    this.code=resultEnum.getCode();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="四、单元测试"><a href="#四、单元测试" class="headerlink" title="四、单元测试"></a>四、单元测试</h4><p>首先对要测试的类（如GirlService）中添加一个可以用的方法，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">………………</span><br></pre></td></tr></table></figure>
+<p>然后在test目录下床及亲一个测试类用@RunWith(SpringRunner.class)注解，还需要加上@SpringBootTest的注解.然后使用@Autowired注入GirlService，就可以写测试函数了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringRunner.class)</span><br><span class="line">@SpringBootTest</span><br><span class="line">public class GirlServiceTest&#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	private GirlService girlService;</span><br><span class="line">	</span><br><span class="line">	@Test</span><br><span class="line">	public void findOneTest()&#123;</span><br><span class="line">		Girl girl=girlService.findOne(73);</span><br><span class="line">		Assert.assertEquals(new Integer(13),girl.getAge());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以使用ide自动生成，gotoTest，但是还需要自己添加相应的注解</p>
+<p>如何给api进行测试呢，希望想postman一样使用url测试，这时需要给类额外用到@AutoConfigureMockTest注解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringRunner.class)</span><br><span class="line">@SpringBootTest</span><br><span class="line">@AutoConfigureMockTest</span><br><span class="line">public class GirlControllerTest&#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	private MockMvc mvc;</span><br><span class="line">	</span><br><span class="line">	@Test</span><br><span class="line">	public void girlList() throws Exception&#123;</span><br><span class="line">		 //get 使用get方法，post使用post方法</span><br><span class="line">		mvc.perform(MockMvcRequestBuilders.get(&quot;/girls&quot;)).andExcept(MockMvcResultMatchers.status().isOk())</span><br><span class="line">		.andExcept(MockMvcResultMatchers.content().string(&quot;abc&quot;));//判断内容</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/19/SpringBoot进阶/" data-id="ck4jzi8p8002hrflro75eak4r" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-SpringBoot基础" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/19/SpringBoot基础/" class="article-date">
+  <time datetime="2017-09-19T14:27:04.000Z" itemprop="datePublished">2017-09-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/19/SpringBoot基础/">SpringBoot基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本笔记是慕课网视频记录的<a href="http://www.imooc.com/learn/767" target="_blank" rel="noopener">http://www.imooc.com/learn/767</a></p>
+<h4 id="一、-创建页面"><a href="#一、-创建页面" class="headerlink" title="一、 创建页面"></a>一、 创建页面</h4><p>常见一个Spring Boot工程，然后在里面创建一个类用<code>@RestController</code>标示；然后创建一个方法用<code>@RequestMapping(value = &quot;hello&quot; , method = RequestMethod.GET)</code>，其中value表示延长路径，method表示请求方法。<br>如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class HelloController &#123;</span><br><span class="line">    @RequestMapping(value = &quot;hello&quot; , method = RequestMethod.GET)</span><br><span class="line">    public String say()&#123;</span><br><span class="line">        return &quot;Hello Spring Boot，我是你爹&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二、启动方式。"><a href="#二、启动方式。" class="headerlink" title="二、启动方式。"></a>二、启动方式。</h3><ul>
+<li>第一种是直接通过ide进行启动；</li>
+<li>第二种是进入项目所在目录输入<code>mvn spring-boot:run</code>;</li>
+<li>第三种启动方式，使用maven先编译<code>mvn install</code>，然后进入target目录下，会发现又一个<strong><strong>.jar 的文件，然后编译这个jar文件即可`java-jar </strong></strong>.jar`.</li>
+<li>就可以通过<code>localhost:8080/girl</code>访问了;</li>
+</ul>
+<h3 id="三、属性配置"><a href="#三、属性配置" class="headerlink" title="三、属性配置"></a>三、属性配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.datssource.url:jdbc:mysql://127.0.0.1:3306</span><br><span class="line">spring.datssource.username:root</span><br><span class="line">spring.password:123456</span><br><span class="line">spring.datasource.driver-class-name:com.mysql.jdbc</span><br></pre></td></tr></table></figure>
+<h5 id="3-1-改变端口号，增加路径"><a href="#3-1-改变端口号，增加路径" class="headerlink" title="3.1 改变端口号，增加路径"></a>3.1 改变端口号，增加路径</h5><p>在‘application.properities’文件中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server.port=8081</span><br><span class="line">server.context-path=/girl</span><br></pre></td></tr></table></figure>
+<p>此时访问端口就变成了8081，并且路径前添加了girl，这时候就要通过如下地址才能访问刚才的页面<code>localhost:8081/girl/hello</code><br>推荐使用yml文件代替原来的properities</p>
+<h5 id="3-2-将配置文件中的属性，引到变量中去"><a href="#3-2-将配置文件中的属性，引到变量中去" class="headerlink" title="3.2 将配置文件中的属性，引到变量中去"></a>3.2 将配置文件中的属性，引到变量中去</h5><p>在application.yml中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cupSize: B</span><br></pre></td></tr></table></figure>
+<p>然后在HelloController文件中添加变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Value(&quot;$&#123;cupSize&#125;&quot;)</span><br><span class="line">    private String cupSize;</span><br></pre></td></tr></table></figure>
+<p>这样配置文件中的cupSize就引入变量中了</p>
+<p>也可以在配置文件中，使用变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8085</span><br><span class="line">  context-path: /girl</span><br><span class="line">cupSize: B</span><br><span class="line">age: 18</span><br><span class="line">content: &quot;罩杯是: $&#123;cupSize&#125; , 年龄是：$&#123;age&#125; 。&quot;</span><br></pre></td></tr></table></figure>
+<p>需要说明的是，在配置文件中不需要说明类型，只需要在变量处给出声明就可以；</p>
+<h5 id="3-3-使用分类来代替配置文件"><a href="#3-3-使用分类来代替配置文件" class="headerlink" title="3.3 使用分类来代替配置文件"></a>3.3 使用分类来代替配置文件</h5><p>如果属性较多，在配置文件中一个一个写会过于繁琐，这时候需要创建一个类GirlProperties，获取前缀是girl的配置,同时需要在类GirlProperties上添加<code>@Component</code>的注解.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">@ConfigurationProperties(prefix = &quot;girl&quot;)</span><br><span class="line">public class GirlProperties &#123;</span><br><span class="line"></span><br><span class="line">    private String cupSize;</span><br><span class="line">    private Integer age;</span><br><span class="line"></span><br><span class="line">    public String getCupSize() &#123;</span><br><span class="line">        return cupSize;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCupSize(String cupSize) &#123;</span><br><span class="line">        this.cupSize = cupSize;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getAge() &#123;</span><br><span class="line">        return age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setAge(Integer age) &#123;</span><br><span class="line">        this.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在application.yml中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">girl:</span><br><span class="line">  cupSize: D</span><br><span class="line">  age: 28</span><br></pre></td></tr></table></figure>
+<p>如何使用呢，在HelloController中添加<code>@Autowired</code>,就可以使用了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">   private GirlProperties girlProperties;</span><br><span class="line">   </span><br><span class="line">   @RequestMapping(value = &quot;hello&quot; , method = RequestMethod.GET)</span><br><span class="line">   public String say()&#123;</span><br><span class="line">       //return cupSize;</span><br><span class="line">       return girlProperties.getCupSize();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>但是有多个环境，比如开发环境和生产环境配置不同的时候，频繁的修改application.yml配置文件吗？不要咬的，我们可以创建一个application-dev.yml在里面放置开发环境的配置，然后再创建一个application-prod.yml的文件，在里面放置生产环境的配置。最后只需要在application.yml文件中作选择即可，比较选择开发环境，只需写入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  profiles:</span><br><span class="line">    active: dev</span><br></pre></td></tr></table></figure>
+<p>而如果使用命令行的方式启动，需要：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ****.jar --spring.profiles.active=dev</span><br></pre></td></tr></table></figure>
+<h3 id="四、Controller的使用"><a href="#四、Controller的使用" class="headerlink" title="四、Controller的使用"></a>四、Controller的使用</h3><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Controller</td>
+<td>处理http请求</td>
+</tr>
+<tr>
+<td>@RestController</td>
+<td>Spring4之后新加的注解，原来返回json需要@ResponseBody配合@Controller</td>
+</tr>
+<tr>
+<td>@RequestMapping</td>
+<td>配合url映射</td>
+</tr>
+</tbody>
+</table>
+<h5 id="4-1-Controller和-RestController的区别"><a href="#4-1-Controller和-RestController的区别" class="headerlink" title="4.1 @Controller和@RestController的区别"></a>4.1 @Controller和@RestController的区别</h5><p>将项目中的HelloController的注解@RestController换做@Controller，再次运行就会报错，这时候需要添加模版，首先在porm中添加注解 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>然后再resource目录下新建目录templates，并新建文件indexhtml，随意写入东西。然后在HelloController中写入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(value = &quot;hello&quot; , method = RequestMethod.GET)</span><br><span class="line">   public String say()&#123;</span><br><span class="line">       return &quot;index.html&quot;;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这时候就可以访问这个借口了。虽然@Controller配合模版可以实现与@RestController同样的效果，但是使用模版会带来性能上的损耗，不推荐使用。</p>
+<h5 id="4-2-如何做到两个借口是同一个方法"><a href="#4-2-如何做到两个借口是同一个方法" class="headerlink" title="4.2 如何做到两个借口是同一个方法"></a>4.2 如何做到两个借口是同一个方法</h5><p>使用@RequestMapping的注解，在value中使用集合即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(value = &#123;&quot;hello&quot;,&quot;hi&quot; &#125;, method = RequestMethod.GET)</span><br><span class="line">    public String say()&#123;</span><br><span class="line">        //return cupSize;</span><br><span class="line">        return girlProperties.getCupSize();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这样的就既可以使用<code>ip:port/path/hello</code>，又可以<code>ip:port/path/hi</code>来访问相同的请求了。<br>也可以给整个类设定一个url，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">@RequestMapping(value = &quot;/hello&quot;)</span><br><span class="line">public class HelloController &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private GirlProperties girlProperties;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &#123;&quot;/say&quot;&#125;, method = RequestMethod.GET)</span><br><span class="line">    public String say()&#123;</span><br><span class="line">        //return cupSize;</span><br><span class="line">        return girlProperties.getCupSize();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就可以使用<code>ip:port/path/hello／say</code>来访问girl的属性了。</p>
+<p><code>@RequestMapping(value = {&quot;hello&quot;,&quot;hi&quot; }, method = RequestMethod.GET)</code>中的请求方式可以是GET也可以是POST，如果不写的话，两种都可以，但是并不推荐这么做。</p>
+<h5 id="4-3-如何处理url中的参数"><a href="#4-3-如何处理url中的参数" class="headerlink" title="4.3 如何处理url中的参数"></a>4.3 如何处理url中的参数</h5><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@PathVariable</td>
+<td>获取url中的数据</td>
+</tr>
+<tr>
+<td>@RequestParam</td>
+<td>获取请求参数的值</td>
+</tr>
+<tr>
+<td>@GetMapping</td>
+<td>组合注解</td>
+</tr>
+</tbody>
+</table>
+<p><strong>4.3.1 不带等号的传餐方式</strong></p>
+<p>如何使用@PathVariable传递参数呢，在@RequestMapping的value中添加参数用大括号括起来，然后在具体函数的传入参数用@PathVarable来声明，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(value = &#123;&quot;/say/&#123;id&#125;&quot;&#125;, method = RequestMethod.GET)</span><br><span class="line">    public String say(@PathVariable(&quot;id&quot;) Integer id)&#123;</span><br><span class="line">        return &quot;id=&quot;+id;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这样就可以通过<code>ip:port/path/hello／say/36</code>来传递id=36了。当然在@RequestMapping中的”{id}”可以写在任何路径。</p>
+<p><strong>4.3.2 带等号的传参方式</strong></p>
+<p>但是如何获取<code>ip:port/path/hello／say/id=100</code>这种方式中的id的值的，使用@RequestParam，修改如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(value = &#123;&quot;/say&quot;&#125;, method = RequestMethod.GET)</span><br><span class="line">    public String say(@RequestParam(&quot;id&quot;) Integer id)&#123;</span><br><span class="line">        return &quot;id=&quot;+id;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>如何设置要传递的参数是否必传，以及如何设定默认值呢，只需要使用required和defaultValue在RequestMapping的value中设置一下即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(value = &#123;&quot;/say&quot;&#125;, method = RequestMethod.GET)</span><br><span class="line">    public String say(@RequestParam(&quot;id&quot; , required=false , defaultValue= “2”) Integer id)&#123;</span><br><span class="line">        return &quot;id=&quot;+id;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>4.3.3 如何简化@RequestMapping(value = {“/say”}, method = RequestMethod.GET)呢</strong></p>
+<p>可以使用<code>@GetMapping(value=&quot;/say&quot;)</code>代替</p>
+<h3 id="五、jpa"><a href="#五、jpa" class="headerlink" title="五、jpa"></a>五、jpa</h3><h5 id="5-1-什么是jpa"><a href="#5-1-什么是jpa" class="headerlink" title="5.1 什么是jpa"></a>5.1 什么是jpa</h5><p>JPA（Java Persistcence API）定义了一系列对象持久化的标准。目前实现这一规范的产品有Hibernate、TopLink等。</p>
+<p>使用mysql数据哭需要添加两个组件,在porm中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>然后在application.yml中添加mysql驱动和jpa</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  profiles:</span><br><span class="line">    active: dev</span><br><span class="line">  datasource:</span><br><span class="line">    driver-class-name: com.mysql.jdbc.Driver</span><br><span class="line">    url: jdbc:mysql://127.0.0.1:3306/dbgirl</span><br><span class="line">    username: root</span><br><span class="line">    password: 123456</span><br><span class="line">  jpa:</span><br><span class="line">    hibernate:</span><br><span class="line">      ddl-auto: create</span><br><span class="line">    show-sql: true</span><br></pre></td></tr></table></figure>
+<p>的ddl-auto　的值为create时，表示每次启动都创建一个新的Girl表（删除老表）；当为update时，不会删除老表中的数据，会保留下来；当为create-drop时，当停下来时会删除表；当为validate时会验证表中的结构，如果不一致的化会报错</p>
+<p>RESTful API的设计<br>| 请求类型 | 请求路径 | 功能 |<br>| — | —  | — |<br>| GET | <code>/girls</code> | 获取女生列表 |<br>| POST | <code>/girls</code>| 创建一个女生 |<br>| GET | <code>/girls/id</code> | 通过id查询一个女生 |<br>| PUT | <code>/girls/id</code> | 通过id更新一个女生 |<br>| Delete | <code>/girls/id</code> | 通过id删除一个女生 |</p>
+<h5 id="5-2-创建数据库"><a href="#5-2-创建数据库" class="headerlink" title="5.2 创建数据库"></a>5.2 创建数据库</h5><p>比如要在数据库中创建一个dbgirl的表。不用使用sql语句的。可以直接在工程中创建一个Girl的类，并且加上@Entity；必须加一个无参的构造函数，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Entity</span><br><span class="line">public class Girl&#123;</span><br><span class="line">    @Id</span><br><span class="line">    @GeneratedValue</span><br><span class="line">    private Integer id;</span><br><span class="line">    private String cupSize;</span><br><span class="line">    private Integer age;</span><br><span class="line">    </span><br><span class="line">    public Girl()&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ^^get和set方法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样运行一下，就直接在数据库中擦黄建了一个Girl的表，里面有相应的字段了。</p>
+<h5 id="5-3-数据库查询"><a href="#5-3-数据库查询" class="headerlink" title="5.3 数据库查询"></a>5.3 数据库查询</h5><p>如何通过spring boot查询数据库中的所有内容呢，首先我们需要建立一个接口继承JpaRepository</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface GirlRepository extends JpaRepository&lt;Girl,Integer&gt; &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后新建一个GirlController用@RequestController注解，然后在里面声明一个GirlRepository，最后给出一个girlList的函数即可，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class GirlController &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private GirlRepository girlRepository;</span><br><span class="line"></span><br><span class="line">    @GetMapping(value = &quot;/girls&quot;)</span><br><span class="line">    public List&lt;Girl&gt; girlList()&#123;</span><br><span class="line">        return girlRepository.findAll();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就可以通过<code>ip:port/path／girls</code>来查询数据库中所有的女孩列表了</p>
+<h5 id="5-4-添加一个女生到数据库"><a href="#5-4-添加一个女生到数据库" class="headerlink" title="5.4 添加一个女生到数据库"></a>5.4 添加一个女生到数据库</h5><p>在GirlController中声明一个函数即可，接受一系列的参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> /**</span><br><span class="line"> * 添加一个女生</span><br><span class="line"> * @param cupSize</span><br><span class="line"> * @param age</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">@PostMapping(value = &quot;/girls&quot;)</span><br><span class="line">public Girl girlAdd(@RequestParam(&quot;cupSize&quot;) String cupSize,</span><br><span class="line">                      @RequestParam(&quot;age&quot;) Integer age)&#123;</span><br><span class="line"></span><br><span class="line">    Girl girl=new Girl();</span><br><span class="line">    girl.setCupSize(cupSize);</span><br><span class="line">    girl.setAge(age);</span><br><span class="line"></span><br><span class="line">    return girlRepository.save(girl);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就可以通过post请求传入相关参数来入库了，不需要一句sql语句。同理对女生的查询、更新、删除如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 根据id查询一个女生</span><br><span class="line"> * @param id</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">@GetMapping(value = &quot;/girl/&#123;id&#125;”)</span><br><span class="line">public Girl girlFindOne(@RequestParam(&quot;id&quot;) Integer id)&#123;</span><br><span class="line">    return girlRepository.findOne(id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 更新一个女生</span><br><span class="line"> * @param id</span><br><span class="line"> * @param cupSize</span><br><span class="line"> * @param age</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">@GetMapping(value = &quot;/girls/&#123;id&#125;”)</span><br><span class="line">public Girl girlUpdate(@RequestParam(&quot;id&quot;) Integer id, @RequestParam(&quot;cupSize&quot;) String cupSize,</span><br><span class="line">                       @RequestParam(&quot;age&quot;) Integer age)&#123;</span><br><span class="line">    Girl girl=new Girl();</span><br><span class="line">    girl.setId(id);</span><br><span class="line">    girl.setCupSize(cupSize);</span><br><span class="line">    girl.setAge(age);</span><br><span class="line">    return girlRepository.save(girl);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 删除一个女生</span><br><span class="line"> * @param id</span><br><span class="line"> */</span><br><span class="line">@GetMapping(value = &quot;/girl/&#123;id&#125;”)</span><br><span class="line">public void girlDelete(@RequestParam(&quot;id&quot;) Integer id)&#123;</span><br><span class="line">    girlRepository.delete(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="5-5-自定义数据库查询接口"><a href="#5-5-自定义数据库查询接口" class="headerlink" title="5.5 自定义数据库查询接口"></a>5.5 自定义数据库查询接口</h5><p>如果想要根据年龄查询数据库中的女生，怎么做呢。首先在GirlRepository中声明一个接口findByAge(注意这种格式)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public interface GirlRepository extends JpaRepository&lt;Girl,Integer&gt; &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 通过年龄查询</span><br><span class="line">     * @param age</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public List&lt;Girl&gt; findByAge(Integer age);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在GirlController中添加根据年龄查询的函数即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 通过年龄查询女生列表</span><br><span class="line">     * 需要在GirlRepositiry中声明接口</span><br><span class="line">     * @param age</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @GetMapping(value = &quot;/girls/age/&#123;age&#125;&quot;)</span><br><span class="line">    public List&lt;Girl&gt; girlFindByAge(@RequestParam(&quot;age&quot;) Integer age)&#123;</span><br><span class="line">        return girlRepository.findByAge(age);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="六、事务管理"><a href="#六、事务管理" class="headerlink" title="六、事务管理"></a>六、事务管理</h3><p>作为单个逻辑单元执行的一系列的操作，要么完全执行，要么完全不执行<br>比如插入两个女生信息，要么同时成功，要么就同时都不成功；<br>创建一个Service,在里面声明GirlRepository，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class GirlService&#123;</span><br><span class="line">    @Autiwired</span><br><span class="line">    private GirlRepository girlRepository;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Transactional  </span><br><span class="line">    public void insertTwo()&#123;</span><br><span class="line">        Girl girlA=new Girl();</span><br><span class="line">        girlA.setCupSize(&quot;A&quot;);</span><br><span class="line">        girlA.setAge(18);</span><br><span class="line">        girlRepository.save(girlA);</span><br><span class="line">        </span><br><span class="line">        Girl girlB=new Girl();</span><br><span class="line">        girlB.setcupSize(&quot;B&quot;);</span><br><span class="line">        girlB.setAge(19);</span><br><span class="line">        girlRepository.save(girlB);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>加入的注解@Transactional  为事务注解，表示要么同时成功要么同时失败。不可能只成功一个<br>然后在GirlController中添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Autowired </span><br><span class="line">private GirlService girlService；</span><br><span class="line"></span><br><span class="line">@postMapping(value=&quot;/girls/two&quot;)</span><br><span class="line">public void girlTwo()&#123;</span><br><span class="line">    girlService.insertTwo();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时在浏览器输入<code>localhost:8080/girls/two</code>即可插入insertTwo()中的两个数据。要么同时成功，要么同时失败。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/19/SpringBoot基础/" data-id="ck4jzi8p7002frflrrqzc6gcy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-利用Docker搭建一个博客" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/利用Docker搭建一个博客/" class="article-date">
+  <time datetime="2017-07-13T18:40:04.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/利用Docker搭建一个博客/">利用Docker搭建一个博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于docker最早是在天猫双十一之后的一个直播视频中看到了，当时始终觉得这是都是很牛逼的人才玩的转的东西，也就没放在心上。后来公司的同事做了一个docker的分享培训，对docker有了进一步的了解。直到最近分到一个任务——配置一个开源论坛然后部署到公司服务器上，为了避免多次部署的麻烦，就要选择docker，至此铁下心来学习docker。</p>
+<h3 id="1、docker是干什么的？"><a href="#1、docker是干什么的？" class="headerlink" title="1、docker是干什么的？"></a>1、docker是干什么的？</h3><p>作为程序员不知道你有没有这种感觉，每当你要部署一套系统时都要花费大量的时间和精来来配置各种运行环境？明明在自己机器上运行好好的系统，在别人机器上出现了很多问题，然后花费大量时间和精力去调试？很难说这种方式对我们的变成能力能提高多少，那怎么解决这个问题呢？答案就是daocker，它可以让你将你的系统连带运行环境一并“打包分发”。（说的优点low，但是有助于理解）</p>
+<h3 id="2、docker的安装"><a href="#2、docker的安装" class="headerlink" title="2、docker的安装"></a>2、docker的安装</h3><p>要使用docker，肯定是先安装docker了请参考下面的文章, 这里只提醒一点，一定要使用64位的操作系统，不然会遇到很多坑。另外windows、linux和mac都可以安装docker，windows10直接支持docker的安装而之前版本的windows需要通过docker官方提供的工具；mac安装最简单；推荐使用linux环境安装。</p>
+<h3 id="3、docker的基础"><a href="#3、docker的基础" class="headerlink" title="3、docker的基础"></a>3、docker的基础</h3><p>首次接触docker，对所谓的image、container、registry、client、server等等肯定会眼花。本文抛开对这些概念的重复，先让大家动手来感受一下docker能为我们做什么？我们要做一个在tomcat环境下运行的网站，并且支持mysql数据库。</p>
+<h3 id="4、搭建之旅"><a href="#4、搭建之旅" class="headerlink" title="4、搭建之旅"></a>4、搭建之旅</h3><h4 id="4-1-准备工作"><a href="#4-1-准备工作" class="headerlink" title="4.1 准备工作"></a>4.1 准备工作</h4><p>首先去 jpress下载一个war文件，作为我们要运行的项目。结下来是不是要搭建java环境、搭建tomcat、搭建mysql数据了？这些全是重复性的劳动，有了docker就可以省去这些繁琐的过程。</p>
+<h4 id="4-2-docker环境下安装tomcat"><a href="#4-2-docker环境下安装tomcat" class="headerlink" title="4.2 docker环境下安装tomcat"></a>4.2 docker环境下安装tomcat</h4><p>docker按住哪个tomcat环境，分如下几步：</p>
+<ul>
+<li>搜索tomcat的image；</li>
+<li>下载tomcat的image；</li>
+<li>运行tomcat的image.</li>
+</ul>
+<p>在linux通过快捷键 control + alt + t 调出终端，通过下面命令进入root模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su</span><br></pre></td></tr></table></figure></p>
+<p>根据提示输入密码，就进入了root模式，然后启动docker服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service start docker</span><br></pre></td></tr></table></figure></p>
+<p>接着在终端输入下面命令即可执行对tomcat的image的搜索：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search tomcat</span><br></pre></td></tr></table></figure></p>
+<p>就会出现下面的搜索结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">root@afei-virtual-machine:/home/afei# docker search tomcat</span><br><span class="line">NAME                           DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">tomcat                         Apache Tomcat is an open source implementa...   1407      [OK]       </span><br><span class="line">tomee                          Apache TomEE is an all-Apache Java EE cert...   38        [OK]       </span><br><span class="line">dordoka/tomcat                 Ubuntu 14.04, Oracle JDK 8 and Tomcat 8 ba...   37                   [OK]</span><br><span class="line">davidcaste/alpine-tomcat       Apache Tomcat 7/8 using Oracle Java 7/8 wi...   19                   [OK]</span><br><span class="line">consol/tomcat-7.0              Tomcat 7.0.57, 8080, &quot;admin/admin&quot;              16                   [OK]</span><br><span class="line">cloudesire/tomcat              Tomcat server, 6/7/8                            15                   [OK]</span><br><span class="line">tutum/tomcat                   Base docker image to run a Tomcat applicat...   7                    </span><br><span class="line">jeanblanchard/tomcat           Minimal Docker image with Apache Tomcat         7                    </span><br><span class="line">andreptb/tomcat                Debian Jessie based image with Apache Tomc...   7                    [OK]</span><br><span class="line">fbrx/tomcat                    Minimal Tomcat image based on Alpine Linux      4                    [OK]</span><br><span class="line">bitnami/tomcat                 Bitnami Tomcat Docker Image                     3                    [OK]</span><br><span class="line">picoded/tomcat                 tomcat 8 with java 8, and MANAGER_USER / M...   2                    [OK]</span><br><span class="line">antoineco/tomcat-mod_cluster   Apache Tomcat with JBoss mod_cluster            1                    [OK]</span><br><span class="line">qasymphony/tomcat              Tomcat images                                   1                    </span><br><span class="line">rstiller/tomcat                Java 1.6, 1.7, 1.8 (OpenJDK &amp; Oracle) for ...   1                    </span><br><span class="line">dreaminsun/tomcat              optimized tomcat                                1                    [OK]</span><br><span class="line">foobot/tomcat                                                                  0                    [OK]</span><br><span class="line">s390x/tomcat                   Apache Tomcat is an open source implementa...   0                    </span><br><span class="line">awscory/tomcat                 tomcat                                          0                    </span><br><span class="line">ppc64le/tomcat                 Apache Tomcat is an open source implementa...   0                    </span><br><span class="line">produtec/tomcat                Oracle JDK and Tomcat                           0                    </span><br><span class="line">techangels/tomcat                                                              0                    </span><br><span class="line">i386/tomcat                    Apache Tomcat is an open source implementa...   0                    </span><br><span class="line">hegand/tomcat                  docker-tomcat                                   0                    [OK]</span><br><span class="line">antoineco/tomcat               Extra OS variants for the official Tomcat ...   0                    [OK]</span><br><span class="line">root@afei-virtual-machine:/home/afei# ^C</span><br></pre></td></tr></table></figure></p>
+<p>你可以选择上面的任意一个image进行下载，在此我们下载第一个名为tomcat的image，执行下面的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull tomcat</span><br></pre></td></tr></table></figure></p>
+<p>然后等待，直到成功的提示出现，我们的tomcat的环境就下载好了，当然里面自动包括java环境了。</p>
+<h4 id="4-3-将war文件放进tomcat的image中-构建自己的image"><a href="#4-3-将war文件放进tomcat的image中-构建自己的image" class="headerlink" title="4.3 将war文件放进tomcat的image中,构建自己的image"></a>4.3 将war文件放进tomcat的image中,构建自己的image</h4><p>tomcat的image下载好之后，我们就有了tomcat的运行环境了，该如何把自己的war文件放入这个tomcat的运行环境呢？首先我们进入war包所在目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/# cd home/ahui/demos</span><br><span class="line">root@ahui-virtual-machine:/home/ahui/demos# ls</span><br><span class="line">jpress.war</span><br><span class="line">root@ahui-virtual-machine:/home/ahui/demos#</span><br></pre></td></tr></table></figure></p>
+<p>在当前目录下，新建一个Dockerfile的文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/home/ahui/demos# vim Dockerfile</span><br></pre></td></tr></table></figure></p>
+<p>在弹窗中按 i键进入编辑模式，输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from tomcat</span><br><span class="line">MAINTAINER yangyahui afei_ask@163.com</span><br><span class="line">COPY jpress.war /usr/local/tomcat/webapps</span><br><span class="line">~</span><br><span class="line">~</span><br></pre></td></tr></table></figure></p>
+<p>然后按esc键，退出编辑模式，输入下面命令退出窗口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:wq!</span><br></pre></td></tr></table></figure></p>
+<p><strong>说明一下：</strong>里面的</p>
+<ul>
+<li>“ from tomcat ” 就是选择刚才我们下载tomcat的image，如果你下载的事其它的image，就换做你下载的那个image 的名称；</li>
+<li>“ MAINTAINER yangyahui <a href="mailto:afei_ask@163.com" target="_blank" rel="noopener">afei_ask@163.com</a> ” 是作者信息；</li>
+<li>“ COPY jpress.war /usr/local/tomcat/webapps ”意思是将当前目录下的jpress.war文件拷贝到tomcat的image中的/usr/local/tomcat/webapps的目录下，若要查看image中的具体目录位置，可以进入该image进行查看，命令如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it imageID bash</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>最后就可以执行image的构建了，输入下面命令执行image的构建：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/home/ahui/demos# docker build -t jpress .</span><br></pre></td></tr></table></figure></p>
+<p>其中的 “ -t jpress ” 表示构建的image的名字为jpress；最后的 “ . ” 表示在当前目录执行构建操作。</p>
+<p>完成后，在终端输入一下命令查看image是否构建成功:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure></p>
+<p>该命令的意思是查看当前所拥有的image。看到下面有 “ jpress ” 出现，即表示构建成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/home/ahui/demos# docker images</span><br><span class="line">REPOSITORY                     TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">jpress                         latest              d059622def4d        3 hours ago         355MB</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-4-运行我们自己的image"><a href="#4-4-运行我们自己的image" class="headerlink" title="4.4 运行我们自己的image"></a>4.4 运行我们自己的image</h3><p>构建好了自己的jpress的image，如何运行它呢，在终端输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8888:8080 jpress</span><br></pre></td></tr></table></figure></p>
+<p>其中 “ -d ” 表示在后台运行；“ -p 8888:8080 ” 表示外部的8888映射image中的8080端口；</p>
+<p>此时jpress的image就已经运行了，可以通过下面的命令查看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure></p>
+<p>该命令表示当前正在运行的container；“ docekr ps -a ” 可以查看所有存在的containers。</p>
+<p>这时就可以在浏览器中输入地址 “ loalhost:8888 ” 就可以进入tomcat的默认主页了，然后在浏览器中输入 “ loalhost:8888/jpress ” 就会进入jpress博客的主页，点击下一步，要求我们链接数据库；</p>
+<p><strong>注意：</strong>一个image一旦运行了，就转变成一个container了（如果多次执行运行image的命令就会创建多个不同container，可通过不同的端口区分）；以后再启动该container可以通过下面的命令执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start containerID</span><br></pre></td></tr></table></figure></p>
+<p>关闭某个运行的container可以通过以下命令执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop containerID</span><br></pre></td></tr></table></figure></p>
+<p>删除一个已有的container可以通过以下命令执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm containerID</span><br></pre></td></tr></table></figure></p>
+<p>而删除一个image的命令是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi imageID</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-5-docker-搭建一个mysql数据库的image"><a href="#4-5-docker-搭建一个mysql数据库的image" class="headerlink" title="4.5 docker 搭建一个mysql数据库的image"></a>4.5 docker 搭建一个mysql数据库的image</h3><p>在终端输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search mysql</span><br></pre></td></tr></table></figure></p>
+<p>然后选择一个image进行下载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql</span><br></pre></td></tr></table></figure></p>
+<p>运行这个mysql的image：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=000000 -e MYSQL_DATABASE=jpress mysql</span><br></pre></td></tr></table></figure></p>
+<p>其中 ： “ -e MYSQL_ROOT_PASSWORD=000000 -e MYSQL_DATABASE=jpress ” 表示环境变量mysql的数据库的密码为00000；创建一个jpress的数据库；</p>
+<p>这时我的的mysql环境久安装好了，然后就可以回到 “ loalhost:8888/jpress ”页面 继续jpress博客的数据库的配置情况了；此时需要注意在填写数据库ip时，不能填写 “ localhost ” ，应为mysql的iage的ip不一定和本地ip一致，可以在终端输入 “ ifconfig ” 查看image的ip，然后填写上去。最后对tomcat的image执行重启久完成了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart containerID</span><br></pre></td></tr></table></figure></p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>这一篇文章在好几天前都写好了，上传时发生了 “rm –rf ~”的悲剧。损失惨重，就不多说了，在此提示大家一定要常常备份。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/14/利用Docker搭建一个博客/" data-id="ck4jzi8pn0035rflrpbl50trv" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-WebGIS中切片获取和展示的原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/WebGIS中切片获取和展示的原理/" class="article-date">
+  <time datetime="2017-07-13T17:50:02.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/WebGIS中切片获取和展示的原理/">WebGIS中切片获取和展示的原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> 在北京实习的时候一次跟强哥聊天，做GIS这么长时间了，自己能实现切片数据的展示，就没有那么多的迷茫了。一直以来对切片的展示都是一知半解的，现在静下来好好的梳理一下。</p>
+<h3 id="一、切片简介"><a href="#一、切片简介" class="headerlink" title="一、切片简介"></a>一、切片简介</h3><p> 说起切片，就离不开影像金字塔的概念，这里不予详细讲解。只需要明白一点：切片数据就是将不同比例尺下的地图进行切割，将切割后的切片文件按照一定的规则进行存储（当然切割方式，以及存储规则都各有讲究）。切片的展示就是按照一定的相应的规则取出这些切片，在相应的端口进行拼接展示。切片数据可以放在本地，也可以放在服务端。这里我们抛开一切个地理相关的细节，重点说明切片的展示方案。</p>
+<h3 id="二、切片数据获取流程"><a href="#二、切片数据获取流程" class="headerlink" title="二、切片数据获取流程"></a>二、切片数据获取流程</h3><p>1 获取要展示的地理中心点位置point_screenCenter,即在屏幕中展示地图的中心点坐标；<br><br>2 根据中心点坐标，以及屏幕的大小screenSize,计算出屏幕内要呈现地图的范围；<br><br>3 根据屏幕边界处的坐标，计算出边界所在的切片行列号<br><br>4 计算边界处所在切片的边界坐标，计算切片边界与屏幕边界的偏移量offset<br><br>5 获去要求请的所有切片，按照计算的值进行排列展示</p>
+<h4 id="2-1-获取展示中心点的地理坐标"><a href="#2-1-获取展示中心点的地理坐标" class="headerlink" title="2.1 获取展示中心点的地理坐标"></a>2.1 获取展示中心点的地理坐标</h4><p>所谓展示中心点的坐标，就是当你准备在屏幕上展示地图时，首先你得对地图的范围进行初始化，比如设置地图中心点、地图的坐标系、显示级别等参数。就是这里的地图中心点，我们暂时命名为point_screenCenter，（属性X，Y表示地理坐标）。假设地图的坐标原点为point_original,则该点在x轴和y轴上距离为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x轴地理距离：(point_screenCenter.X-point_original.X)</span><br><span class="line">y轴地理距离：(point_screenCenter.Y-point_original.Y)</span><br></pre></td></tr></table></figure></p>
+<p>注意：这里我们假设坐标原点在地图图片的左上角，水平向右为x轴正方向，水平向下为y轴正方向，当然不同的地图服务坐标原点和设定规则可能会有区别；<br>再说一下像素距离，像素距离指的是在一定比例尺的地图图片上的距离间隔，如果要计算像素距离，就需要用到<strong>分辨率（resolution）</strong>的概念了，resolution是指地图图片上一个像素所代表的实际距离，point_screenCenter距离坐标原点的像素距离的计算公式为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x轴方向像素距离：(point_screenCenter.X-point_original.X)/resolution</span><br><span class="line">y轴方向像素距离：(point_screenCenter.Y-point_original.Y)/resolution</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-2-计算出屏幕内要呈现地图的范围"><a href="#2-2-计算出屏幕内要呈现地图的范围" class="headerlink" title="2.2 计算出屏幕内要呈现地图的范围"></a>2.2 计算出屏幕内要呈现地图的范围</h4><p>有了展示中心点（point_screenCenter）和屏幕的大小（screen_size,像素数量表示，如960*640）就可以计算屏幕内能展示的地图范围了，屏幕左上角的点为point_screenLT,它的地理坐标如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">屏幕左上角的x坐标：point_screenLT.X=point_screenCenter.X-(resolution*screen_size.Width)/2</span><br><span class="line">屏幕左上角的y坐标：point_screenLT.Y=point_screenCenter.Y-(resolution*screen_size.Height)/2</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-3-计算出边界所在的切片行列号"><a href="#2-3-计算出边界所在的切片行列号" class="headerlink" title="2.3 计算出边界所在的切片行列号"></a>2.3 计算出边界所在的切片行列号</h4><p>确定的屏幕左上角能展示的地理位置，就可以根据这个地理位置坐标计算该位置点所位于的具体切片了，给该切片命名为tileLT,则该切片的行列号的计算如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">切片的行号：tileLT.Row=Math.floor((Math.abs(point_screenLT.X-point_original.X))/(resolution*tileSize.Width))</span><br><span class="line">切片的列号：tileLT.Col=Math.floor((Math.abs(point_screenLT.Y-point_original.Y))/(resolution*tileSize.Height))</span><br></pre></td></tr></table></figure></p>
+<p>这里用到了Math.floor()函数是为了获取离坐标原点更近的点，因为我们获取的切片范围要大于在屏幕上展示的范围。<br>找到了行列号，还有一个小细节需要处理，处理这个细节前首先了解一个常识，一般情况下，切片的在展示时是按照切片左上角的位置进行排列的，此时我们只是确定了屏幕左上角位于该切片中，但是该切片的左上角并不一定与屏幕的左上角重合啊，怎么办？，计算该切片左上角的实际地理坐标为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">切片左上角x坐标：tileLT.LTX = tileLT.Col*tileSize.Width*resolution+point_original.X</span><br><span class="line">切片左上角y坐标：tileLT.LTY = tileLT.Raw*tileSize.Height*resolution+point_original.Y</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-4-计算切片边界与屏幕边界的偏移量offset"><a href="#2-4-计算切片边界与屏幕边界的偏移量offset" class="headerlink" title="2.4 计算切片边界与屏幕边界的偏移量offset"></a>2.4 计算切片边界与屏幕边界的偏移量offset</h4><p>有了切片的左上角的地理坐标，和屏幕左上角的地理坐标位置，就可以计算偏移量了，假设其在x轴和y轴上的偏移量为offSetX和offSetY，则偏移值为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">切片在x轴偏移像素值：offSetWidth=（point_screenLT.X-tileLT.LTX）/resolution</span><br><span class="line">切片在y轴偏移像素值：offSetHeight=（point_screenLT.Y-tileLT.LTY）/resolution</span><br></pre></td></tr></table></figure></p>
+<p>有了这个值就可以将该切片展示在正常的位置了。</p>
+<h4 id="2-5-所有要展示切片的获取"><a href="#2-5-所有要展示切片的获取" class="headerlink" title="2.5 所有要展示切片的获取"></a>2.5 所有要展示切片的获取</h4><p>最后就可以计算在x和y轴上要请求的切片数量了，获取个数时要用Math.ceil()函数了，原因是的切片的总范围要比屏幕上展示的范围要大一些，这里要获取离坐标原点尽量远的切片。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x轴切片数量：tileNumsX=Math.ceil((screenSize.Width + Math.abs(offSetWidth))/tileSize.Width);</span><br><span class="line">y轴切片数量：tileNumsY=Math.ceil((screenSize.Height + Math.abs(offSetHeight))/tileSize.Width);</span><br></pre></td></tr></table></figure></p>
+<h3 id="三、小结"><a href="#三、小结" class="headerlink" title="三、小结"></a>三、小结</h3><p>到现在已经完成了切片的获取工作，这是一个简化的过程。在实际获中不同的切片种类（如TMS、WMS、WMTS等）有不同的切片大小和不同的切片规则，不同的坐标系对应不同单位，还会涉及到一些中间术语比如显示级别、比例尺等。在以后的文章中会介绍。因为我们要做一个自己的***。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/14/WebGIS中切片获取和展示的原理/" data-id="ck4jzi8nu000drflr50knj281" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GIS/">GIS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android开发中用到的jar和aar文件的区别" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/Android开发中用到的jar和aar文件的区别/" class="article-date">
+  <time datetime="2017-07-13T17:45:15.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/Android开发中用到的jar和aar文件的区别/">Android开发中用到的jar和aar文件的区别</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p> 在开发java应用时经常会引用第三方的jar包文件，而在开发Android应用时发现又多出了一个aar结尾的可引用文件。它们之间什么区别呢？</p>
+<h3 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h3><p> jar：Java Application Resource；<br><br> aar：Android Application Resource。</p>
+<h6 id="可以看出jar文件是给java应用程序使用的，而aar是专门针对Android应用提供共的引用文件。"><a href="#可以看出jar文件是给java应用程序使用的，而aar是专门针对Android应用提供共的引用文件。" class="headerlink" title="可以看出jar文件是给java应用程序使用的，而aar是专门针对Android应用提供共的引用文件。"></a>可以看出jar文件是给java应用程序使用的，而aar是专门针对Android应用提供共的引用文件。</h6><h3 id="二、区别"><a href="#二、区别" class="headerlink" title="二、区别"></a>二、区别</h3><p>jar：只包含了class文件与清单文件 ，不包含资源文件，如图片等所有res中的文件；<br><br>aar：包含jar包和资源文件，如图片等所有res中的文件。</p>
+<h3 id="三、导入"><a href="#三、导入" class="headerlink" title="三、导入"></a>三、导入</h3><h4 id="3-1-jar包的导入"><a href="#3-1-jar包的导入" class="headerlink" title="3.1 jar包的导入"></a>3.1 jar包的导入</h4><ul>
+<li>把工程切换到 <strong>Project</strong> 视图下，在module目录下可以看到 <strong>libs</strong> 目录；</li>
+<li>将相应的jar文件拷贝到 <strong>libs</strong>　文件夹中；</li>
+<li><p>更改module的build.gradle配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line"> compile fileTree(include: [&apos;*.jar&apos;], dir: &apos;libs&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在studio新版本中会自动生成，所有你只需直接拷贝.jar到lib目录下编译既可</p>
+</li>
+<li>最后sync一下工程即可（或者rebuild一下工程）<br><br></li>
+</ul>
+<h4 id="3-2-aar包的导入"><a href="#3-2-aar包的导入" class="headerlink" title="3.2 aar包的导入"></a>3.2 aar包的导入</h4><ul>
+<li>将*.aar拷贝到app中的lib下；</li>
+<li><p>更改build.gradle 配置文件,在该module的 build.gradle中添加一个本地仓库，并把libs作为仓库地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">   flatDir &#123;</span><br><span class="line">      dirs &apos;libs&apos;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line">dependencies &#123;</span><br><span class="line">    compile(name: &apos;你aar文件的名字&apos;, ext: &apos;aar&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后sync一下工程即可（或者rebuild一下工程）</p>
+</li>
+</ul>
+<h3 id="四、导出"><a href="#四、导出" class="headerlink" title="四、导出"></a>四、导出</h3><p> 在Android studio中可以同时生成jar文件和aar文件，步骤如下：</p>
+<ul>
+<li>新建库，File——New——New Module——Android Library</li>
+<li>编译或生成工程，Build——Make Module即可得到相应的文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jar包路径：build\intermediates\bundles\release\class.jar</span><br><span class="line">arr包路径：build\outputs\aar\包名.aar</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="五、参考"><a href="#五、参考" class="headerlink" title="五、参考"></a>五、参考</h3><p><a href="http://www.aichengxu.com/android/11086139.htm" target="_blank" rel="noopener">http://www.aichengxu.com/android/11086139.htm</a>;<br><a href="http://jingyan.baidu.com/article/2a13832890d08f074a134ff0.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/2a13832890d08f074a134ff0.html</a>;<br><a href="http://www.w2bc.com/article/214269" target="_blank" rel="noopener">http://www.w2bc.com/article/214269</a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/14/Android开发中用到的jar和aar文件的区别/" data-id="ck4jzi8nb0000rflr31y36nwy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Markdown语法简介" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/Markdown语法简介/" class="article-date">
+  <time datetime="2017-07-13T17:37:29.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/Markdown语法简介/">Markdown语法简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1、为什么要用markdown？"><a href="#1、为什么要用markdown？" class="headerlink" title="1、为什么要用markdown？"></a>1、为什么要用markdown？</h3><p>在接触hexo以及nodeppt时都需要markdown语法的编写，便下定决心好好学习一下markdown的语法。另外markdown也可以避开word或者不同软件的语法规则，通用性更强一些。套用一句有名的话：<strong>我们坚信写作写的是内容，所思所想，而不是花样格式</strong>。</p>
+<h3 id="2、markdown难吗？"><a href="#2、markdown难吗？" class="headerlink" title="2、markdown难吗？"></a>2、markdown难吗？</h3><p>markdown常用的标记符号不超过10个，学习成本低，并且有如下优点:</p>
+<ul>
+<li>专注你的文字内容而不是排版样式，安心写作；</li>
+<li>轻松道出HTML、PDF和本身的 .md文件；</li>
+<li>纯文本内容，兼容所有的文本编辑器与字处理软件;</li>
+<li>随时修改你的文章版本，不必像字处理软件生成若干文件版本导致混乱;</li>
+<li>可读、直观、学习成本低。</li>
+</ul>
+<h3 id="3、工具选择"><a href="#3、工具选择" class="headerlink" title="3、工具选择"></a>3、工具选择</h3><p>在知乎上<a href="https://asafei.github.io/2017/06/20/Markdown%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B/" target="_blank" rel="noopener">有人</a>推荐Mou，但是去官网下载失败了。然后发现macdown等同于Mou的开源版本，就下载来使用，可以编辑和查看markdown的文件。</p>
+<h3 id="4、语法简介"><a href="#4、语法简介" class="headerlink" title="4、语法简介"></a>4、语法简介</h3><ul>
+<li>#、##、###、####、分别为一二三四级标题</li>
+<li>*和 - 表示无序列表，数字开头表示有序列表</li>
+<li>”&gt;“引用，即左划线</li>
+<li>“![]()”是图片链接；“[](url)”是文字超链接</li>
+<li>两个星号包围的是<strong>粗体</strong>，单个星号包围的事斜体 分割线是三个星号</li>
+<li>表格</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>title1</th>
+<th>title2</th>
+<th>title3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aaa</td>
+<td>bbb</td>
+<td>cc</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>代码框：前后各三个 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">private static void main(String[] args)</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/14/Markdown语法简介/" data-id="ck4jzi8nq0009rflr9x3plnuf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown/">Markdown</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Linux下npm的安装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/Linux下npm的安装/" class="article-date">
+  <time datetime="2017-07-13T17:29:26.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/Linux下npm的安装/">Linux下npm的安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="什么是npm"><a href="#什么是npm" class="headerlink" title="什么是npm"></a>什么是npm</h3><h5 id="npm是Node-js的包管理工具（package-manager）。"><a href="#npm是Node-js的包管理工具（package-manager）。" class="headerlink" title="npm是Node.js的包管理工具（package manager）。"></a>npm是Node.js的包管理工具（package manager）。</h5><p>#####为啥我们需要一个包管理工具呢？因为我们在Node.js上开发时，会用到很多别人写的JavaScript代码。如果我们要使用别人写的某个包，每次都根据名称搜索一下官方网站，下载代码，解压，再使用，非常繁琐。于是一个集中管理的工具应运而生：大家都把自己开发的模块打包后放到npm官网上，如果要使用，直接通过npm安装就可以直接用，不用管代码存在哪，应该从哪下载。</p>
+<p>#####更重要的是，如果我们要使用模块A，而模块A又依赖于模块B，模块B又依赖于模块X和模块Y，npm可以根据依赖关系，把所有依赖的包都下载下来并管理起来。否则，靠我们自己手动管理，肯定既麻烦又容易出错。</p>
+<h3 id="npm的安装"><a href="#npm的安装" class="headerlink" title="npm的安装"></a>npm的安装</h3><p>在ubuntu系统中可以在终端敲入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install npm</span><br></pre></td></tr></table></figure></p>
+<p>在命令行提示中输入“y”，即可完成npm的自动安装。<br>然后在命令行输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm -version</span><br></pre></td></tr></table></figure></p>
+<p>就会显示npm的安装版本，即安装成功。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/14/Linux下npm的安装/" data-id="ck4jzi8nm0004rflrvvhhn3nv" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/">npm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Linux安装tomcat" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/Linux安装tomcat/" class="article-date">
+  <time datetime="2017-07-13T17:27:44.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/Linux安装tomcat/">Linux安装tomcat</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1、官网下载文件"><a href="#1、官网下载文件" class="headerlink" title="1、官网下载文件"></a>1、官网下载文件</h3><p>官方网站下载最新的tomcat：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://tomcat.apache.org/download-80.cgi</span><br></pre></td></tr></table></figure></p>
+<p>在ubuntu上，我们下载zip和tar.gz。</p>
+<h3 id="2、解压压缩文件包"><a href="#2、解压压缩文件包" class="headerlink" title="2、解压压缩文件包"></a>2、解压压缩文件包</h3><p>解压tomcat8，用下面的命令（我下载的是tar.gz格式的）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf apache-tomcat-8.5.16.tar.gz</span><br></pre></td></tr></table></figure></p>
+<h3 id="3、移动到opt路径下"><a href="#3、移动到opt路径下" class="headerlink" title="3、移动到opt路径下"></a>3、移动到opt路径下</h3><p>将解压后的文件移动到到 /opt 目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp -r apache-tomcat-8.5.16 /opt</span><br></pre></td></tr></table></figure></p>
+<h3 id="4、修改配置文件"><a href="#4、修改配置文件" class="headerlink" title="4、修改配置文件"></a>4、修改配置文件</h3><p>进入 /opt/apache-tomcat-8.5.16/bin 目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/apache-tomcat-8.5.16/bin</span><br></pre></td></tr></table></figure></p>
+<p>编辑下面的startup.sh文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim startup.sh</span><br></pre></td></tr></table></figure></p>
+<p>在文件中的esac下面添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/lib/jvm/java-8-oracle</span><br><span class="line">JRE_HOME=$JAVA_HOME/jre</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME</span><br><span class="line">CLASSPATH=.:$JRE_HOME/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line">TOMCAT_HOME=/opt/apache-tomcat-8.5.16</span><br></pre></td></tr></table></figure></p>
+<h3 id="5、启动tomcat"><a href="#5、启动tomcat" class="headerlink" title="5、启动tomcat"></a>5、启动tomcat</h3><p>在bin目录下输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo startup.sh</span><br></pre></td></tr></table></figure></p>
+<p>即可启动tomcat，此时可以在浏览器中输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">localhost:8080</span><br></pre></td></tr></table></figure></p>
+<p>若要关闭tomcat，可以在bin文件夹下输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo shutdown.sh</span><br></pre></td></tr></table></figure></p>
+<p><em>小提示:</em><br>linux查找JAVA_HOME的路径命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $JAVA_HOME</span><br></pre></td></tr></table></figure></p>
+<p><em>本文参考：</em><br><a href="http://www.cnblogs.com/zhangmingcheng/p/5576499.html" target="_blank" rel="noopener">http://www.cnblogs.com/zhangmingcheng/p/5576499.html</a><br><a href="http://www.cnblogs.com/kerrycode/archive/2015/08/27/4762921.html" target="_blank" rel="noopener">http://www.cnblogs.com/kerrycode/archive/2015/08/27/4762921.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/14/Linux安装tomcat/" data-id="ck4jzi8nn0005rflrvnyxxt47" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tomcat/">tomcat</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">__('next') &raquo;</a>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

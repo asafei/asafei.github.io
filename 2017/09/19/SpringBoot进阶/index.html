@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>SpringBoot进阶 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="内容 1、使用@Valid表单验证 2、使用AOP处理请求 3、统一一场处理 4、单元测试  一、表单验证首先说一下git的使用，将项目clone下来之后，使用git check -b web-2 web-2就可以在本地使用分枝web-2了。当参数过多的时候，在函数里面的参数很多就显得很业余，如果还要往里面添加属性，怎么办呢？可以将单个的属性参数换作一个类，这样的话就可以不更新函数了。比如girl">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot进阶">
+<meta property="og:url" content="http://yoursite.com/2017/09/19/SpringBoot进阶/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="内容 1、使用@Valid表单验证 2、使用AOP处理请求 3、统一一场处理 4、单元测试  一、表单验证首先说一下git的使用，将项目clone下来之后，使用git check -b web-2 web-2就可以在本地使用分枝web-2了。当参数过多的时候，在函数里面的参数很多就显得很业余，如果还要往里面添加属性，怎么办呢？可以将单个的属性参数换作一个类，这样的话就可以不更新函数了。比如girl">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T13:40:49.457Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot进阶">
+<meta name="twitter:description" content="内容 1、使用@Valid表单验证 2、使用AOP处理请求 3、统一一场处理 4、单元测试  一、表单验证首先说一下git的使用，将项目clone下来之后，使用git check -b web-2 web-2就可以在本地使用分枝web-2了。当参数过多的时候，在函数里面的参数很多就显得很业余，如果还要往里面添加属性，怎么办呢？可以将单个的属性参数换作一个类，这样的话就可以不更新函数了。比如girl">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SpringBoot进阶" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/19/SpringBoot进阶/" class="article-date">
+  <time datetime="2017-09-19T14:33:32.000Z" itemprop="datePublished">2017-09-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SpringBoot进阶
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><ul>
+<li>1、使用@Valid表单验证</li>
+<li>2、使用AOP处理请求</li>
+<li>3、统一一场处理</li>
+<li>4、单元测试</li>
+</ul>
+<h4 id="一、表单验证"><a href="#一、表单验证" class="headerlink" title="一、表单验证"></a>一、表单验证</h4><p>首先说一下git的使用，将项目clone下来之后，使用<code>git check -b web-2 web-2</code>就可以在本地使用分枝web-2了。<br>当参数过多的时候，在函数里面的参数很多就显得很业余，如果还要往里面添加属性，怎么办呢？可以将单个的属性参数换作一个类，这样的话就可以不更新函数了。<br>比如girlAdd方法原来是这样的，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@PostMapping(value = &quot;/girls&quot;)</span><br><span class="line">public Girl girlAdd(@RequestParam(&quot;cupSize&quot;) String cupSize,</span><br><span class="line">                      @RequestParam(&quot;age&quot;) Integer age)&#123;</span><br><span class="line"></span><br><span class="line">    Girl girl=new Girl();</span><br><span class="line">    girl.setCupSize(cupSize);</span><br><span class="line">    girl.setAge(age);</span><br><span class="line"></span><br><span class="line">    return girlRepository.save(girl);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(value = &quot;/girls&quot;)</span><br><span class="line">   public Girl girlAdd(Girl g)&#123;</span><br><span class="line"></span><br><span class="line">       Girl girl=new Girl();</span><br><span class="line">       girl.setCupSize(g.getCupSize());</span><br><span class="line">       girl.setAge(g.getAge());</span><br><span class="line"></span><br><span class="line">       return girlRepository.save(girl);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>如果想让未满18岁的少女插入不成功，怎么做呢，首先进入Girl类内部，在age的属性上添加注解@Min，value写入最小年龄，message写入错误信息，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Min(value = 18, message = &quot;未成年少女禁止入内&quot;)</span><br><span class="line">    private Integer age;</span><br></pre></td></tr></table></figure>
+<p>然后在GirlController中的函数girlAdd参数钱加上注解@Valid即可，还要考虑到如何获取验证结果呢，这是虎需要用到BindingResult添加到参数重，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(value = &quot;/girls&quot;)</span><br><span class="line">    public Girl girlAdd(@Valid Girl g , BindingResult bindingResult)&#123;</span><br><span class="line">        if (bindingResult.hasErrors())&#123;</span><br><span class="line">            System.out.println(bindingResult.getFieldError().getDefaultMessage());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Girl girl=new Girl();</span><br><span class="line">        girl.setCupSize(g.getCupSize());</span><br><span class="line">        girl.setAge(g.getAge());</span><br><span class="line"></span><br><span class="line">        return girlRepository.save(girl);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>总结：表单验证，首先在类（Girl）中添加@Min注解，设置阈值和错误信息；在Controller的类（GirlController）中相应函数（girlAdd）的参数用@Valid注解响应的参数类（Girl g）；并且用BindingResult来获取验证信息。</p>
+<h4 id="二、AOP统一处理请求日志"><a href="#二、AOP统一处理请求日志" class="headerlink" title="二、AOP统一处理请求日志"></a>二、AOP统一处理请求日志</h4><ul>
+<li>AOP是一种编程范式</li>
+<li><ul>
+<li>与语言无关，是一种程序设计思想</li>
+</ul>
+</li>
+<li><ul>
+<li>面向切面（AOP）Aspect Oriented Programming</li>
+</ul>
+</li>
+<li><ul>
+<li>面向对象（OOP）Object Oriented Programming</li>
+</ul>
+</li>
+<li><ul>
+<li>面向过程（POP）Procedure Oriented Programming</li>
+</ul>
+</li>
+</ul>
+<p>AOP将通用逻辑从业务逻辑中分离出来。</p>
+<p>2.1</p>
+<p>在获取请求之前判断用户是否已登陆，难道需要在每一个方法中都做判断吗？不需要。使用aop就可以解决。<br>首先在porm中添加依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>2.2</p>
+<p>然后新建一个类HttpAspect添加注解@Aspect，并且添加@Component将这个类引入到spring容器中去。然后在里面使用@Before注解，规定要拦截的函数，这样就可以在每次调用这个函数之前都做响应处理了。如果是想对所有的函数度做拦截，可以将@Before中的函数换作*；如果想让函数执行之后再调用某个方法，可以使用@After注解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class HttpAspect &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 拦截girlList方法</span><br><span class="line">     * girllist只要是这个方法，不论是任何参数都会被拦截。</span><br><span class="line">     * 在girlList放置执行之前被拦截</span><br><span class="line">     *</span><br><span class="line">     * 如果想拦截所有的方法，只需要吧girlList换为*即可</span><br><span class="line">     */</span><br><span class="line">    @Before(&quot;execution(public * com.afei.controller.GirlController.girlList())&quot;)</span><br><span class="line">    public void log()&#123;</span><br><span class="line">        System.out.println(&quot;1111111111&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 同理这个方法，会在拦截函数执行之后触发</span><br><span class="line">     */</span><br><span class="line">    @After(&quot;execution(public * com.afei.controller.GirlController.girlList())&quot;)</span><br><span class="line">    public void doAfter()&#123;</span><br><span class="line">        System.out.println(&quot;222222222&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.3</p>
+<p>可是这时候再@Before和@After之中的拦截函数有重复，这时候可以做以下改进：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class HttpAspect &#123;</span><br><span class="line"></span><br><span class="line">    @Pointcut(&quot;execution(public * com.afei.controller.GirlController.girlList())&quot;)</span><br><span class="line">    public void log()&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 拦截girlList方法</span><br><span class="line">     * girllist只要是这个方法，不论是任何参数都会被拦截。</span><br><span class="line">     * 在girlList放置执行之前被拦截</span><br><span class="line">     *</span><br><span class="line">     * 如果想拦截所有的方法，只需要吧girlList换为*即可</span><br><span class="line">     */</span><br><span class="line">    @Before(&quot;execution(public * com.afei.controller.GirlController.girlList())&quot;)</span><br><span class="line">    public void doBefore()&#123;</span><br><span class="line">        System.out.println(&quot;1111111111&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 同理这个方法，会在拦截函数执行之后触发</span><br><span class="line">     */</span><br><span class="line">    @After(&quot;execution(public * com.afei.controller.GirlController.girlList())&quot;)</span><br><span class="line">    public void doAfter()&#123;</span><br><span class="line">        System.out.println(&quot;222222222&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.4</p>
+<p>通常使用System.out.println()方法不如使用日志打印，可以使用<code>private final static Logger logger= LoggerFactory.getLogger(HttpAspect.class);</code>来替代，只需要在相应的地方打印信息<code>logger.info(&quot;222222222&quot;));</code>即可</p>
+<p>2.5 如何获取方法的http请求参数呢</p>
+<p>只需要在HttpAspect类中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Before(&quot;log()&quot;)</span><br><span class="line">    public void doBefore(JoinPoint joinPoint)&#123;</span><br><span class="line">        //System.out.println(&quot;1111111111&quot;);</span><br><span class="line">        //logger.info(&quot;1111111111&quot;);</span><br><span class="line">        ServletRequestAttributes attributes= (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</span><br><span class="line">        HttpServletRequest request=attributes.getRequest();</span><br><span class="line"></span><br><span class="line">        //获取http请求的内容</span><br><span class="line"></span><br><span class="line">        logger.info(&quot;url=&#123;&#125;&quot;,request.getRequestURI());</span><br><span class="line"></span><br><span class="line">        logger.info(&quot;method=&#123;&#125;&quot;,request.getMethod());</span><br><span class="line"></span><br><span class="line">        logger.info(&quot;ip=&#123;&#125;&quot;,request.getRemoteAddr());</span><br><span class="line"></span><br><span class="line">        logger.info(&quot;class_method=&#123;&#125;&quot;,joinPoint.getSignature().getDeclaringTypeName());</span><br><span class="line"></span><br><span class="line">        logger.info(&quot;args=&#123;&#125;&quot;,joinPoint.getArgs());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>如何获取http请求的结果呢，需要使用到@AfterReturning的注解，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//获取请求返回的结果 @AfterReturning(returning=&quot;object&quot; ,pointcut = &quot;log()&quot;)</span><br><span class="line">   public void doAfterReturning(Object object)&#123;</span><br><span class="line">       logger.info(&quot;response=&#123;&#125;&quot;,object);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="三、统一异常处理"><a href="#三、统一异常处理" class="headerlink" title="三、统一异常处理"></a>三、统一异常处理</h4><p> 需求：<br> 获取某个女生的年龄并判断<br> 小于10，返回“应该上小学”<br> 大于10且小于16，返回“可能在上高中”</p>
+<p> 如何在有异常发生时，按照指定的数据格式处理回应呢</p>
+<p> 3.1 异常的捕获处理：</p>
+<p> 首先新建一个类ExceptionHandle用@ControllerAdvice注解，在后在里面声明一个方法handler并且用@ExceptionHandler注解，value值为Exception.class，和@ReponseBody注解。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> @ControllerAdvice</span><br><span class="line">public class ExceptionHandle &#123;</span><br><span class="line">    @ExceptionHandler(value = Exception.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Result handler(Exception e)&#123;</span><br><span class="line">        return ResultUtil.error(100,e.getMessage());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 然后在一些位置抛异常，比如girlService中的getAge方法<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public void getAge(Integer id) throws Exception&#123;</span><br><span class="line">       Girl girl=girlRepository.findOne(id);</span><br><span class="line">       Integer age=girl.getAge();</span><br><span class="line">       if (age&lt;10)&#123;</span><br><span class="line">           //</span><br><span class="line">           throw new Exception(&quot;你还在上小学吧&quot;);</span><br><span class="line">       &#125;else if(age&gt;10 &amp;&amp; age&lt;16)&#123;</span><br><span class="line">           throw new Exception(&quot;你可能上初中&quot;);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p> 这样抛的异常就全部交给了ExceptionHandle来处理,此时用户再传入相应的参数的就可以按照指定的Result的方式来输出了。</p>
+<p> 3.2 自定义异常</p>
+<p> 如果我想你上小学的时候返回100，上初中的时候返回101,但是抛异常时又没有自定义错误码的方法，这时就需要我们自定义异常类了。<br> 新建一个GirlException的类继承自RuntimeException。spring只对RuntimeException进行回滚，对Exception是不会进行回滚的。在GirlException中增加错误码的属性：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> public class GirlException extends RuntimeException&#123;</span><br><span class="line"></span><br><span class="line">    private Integer code;</span><br><span class="line">    public GirlException(Integer code,String message)&#123;</span><br><span class="line">        super(message);</span><br><span class="line">        this.code=code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getCode() &#123;</span><br><span class="line">        return code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCode(Integer code) &#123;</span><br><span class="line">        this.code = code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 然后就可以在GirlService中抛异常时使用自定义的异常了：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public void getAge(Integer id) throws Exception&#123;</span><br><span class="line">       Girl girl=girlRepository.findOne(id);</span><br><span class="line">       Integer age=girl.getAge();</span><br><span class="line">       if (age&lt;10)&#123;</span><br><span class="line">           //</span><br><span class="line">           throw new GirlException(100,&quot;你还在上小学吧&quot;);</span><br><span class="line">       &#125;else if(age&gt;10 &amp;&amp; age&lt;16)&#123;</span><br><span class="line">           throw new GirlException(101,&quot;你可能上初中&quot;);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p> 最后在ExceptionHandle类中的handler方法中对GirlException进行处理：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> @ControllerAdvice</span><br><span class="line">public class ExceptionHandle &#123;</span><br><span class="line">    @ExceptionHandler(value = Exception.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Result handler(Exception e)&#123;</span><br><span class="line"></span><br><span class="line">        if (e instanceof GirlException)&#123;</span><br><span class="line">            GirlException girlException=(GirlException) e;</span><br><span class="line">            return ResultUtil.error(girlException.getCode(),girlException.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        return ResultUtil.error(100,e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 此时传入相应的请求就会安规定返回相应的数据了.<br> 要过要抛出系统异常，但是如何跟踪异常呢，这时需要使用日志工具了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> @ControllerAdvice</span><br><span class="line">public class ExceptionHandle &#123;</span><br><span class="line">    private final static Logger logger= LoggerFactory.getLogger(Exception.class);</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(value = Exception.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Result handler(Exception e)&#123;</span><br><span class="line"></span><br><span class="line">        if (e instanceof GirlException)&#123;</span><br><span class="line">            GirlException girlException=(GirlException) e;</span><br><span class="line">            return ResultUtil.error(girlException.getCode(),girlException.getMessage());</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            logger.error(&quot;[系统异常]&#123;&#125;&quot;,e);</span><br><span class="line">            return ResultUtil.error(-1,&quot;未知错误&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样发生系统异常时，就可以在控制台打印消息了</p>
+<p>额外的错误码管理</p>
+<p>此时异常捕获已经差不多，有个小地方可以优化，就是错误码管理，可以将code和msg用枚举进行管理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public enum ResultEnum &#123;</span><br><span class="line"></span><br><span class="line">    UNKONW_ERROR(-1,&quot;未知错误&quot;),</span><br><span class="line">    SUCCESS(0,&quot;成功&quot;),</span><br><span class="line">    PROMARY_SCHOOL(100,&quot;你在上小学吧&quot;),</span><br><span class="line">    MIDDLE_SCHOOL(101,&quot;你可能在上初中&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private Integer code;</span><br><span class="line">    private String msg;</span><br><span class="line"></span><br><span class="line">    ResultEnum(Integer code, String msg) &#123;</span><br><span class="line">        this.code = code;</span><br><span class="line">        this.msg = msg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getCode() &#123;</span><br><span class="line">        return code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getMsg() &#123;</span><br><span class="line">        return msg;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在GirlService中修改相应的异常：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public void getAge(Integer id) throws Exception&#123;</span><br><span class="line">        Girl girl=girlRepository.findOne(id);</span><br><span class="line">        Integer age=girl.getAge();</span><br><span class="line">        if (age&lt;10)&#123;</span><br><span class="line">            //</span><br><span class="line">            throw new GirlException(ResultEnum.PROMARY_SCHOOL);</span><br><span class="line">        &#125;else if(age&gt;10 &amp;&amp; age&lt;16)&#123;</span><br><span class="line">            throw new GirlException(ResultEnum.MIDDLE_SCHOOL);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>此时会有错误，将GirlException中的构造函数进行改造:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public GirlException(ResultEnum resultEnum)&#123;</span><br><span class="line">    super(resultEnum.getMsg());</span><br><span class="line">    this.code=resultEnum.getCode();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="四、单元测试"><a href="#四、单元测试" class="headerlink" title="四、单元测试"></a>四、单元测试</h4><p>首先对要测试的类（如GirlService）中添加一个可以用的方法，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">………………</span><br></pre></td></tr></table></figure>
+<p>然后在test目录下床及亲一个测试类用@RunWith(SpringRunner.class)注解，还需要加上@SpringBootTest的注解.然后使用@Autowired注入GirlService，就可以写测试函数了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringRunner.class)</span><br><span class="line">@SpringBootTest</span><br><span class="line">public class GirlServiceTest&#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	private GirlService girlService;</span><br><span class="line">	</span><br><span class="line">	@Test</span><br><span class="line">	public void findOneTest()&#123;</span><br><span class="line">		Girl girl=girlService.findOne(73);</span><br><span class="line">		Assert.assertEquals(new Integer(13),girl.getAge());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以使用ide自动生成，gotoTest，但是还需要自己添加相应的注解</p>
+<p>如何给api进行测试呢，希望想postman一样使用url测试，这时需要给类额外用到@AutoConfigureMockTest注解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringRunner.class)</span><br><span class="line">@SpringBootTest</span><br><span class="line">@AutoConfigureMockTest</span><br><span class="line">public class GirlControllerTest&#123;</span><br><span class="line">	@Autowired</span><br><span class="line">	private MockMvc mvc;</span><br><span class="line">	</span><br><span class="line">	@Test</span><br><span class="line">	public void girlList() throws Exception&#123;</span><br><span class="line">		 //get 使用get方法，post使用post方法</span><br><span class="line">		mvc.perform(MockMvcRequestBuilders.get(&quot;/girls&quot;)).andExcept(MockMvcResultMatchers.status().isOk())</span><br><span class="line">		.andExcept(MockMvcResultMatchers.content().string(&quot;abc&quot;));//判断内容</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/19/SpringBoot进阶/" data-id="ck4jzi8p8002hrflro75eak4r" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/19/Java反射/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java反射
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/19/SpringBoot基础/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">SpringBoot基础</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>indexedDB的使用 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介IndexedDB是Indexed Database API的简称，是一套方便保存和读取JavaScript对象、同时支持查询和搜索的API。 一、数据库的创建和存储1.1 IndexedDB对象的声明IndexDB本作为API宿主的全局对象，但是不同浏览器常常有一些不同命名：  IE10: msIndexedDB Firfox4: mozIndexedDB Chrome: webkitInd">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="indexedDB的使用">
+<meta property="og:url" content="http://yoursite.com/2018/01/14/indexeddb/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="简介IndexedDB是Indexed Database API的简称，是一套方便保存和读取JavaScript对象、同时支持查询和搜索的API。 一、数据库的创建和存储1.1 IndexedDB对象的声明IndexDB本作为API宿主的全局对象，但是不同浏览器常常有一些不同命名：  IE10: msIndexedDB Firfox4: mozIndexedDB Chrome: webkitInd">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T13:40:49.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="indexedDB的使用">
+<meta name="twitter:description" content="简介IndexedDB是Indexed Database API的简称，是一套方便保存和读取JavaScript对象、同时支持查询和搜索的API。 一、数据库的创建和存储1.1 IndexedDB对象的声明IndexDB本作为API宿主的全局对象，但是不同浏览器常常有一些不同命名：  IE10: msIndexedDB Firfox4: mozIndexedDB Chrome: webkitInd">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-indexeddb" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/indexeddb/" class="article-date">
+  <time datetime="2018-01-14T12:07:28.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      indexedDB的使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>IndexedDB是Indexed Database API的简称，是一套方便保存和读取JavaScript对象、同时支持查询和搜索的API。</p>
+<h2 id="一、数据库的创建和存储"><a href="#一、数据库的创建和存储" class="headerlink" title="一、数据库的创建和存储"></a>一、数据库的创建和存储</h2><h3 id="1-1-IndexedDB对象的声明"><a href="#1-1-IndexedDB对象的声明" class="headerlink" title="1.1 IndexedDB对象的声明"></a>1.1 IndexedDB对象的声明</h3><p>IndexDB本作为API宿主的全局对象，但是不同浏览器常常有一些不同命名：</p>
+<ul>
+<li>IE10: msIndexedDB</li>
+<li>Firfox4: mozIndexedDB</li>
+<li>Chrome: webkitIndexedDB<br>所以对IndexDB的声明需要兼顾现状：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> indexDB = <span class="built_in">window</span>.indexedDB || <span class="built_in">window</span>.msIndexedDB || <span class="built_in">window</span>.mozIndexedDB || <span class="built_in">window</span>.webkitIndexedDB</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-数据库的连接"><a href="#1-2-数据库的连接" class="headerlink" title="1.2 数据库的连接"></a>1.2 数据库的连接</h3><p>IndexedDB与传统数据库的差别是：它使用对象保存数据。一个IndexedDB数据库可以看做时相同命名空间下的对象的集合。<br>对IndexedDB数据库的连接可以使用<code>open()</code>方法，</p>
+<ul>
+<li>在回调函数中的<code>event.target</code>指向的是<code>request</code>:</li>
+<li><code>event.target.result</code>找那个有一个数据库的实例对象(IDBDatabase)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> request , database;</span><br><span class="line"><span class="comment">// 打开一个数据，返回一个IDBRequest对象</span></span><br><span class="line">request=indexedDB.open(<span class="string">"admin"</span>);</span><br><span class="line"><span class="comment">// 打开数据库发生异常时的回调函数</span></span><br><span class="line">request.onerrro=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">"打开时发生了异常："</span>+event.target.errorCode);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 打开数据库成功时的回调函数</span></span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 这里event.target指向的是request对象</span></span><br><span class="line">    database=event.target.result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-IndexedDB版本号的设置"><a href="#1-3-IndexedDB版本号的设置" class="headerlink" title="1.3 IndexedDB版本号的设置"></a>1.3 IndexedDB版本号的设置</h3><p>在Web应用中，随着对数据库结构的更新和修改，肯定会出现多个不同版本的数据库。默认情况下IndexedDB没有版本号，最好设置一下，可以使用<code>setVersion()</code>方法，以字符串的形式传递版本号，为了检验版本号是否设置成功，需要设置监听函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(database.version!=<span class="string">"1.0"</span>)&#123;</span><br><span class="line">    request=database.setVersion(<span class="string">"1.0"</span>);</span><br><span class="line">    request.onerror=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        alert(<span class="string">"打开时发生了异常："</span>+event.target.errorCode);</span><br><span class="line">    &#125;</span><br><span class="line">    request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        alert(<span class="string">"数据库初始化完成，数据库名字为："</span>+database.name+<span class="string">", 版本为："</span>+database.version);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    alert(<span class="string">"数据库已经存在，数据库名字为："</span>+database.name+<span class="string">", 版本为："</span>+database.version);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-对象存储空间的创建（建表）"><a href="#1-4-对象存储空间的创建（建表）" class="headerlink" title="1.4 对象存储空间的创建（建表）"></a>1.4 对象存储空间的创建（建表）</h3><p>先额外看一个最简单的例子，有个简单的了解：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化数据库</span></span><br><span class="line"><span class="keyword">var</span> dbParams=<span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">dbParams.db_name=<span class="string">"YYH"</span>;</span><br><span class="line">dbParams.db_version=<span class="string">"1"</span>;</span><br><span class="line">dbParams.db_store_name=<span class="string">"Test"</span>;</span><br><span class="line">dbObject.init(dbParams);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 插入三条数据</span></span><br><span class="line"><span class="keyword">var</span> v01=dbObject.put(&#123;<span class="attr">title</span>:<span class="string">"阿里巴巴与四十个大盗"</span>,<span class="attr">author</span>:<span class="string">"alibaba"</span>,<span class="attr">isbn</span>:<span class="number">123456</span>&#125;,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> v02=dbObject.put(&#123;<span class="attr">title</span>:<span class="string">"百年身，已往回首"</span>,<span class="attr">author</span>:<span class="string">"baidu"</span>,<span class="attr">isbn</span>:<span class="number">234567</span>&#125;,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">var</span> v03=dbObject.put(&#123;<span class="attr">title</span>:<span class="string">"Chrome浏览器无敌"</span>,<span class="attr">author</span>:<span class="string">"chromegroup"</span>,<span class="attr">isbn</span>:<span class="number">345678</span>&#125;,<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>在数据库连接成功之后，就要创建对象存储空间（建表）了。正如前面所说，IndexedDB保存的是系列对象的集合，加入我们保存记录是用户对象如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> user=&#123;</span><br><span class="line">    username:<span class="string">"007"</span>,</span><br><span class="line">    firstName:<span class="string">"Yang"</span>,</span><br><span class="line">    lastName:<span class="string">"Afei"</span>,</span><br><span class="line">    password:<span class="string">"iampassword"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是建表一定要有主键，我们将username设为主键，在IndexedDB中怎么做呢,可以使用<code>database</code>中的<code>createObjectStore()</code>方法，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一个参数相当于表名，第二个参数执行表的主键</span></span><br><span class="line"><span class="keyword">var</span> store = database.createObjectStore(<span class="string">"users"</span>, &#123;<span class="attr">keyPath</span>:<span class="string">"username"</span>&#125;);</span><br></pre></td></tr></table></figure>
+<p>这时，数据表已经创建好了，接下来就该插入数据了。</p>
+<h3 id="1-5-数据的插入"><a href="#1-5-数据的插入" class="headerlink" title="1.5 数据的插入"></a>1.5 数据的插入</h3><p>有了<code>store</code>这个对存储空间的引用，就可以进行数据的插入了。有两个方法进行数据的插入,它们都接收要保存的对象，区别就是处理方式的不同：</p>
+<ul>
+<li><code>add()</code>: 要插入的对象已经在数据库中存在时，返回错误</li>
+<li><code>put()</code>: 要插入的对象已经在数据库中存在时，更改数据库中的信息<br>示例代码如下</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假设users中保存着一批用户数据</span></span><br><span class="line"><span class="keyword">var</span> i=<span class="number">0</span> , len=users.length;</span><br><span class="line"><span class="keyword">while</span>(i&lt;len)&#123;</span><br><span class="line">    store.add(users[i++]);</span><br><span class="line">    <span class="comment">//或者</span></span><br><span class="line">    <span class="comment">//store.put(users[i++]);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样可以不知道每一条数据插入成功与否，其实每次add或put都会创建一个新的对这个对象存储空间的更新请求，可以获取这个请求，然后添加监听：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i=<span class="number">0</span>,</span><br><span class="line">    request,</span><br><span class="line">    requests=[],</span><br><span class="line">    len=users.length;</span><br><span class="line"><span class="keyword">while</span>(i&lt;len)&#123;</span><br><span class="line">    request=store.add(users[i++]);</span><br><span class="line">    request.onerror=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//处理错误</span></span><br><span class="line">    &#125;</span><br><span class="line">    request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//处理成功</span></span><br><span class="line">    &#125;</span><br><span class="line">    requests.put(request);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候就完成了数据的插入工作，下面就是数据的查询了</p>
+<h2 id="二、事务"><a href="#二、事务" class="headerlink" title="二、事务"></a>二、事务</h2><p>对IndexedDB中数据的查询（事实上时除了数据插入外的所有操作）都是通过事务来完成的。可以通过<code>transaction()</code>来创建事务：</p>
+<ul>
+<li>如果没有参数传递，该事务只能读取数据库中保存的对象</li>
+<li>只传一个对象存储空间名（表名），该事务只加载该‘表’中的数据</li>
+<li>传递数组形式存储的多个对象存储空间名（表名），该事务只加载该‘表’数组中的数据</li>
+<li>传递两个参数，第二个参数表示访问模式</li>
+<li><ul>
+<li>READ_ONLY(0)      ：表示只读</li>
+</ul>
+</li>
+<li><ul>
+<li>READ_WRITE(1)     ：表示读写</li>
+</ul>
+</li>
+<li><ul>
+<li>VERSION_CHANGE(2) ：表示改变</li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：在IE10+和Firfox4+中实现的是IDBTransaction，而Chrome中则交webkitIDBTransaction，使用时应该做统一接口：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> IDBTransaction = <span class="built_in">window</span>.IDBTransaction || <span class="built_in">window</span>.webkitIDBTransaction;</span><br></pre></td></tr></table></figure>
+<p>相关例子代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取数据库中保存的对象</span></span><br><span class="line"><span class="keyword">var</span> transaction1=database.transaction();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 读取数据库中指定对象存储空间（单个）保存的对象</span></span><br><span class="line"><span class="keyword">var</span> transaction2=database.transaction(<span class="string">"users"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 读取数据库中指定对象存储空间（多个）保存的对象</span></span><br><span class="line"><span class="keyword">var</span> transaction3=database.transaction([<span class="string">"users"</span>,<span class="string">"anotherStore"</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取读写模式下的事务，此种模式不仅可以读，还可以写</span></span><br><span class="line"><span class="keyword">var</span> transaction4=database.transaction(<span class="string">"users"</span>,IDBTransaction.READ_WRITE);</span><br></pre></td></tr></table></figure>
+<p>创建好事务后，可以使用<code>objectStore()</code>方法传入特定的存储空间名称访问特定的存储空间，该进行实质性的查找工作了，</p>
+<ul>
+<li>add()和put():</li>
+<li>get():接收键作为参数，取得值</li>
+<li>delete():接收键作为参数，删除对象</li>
+<li>clear():删除所有对象</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取users对象存储空间中username为007的记录</span></span><br><span class="line"><span class="keyword">var</span> request=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>).get(<span class="string">"007"</span>);</span><br><span class="line">request.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">"没有获取到对象！"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">request.onsuccess = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//获取查询到的结果</span></span><br><span class="line">    <span class="keyword">var</span> result=event.target.result;</span><br><span class="line">    alert(result.firstName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>事务主要是完成多个请求的，所以事务本身也有时间处理程序：<code>onerror</code>,<code>oncomplete</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 事务执行出错</span></span><br><span class="line">transaction.onerror=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 整个事务被取消</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 事务执行全部完成，</span></span><br><span class="line">transaction.oncomplete=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 整个事务都成功完成了,但是这里访问不到get请求回的任何数据</span></span><br><span class="line">    <span class="comment">// 要想访问到get请求回的数据，需要去相应请求中的onsuccess方法中获取</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、游标和键范围"><a href="#三、游标和键范围" class="headerlink" title="三、游标和键范围"></a>三、游标和键范围</h2><h3 id="3-1-游标"><a href="#3-1-游标" class="headerlink" title="3.1 游标"></a>3.1 游标</h3><p>使用事务可以直接通过已知的键检索单个对象，<strong>如果要检索多个对象呢，这时候就要在事务内部创建游标了</strong>。游标是一个执行结果集的指针。与传统数据库查询不同，游标并不提前搜集结果。游标指针会先指向结果中的第一项，在接到查找下一项指令时才会指向下一项。</p>
+<p>游标的创建可以使用<code>openCursor()</code>方法，该方法返回的是请求对象，因此也可以指定<code>onsuccess</code>和<code>onerror</code>事件处理程序：</p>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">    request=store.openCursor();</span><br><span class="line">    </span><br><span class="line">request.onsuccess(event)&#123;</span><br><span class="line">    <span class="comment">// 处理成功，在这里可以使用event.target.result获取存储空间的下一个对象</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">request.onerror(event)&#123;</span><br><span class="line">    <span class="comment">// 处理失败</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>onsuccess</code>方法中可以使用event.target.result获取存储空间的下一个对象，结果集中如果有下一项时，这个属性保存一个IDBCursor实例，没有下一项时，这个属性值为null，IDBCursor的属性有如下：</p>
+<ul>
+<li>direction: 游标移动的方向，默认值是：IDBCursor.NEXT(0)表示下一项；IDBCursor.NEXT_NO_DUPLICATE(1)表示下一个不重复的项；IDBCursor.PREV(2)表示前一项；IDBCursor.PREV_NO_DUPLICATE(3)表示前一个不重复的项。</li>
+<li>key:对象的键</li>
+<li>value:对象的值，实际的对象</li>
+<li>primaryKey:游标使用的键，可能是对象键，也可能是索引键（后面会有讨论）</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//获取存储空间的下一个对象</span></span><br><span class="line">    <span class="keyword">var</span> cursor=event.target.result;</span><br><span class="line">    <span class="keyword">if</span>(cursor)&#123;<span class="comment">//必须检查</span></span><br><span class="line">        <span class="comment">// 因为cursor.value是一个对象，需要先将它转化为json字符串</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"Key: "</span>+cursor.key+<span class="string">" , value: "</span>+ <span class="built_in">JSON</span>.stringfy(cursor.value));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>使用游标更新和删除对象</strong></p>
+<ul>
+<li>update() : 用指定对象更新当前游标的value，返回一个请求可以指定onsuccess和onerror</li>
+<li>delete() : 返回一个请求可以指定onsuccess和onerror<br>如果当前事务没有修改对象存储空间权限，update和delete就会报错。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">rquest.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cursor=event.target.result,</span><br><span class="line">        value,</span><br><span class="line">        updateRequest;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">if</span>(cursor)&#123;<span class="comment">//必须要检查</span></span><br><span class="line">        <span class="keyword">if</span>(cursor.key==<span class="string">"foo"</span>)&#123;</span><br><span class="line">            value=cursor.value; <span class="comment">// 取得当前的值</span></span><br><span class="line">            value.password=<span class="string">"iamanotherpw"</span>; <span class="comment">// 更新密码</span></span><br><span class="line">            </span><br><span class="line">            updateRequest=cursor.update(value); <span class="comment">//请求保存更新</span></span><br><span class="line">            updateRequest.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 更新成功</span></span><br><span class="line">            &#125;;</span><br><span class="line">            updateRequest.onerror=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 更新失败</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">rquest.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cursor=event.target.result,</span><br><span class="line">        value,</span><br><span class="line">        deleteRequest;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">if</span>(cursor)&#123;<span class="comment">//必须要检查</span></span><br><span class="line">        <span class="keyword">if</span>(cursor.key==<span class="string">"foo"</span>)&#123;</span><br><span class="line">            deleteRequest=cursor.delete(); <span class="comment">//请求删除当前项</span></span><br><span class="line">            deleteRequest.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 删除成功</span></span><br><span class="line">            &#125;;</span><br><span class="line">            deleteRequest.onerror=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 删除失败</span></span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>默认情况下，每个游标只发起一次请求，想要发送另一次请求就需要<code>cursor</code>调用下面的方法了：</p>
+<ul>
+<li><code>continue(key)</code>:移动到结果集中的下一项。参数key可选，不指定表示移动到下一项，指定key参数表示移动到指定键位置；</li>
+<li><code>advance(count)</code>:向前移动count指定的项数；<br>它们都会导致游标使用相同的请求，因此onsuccess和onerror函数也会得到重用。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rquest.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cursor=event.target.result;</span><br><span class="line">    <span class="keyword">if</span>(cursor)&#123;<span class="comment">//必须要检查</span></span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">"Key: "</span>+cursor.key+<span class="string">" , value: "</span>+ <span class="built_in">JSON</span>.stringfy(cursor.value));</span><br><span class="line">       </span><br><span class="line">       cursor.continue(); <span class="comment">//移动到下一项</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//没有更多选项可以迭代时，cursor为null</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"完成！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-键范围"><a href="#3-2-键范围" class="headerlink" title="3.2 键范围"></a>3.2 键范围</h3><p>使用游标查找数据的方式太受限了，不太理想。键范围（key range）为使用游标添加了一些灵活性。键范围由IDBKeyRange的实例表示，IE10+和Firfox4+ chrome都支持，但是chrome中名字为webkitIDBKeyRange，使用时最好先声明一个本地类型，这样可以兼顾到浏览器的差异</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> IDBKeyRange=<span class="built_in">window</span>.IDBKeyRange || <span class="built_in">window</span>.webkitIDBKeyRange;</span><br></pre></td></tr></table></figure>
+<p>那么键范围如何指定呢，如下四种方法：</p>
+<ul>
+<li><code>only(key)</code>:范围保证只取得键”007”的对象</li>
+<li><code>lowerBound(key)</code>：指定结果集的下界，保证游标从键007的对象开始，然后继续向前移动，直到最后一个对象；</li>
+<li><code>lowerBound(key,boolean)</code>：第二个参数如果是true表示忽略key对象，为false表示包含key对象</li>
+<li><code>upperBound(key)</code>：指定结果集的上界，游标从头开始，到key的对象为止</li>
+<li><code>upperBound(key,boolean)</code>：第二个参数如果是true表示忽略key对象，为false表示包含key对象</li>
+<li><code>bound(key1,key2)</code>：从key1开始，到key2的范围</li>
+<li><code>bound(key1,key2,boolean1)</code>：boolean1为true表示从key1的下一个对象开始，到key2的范围</li>
+<li><code>bound(key1,key2,boolean1,boolean2)</code>：boolean1和boolean2为true表示从key1的下一个对象开始，到key2的上一个对象为止范围<br>然后将它给<code>openCursor()</code>方法即可，下面的例子表示输出从007到ace的对象：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">var</span> onlyRange=IDBKeyRange.only(<span class="string">"007"</span>)</span><br><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">    range=IDBKeyRange.bound(<span class="string">"007"</span>,<span class="string">"ace"</span>),</span><br><span class="line">    request=store.openCursor(range);</span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cursor=event.target.result;</span><br><span class="line">    <span class="keyword">if</span>(cursor)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"Key: "</span>+cursor.key+<span class="string">" , value: "</span>+ <span class="built_in">JSON</span>.stringfy(cursor.value));</span><br><span class="line">        </span><br><span class="line">        cursor.continue();</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"完成"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-游标方向"><a href="#3-3-游标方向" class="headerlink" title="3.3 游标方向"></a>3.3 游标方向</h3><p>上边在讲游标时讲到了<code>IDBCursor</code>对象，在<code>openCursor()</code>方法时会得到一个<code>IDBCursor</code>实例。<br>其实<code>openCursor()</code>也可以接收两个参数：</p>
+<ul>
+<li>IDBKeyRange：</li>
+<li>方向的数值常量：即前边查询时讲的IDBKeyCursor的常量<br>首先考虑不同浏览器的差异：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> IDBKeyCursor=<span class="built_in">window</span>.IDBKeyCursor || <span class="built_in">window</span>.webkitIDBCursor;</span><br></pre></td></tr></table></figure>
+<p>正常情况下，游标是从对象存储空间的第一项开始，通过调用continue()或advance()前进到最后一项。游标默认方向值时IDBCursor.NEXT,如果对象存储空间中有重复的项而又想跳过重复的项，就可以使用下面的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">    request=store.openCursor(<span class="literal">null</span>,IDBCursor.NEXT_NO_DUPLICATE);</span><br></pre></td></tr></table></figure>
+<p>我们要说明的就是一个参数null，null表示默认的键范围，即包含所有对象。如果想让游标在指定的范围内移动，怎么办呢，将第一个参数换位IDBKeyRange对象即可。</p>
+<h2 id="四、索引和并发"><a href="#四、索引和并发" class="headerlink" title="四、索引和并发"></a>四、索引和并发</h2><h3 id="4-1-索引"><a href="#4-1-索引" class="headerlink" title="4.1 索引"></a>4.1 索引</h3><p>前边讲到创建对象存储空间（表）时，需要指定键（主键），但是有时候可能需要为一个对象存储空间指定多个键（比如通过用户ID和用户名两种方式保存用户资料）。这是就要用到索引了。可以考虑将用户ID作为主键，然后为用户名创建索引。<br><strong>4.1.1 如何创建索引呢：</strong></p>
+<blockquote>
+<p>(1) 首先引用对象存储空间，然后调用<code>createIndex()</code>方法，返回的是一个IDBKIndex实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">&gt;       <span class="comment">//第一个参数索引的名字，第二个参数索引的属性的名字，第三参数包含unique的可选项（必须指定，它标书键所在所有记录中是否唯一，因为usename可能有重复，所以这个索引不唯一）</span></span><br><span class="line">&gt;       index=store.createIndex(<span class="string">"username"</span>,<span class="string">"username"</span>,&#123;<span class="attr">unique</span>:<span class="literal">false</span>&#125;);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>也可以对对象存储空间调用<code>index()</code>方法，获取同样的实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">&gt;       index=store.index(<span class="string">"username"</span>);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>(2) 然后对索引就可以通过<code>openCursor()</code>方法创建游标了。这里会把索引键保存在<code>event.target.result</code>中（与存储空间的区别：对象存储空间会把主键保存在`event.target.result中），其余的都一样。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">&gt;       index=store.index(<span class="string">"username"</span>),</span><br><span class="line">&gt;       request=index.openCursor();</span><br><span class="line">&gt; request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">&gt;       <span class="comment">//处理成功</span></span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>(3) 也可以在索引上创建一个只返回每条记录主键的游标，这时调用<code>openKeyCursor()</code>方法，它接收参数与<code>openCursor()</code>方法相同。此时在<code>event.result.key</code>中仍保存着索引键，<code>event.result.vaule</code>保存的则是主键（而不再是整个对象）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">&gt;       index=store.index(<span class="string">"username"</span>),</span><br><span class="line">&gt;       request=index.openKeyCursor();</span><br><span class="line">&gt; request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">&gt;       <span class="comment">//处理成功，event.result.key保存索引键，event.result.vaule保存主键</span></span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>4.1.2 对索引进行查询</strong><br>索引创建好了，接下来就可以通过它进行查询了。<br>(1) 通用使用<code>get()</code>方法从索引中取得一个对象，传入一个索引键参数即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">      index=store.index(<span class="string">"username"</span>),</span><br><span class="line">      request=index.get(<span class="string">"007"</span>);</span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">      <span class="comment">//处理成功</span></span><br><span class="line">&#125;;</span><br><span class="line">request.onerror=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">     <span class="comment">//处理失败</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>(2) 同样也可以通过<code>getKey()</code>方法根据索引键取得主键</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">      index=store.index(<span class="string">"username"</span>),</span><br><span class="line">      request=index.getKey(<span class="string">"007"</span>);</span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">      <span class="comment">//处理成功，event.result.key保存索引键，event.result.vaule保存主键（用户ID）</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>(3) 如果想得到索引相关信息呢 怎么办呢，可以通过IDBCursor对象获取到索引的额如下信息：</p>
+<ul>
+<li>name：索引的名字</li>
+<li>keyPath：传入<code>createIndex()</code>中的属性路径</li>
+<li>objectStore：索引的对象存储空间</li>
+<li>unique：表示索引键是否唯一的boolean值</li>
+</ul>
+<p>(4) 可以通过indexName属性访问到为该空间建立的所有索引</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">    indexNames=store.indexNames,</span><br><span class="line">    i=<span class="number">0</span>,</span><br><span class="line">    len=indexNames.length;</span><br><span class="line"><span class="keyword">while</span>(i&lt;len)&#123;</span><br><span class="line">    index=store.index(indexNames[i++]);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"索引名字："</span>+index.name+<span class="string">" , KeyPath:"</span>+index.keyPath+<span class="string">" , Unique: "</span>+index.unique);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>4.1.3 删除索引</strong><br>通过<code>deleteIndex()</code>方法删除索引</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>);</span><br><span class="line">store.deleteIndex(<span class="string">"username"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-并发"><a href="#4-2-并发" class="headerlink" title="4.2 并发"></a>4.2 并发</h3><p>异步API也会存在并发问题，一个浏览器多个标签操作数据库时就会发生。当浏览器中仅有一个标签页使用数据库时，才能调用<code>setVersion()</code>方法完成操作。<br><strong>注意刚打开数据库时要记着指定<code>onversionchange</code>事件</strong>，这样当同一个来源的另一个标签调用<code>setVersion()</code>时就会执行这个回调函数，最佳处理方式，是在里面执行立即关闭数据库，从而保证版本的顺利更新</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> request,database;</span><br><span class="line">request=indexDB.open(<span class="string">"admin"</span>);</span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    database=event.target.result;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//当其它标签页对数据库版本有更新时，执行数据库关闭</span></span><br><span class="line">    database.onversionchange=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        database.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当你要调用<code>setVersion()</code>更新数据库版本时，但是另一个标签页已经打开数据库了，这时候通知用户关闭其它标签页页很有用。可以使用<code>onblocked</code>事件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> request=database.setVersion(<span class="string">"2.0"</span>);</span><br><span class="line">request.onblock=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">"请关闭其它标签页，然后重新执行"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//处理成功，继续</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/indexeddb/" data-id="ck4jzi8pw003brflrbvxfanwu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/24/android-file/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android数据持久化---文件存储
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/14/java-login/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java之登陆验证功能</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

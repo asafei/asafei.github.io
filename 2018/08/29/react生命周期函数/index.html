@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>react生命周期函数 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="react生命周期函数1、什么是生命周期函数生命周期函数是指组件在某一刻会自动执行的函数  1、初始化initialization  在组件创建时，被执行的函数；进行props和state的设置，可以放在constructor函数中   2、挂载mounting  当组件被挂载的时候执行，该周期包括如下  componentWillMount：组件被挂载之前执行，通常组件只会挂载一次 render">
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react生命周期函数">
+<meta property="og:url" content="http://yoursite.com/2018/08/29/react生命周期函数/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="react生命周期函数1、什么是生命周期函数生命周期函数是指组件在某一刻会自动执行的函数  1、初始化initialization  在组件创建时，被执行的函数；进行props和state的设置，可以放在constructor函数中   2、挂载mounting  当组件被挂载的时候执行，该周期包括如下  componentWillMount：组件被挂载之前执行，通常组件只会挂载一次 render">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T13:40:49.462Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react生命周期函数">
+<meta name="twitter:description" content="react生命周期函数1、什么是生命周期函数生命周期函数是指组件在某一刻会自动执行的函数  1、初始化initialization  在组件创建时，被执行的函数；进行props和state的设置，可以放在constructor函数中   2、挂载mounting  当组件被挂载的时候执行，该周期包括如下  componentWillMount：组件被挂载之前执行，通常组件只会挂载一次 render">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-react生命周期函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/29/react生命周期函数/" class="article-date">
+  <time datetime="2018-08-29T15:01:16.000Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      react生命周期函数
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="react生命周期函数"><a href="#react生命周期函数" class="headerlink" title="react生命周期函数"></a>react生命周期函数</h2><h3 id="1、什么是生命周期函数"><a href="#1、什么是生命周期函数" class="headerlink" title="1、什么是生命周期函数"></a>1、什么是生命周期函数</h3><p>生命周期函数是指组件在某一刻会自动执行的函数</p>
+<ul>
+<li><p>1、初始化initialization</p>
+<blockquote>
+<p>在组件创建时，被执行的函数；进行props和state的设置，可以放在constructor函数中</p>
+</blockquote>
+</li>
+<li><p>2、挂载mounting</p>
+<blockquote>
+<p>当组件被挂载的时候执行，该周期包括如下</p>
+<ul>
+<li>componentWillMount：组件被挂载之前执行，通常组件只会挂载一次</li>
+<li>render：组件被渲染，可执行多次</li>
+<li>componentDidMount：组件被挂载之后执行，通常组件只会挂载一次</li>
+</ul>
+</blockquote>
+</li>
+<li><p>3、更新update</p>
+<blockquote>
+<p>包括props和state更新</p>
+<ul>
+<li><p>3.1 props</p>
+<blockquote>
+<ul>
+<li>componentWillReceiveProps</li>
+</ul>
+<p>一个组件从父组件接受参数，只要父组件的render函数被重新执行了，子组件的这个生命周期函数就会被执行。</p>
+<p>如果这个组件第一次存在于父组件中，不会执行；</p>
+<p>如果这个之前已经存在于父组件中，才会执行</p>
+<ul>
+<li><p>shouldComponentUpdate:返回true则继续执行，返回false则下一步不执行</p>
+</li>
+<li><p>componentWillUpdate</p>
+</li>
+<li><p>render</p>
+</li>
+<li><p>componeneDidUpdate</p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p>3.2 state</p>
+<blockquote>
+<ul>
+<li><p>shouldComponentUpdate:返回true则继续执行，返回false则下一步不执行</p>
+</li>
+<li><p>componentWillUpdate</p>
+</li>
+<li><p>render</p>
+</li>
+<li><p>componeneDidUpdate</p>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p>4、卸载unmounting </p>
+<blockquote>
+<p>当一个组件即将被从页面剔除的时候，执行</p>
+<p>componentWillUnmount:</p>
+</blockquote>
+</li>
+</ul>
+<p>注意：每个组件都存在生命周期函数</p>
+<h3 id="2、生命周期函数使用场景"><a href="#2、生命周期函数使用场景" class="headerlink" title="2、生命周期函数使用场景"></a>2、生命周期函数使用场景</h3><p>生命周期函数中，除了render之外，都可以不存在。</p>
+<p>这是由于react中所有的组件都是继承自React.Component，在Component中内置了所有的其余生命周期函数，唯独没有内置render函数的实现。</p>
+<h4 id="2-1-shouldComponentUpdate性能提升"><a href="#2-1-shouldComponentUpdate性能提升" class="headerlink" title="2.1 shouldComponentUpdate性能提升"></a>2.1 shouldComponentUpdate性能提升</h4><p>在todolistdemo中，当我们在input中输入东西时，都是都会同时更新input组件和所有的子组件item。之前我们讲过组件重新渲染的条件时state或props变化时，回重新渲染；但是现在item的数据并没有变化，为啥为跟着父组件重新渲染呢？这是因为父组件的render函数执行时，子组件的render都会被执行，这样就会造成很多无谓的渲染，如何避免这种情况呢？</p>
+<p>这时shouldComponentUpdate就派上了用场，在内部直接返回false，就可以实现，该组件只在挂载时执行一次，而不会随着数据的更新再次渲染</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">//此时该组件不会随着数据的更新而发生重新渲染</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样强制返回，简单暴力，不是很合适，可以根据实际情况来判断，当我们用到的数据真的发生改变时就返回true，否则就返回false。可以根据shouldComponentUpdate函数的两个参数来判断</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在渲染时我们只用到了state中的content的内容</span></span><br><span class="line">shouldComponentUpdate(nextProps,nextState)&#123;</span><br><span class="line">    <span class="keyword">if</span>(nextProps.content!==<span class="keyword">this</span>.props.content)&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就提升了我们组件的性能，减少了无谓的组件渲染。</p>
+<p>目前为止，我们讲到提升react的性能的方式有以下几种了</p>
+<blockquote>
+<p>1、将自定义函数与this的绑定，放在构造函数中</p>
+<p>2、标签的key值不能使用index</p>
+<p>3、使用shouldComponentUpdate，避免无效的组件渲染</p>
+</blockquote>
+<h4 id="2-2-react发生ajax请求"><a href="#2-2-react发生ajax请求" class="headerlink" title="2.2 react发生ajax请求"></a>2.2 react发生ajax请求</h4><p>如果我们需要在组件中发送ajax请求，这个请求该放在什么地方呢？比如我们要请求我们要展示多少条，如果放在render中，那么随着render函数的多次调用，ajax请求也会被执行多次。如何让这个ajax请求只执行一次呢？</p>
+<p>这时componentDidMount就派上了用场，因为这个函数只会在组件被挂载之后执行一次，之后就不会再被执行了。componentWillMount也有此作用，但是如果放在componentWillMount中可能会与后期的高级技术发生冲突（不再详述），所以不放这里。</p>
+<p>react并没有封装ajax请求，此时我们可以使用第三方的框架，axios</p>
+<blockquote>
+<p>1、首先通过控制台，进入项目目录todolist，</p>
+<p>2、输入 yarn add axios，此时就能将axios载入到项目之中了</p>
+<p>3、在TodoList组件中，引入axios </p>
+<p><code>import axios from &#39;axios&#39;</code></p>
+<p>4、在componentDidMount中发送请求</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; componentDidMount()&#123;</span><br><span class="line">&gt;     axios.get(<span class="string">'/spi/todolist'</span>)</span><br><span class="line">&gt;         .then(<span class="function"><span class="params">()</span>=&gt;</span>&#123;alert(<span class="string">'success'</span>)&#125;)<span class="comment">//成功</span></span><br><span class="line">&gt;         .catch(<span class="function"><span class="params">()</span>=&gt;</span>&#123;alert(<span class="string">'error'</span>)&#125;);<span class="comment">//失败</span></span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="2-3-使用charles实现本地数据的mock"><a href="#2-3-使用charles实现本地数据的mock" class="headerlink" title="2.3 使用charles实现本地数据的mock"></a>2.3 使用charles实现本地数据的mock</h4><p>当前开发模式都是前后端分离，为了方便测试需要进行数据的模拟，这就是mock。而charles就可以实现这种模拟。如何模拟呢？参考下面步骤</p>
+<blockquote>
+<p>1、首先下载charles</p>
+<p>2、在桌面创建模拟数据todolist.json，在里面填写要模拟的数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; [<span class="string">"react"</span>,<span class="string">"vue"</span>,<span class="string">"webgl"</span>]</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>3、打开cahrles工具：tools -&gt; Map Loacal</p>
+<p>进行url（localhost:3000/api/todolist）的配置即可，并且map到桌面上指定的todolist.json文件</p>
+<p>4、然后进入刷新我们的页面，之前的请求就可以得到数据了</p>
+<p>5、在componentDidMount中对ajax请求的结果进行处理，setState即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&gt; componentDidMount()&#123;</span><br><span class="line">&gt;     axios.get(<span class="string">'/spi/todolist'</span>)</span><br><span class="line">&gt;         .then(<span class="function">(<span class="params">res</span>)=&gt;</span>&#123;</span><br><span class="line">&gt;             <span class="keyword">this</span>.setState(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">&gt;                 <span class="keyword">return</span>  &#123;</span><br><span class="line">&gt;                     list:res.data</span><br><span class="line">&gt;                 &#125;</span><br><span class="line">&gt;             &#125;);</span><br><span class="line">&gt;     	&#125;)<span class="comment">//成功</span></span><br><span class="line">&gt;         .catch(<span class="function"><span class="params">()</span>=&gt;</span>&#123;alert(<span class="string">'error'</span>)&#125;);<span class="comment">//失败</span></span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt; </span><br><span class="line">&gt; <span class="comment">//或者这么简写</span></span><br><span class="line">&gt; componentDidMount()&#123;</span><br><span class="line">&gt; 		    axios.get(<span class="string">'/api/todolist'</span>)</span><br><span class="line">&gt; 		        .then(<span class="function">(<span class="params">res</span>)=&gt;</span>&#123;</span><br><span class="line">&gt;                 		<span class="comment">//小括号即表示return</span></span><br><span class="line">&gt; 		        		<span class="keyword">this</span>.setState(<span class="function"><span class="params">()</span>=&gt;</span>(&#123;<span class="attr">list</span>:[...res.data]&#125;));</span><br><span class="line">&gt; 		        &#125;)<span class="comment">//成功</span></span><br><span class="line">&gt; 		        .catch(<span class="function"><span class="params">()</span>=&gt;</span>&#123;alert(<span class="string">'error'</span>)&#125;);<span class="comment">//失败</span></span><br><span class="line">&gt; 		&#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>如此就实现了ajax请求，并且和组件建立关系</p>
+</blockquote>
+<p>charles可以抓到浏览器对外的一些请求，作为代理服务器</p>
+<hr>
+<p>本笔记参考慕课网视频<a href="https://coding.imooc.com/class/229.html" target="_blank" rel="noopener">https://coding.imooc.com/class/229.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/29/react生命周期函数/" data-id="ck4jzi8ol001mrflrznyhd5mc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/29/react中的css/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          react中的css
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/29/react环境安装/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">react环境安装</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

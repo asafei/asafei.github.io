@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="afei_ask">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="afei_ask">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-android-file" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/24/android-file/" class="article-date">
+  <time datetime="2018-01-24T12:54:03.000Z" itemprop="datePublished">2018-01-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/24/android-file/">Android数据持久化---文件存储</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>文件存储不对数据做任何格式化的处理，原封不动的保存数据，适合存储一些简单的文本数据，创建的文件位于<code>/data/data/&lt;package-name&gt;/fiele/</code>目录下</p>
+<h3 id="一、存储数据"><a href="#一、存储数据" class="headerlink" title="一、存储数据"></a>一、存储数据</h3><p>Context类提供了<code>openFileOutput()</code>方法，可以将数据保存。它接收两个参数</p>
+<ul>
+<li><p>第一个参数： 文件名</p>
+</li>
+<li><p>第二个参数： 文件的操作模式</p>
+<blockquote>
+<p>文件的操作模式主要有两种，分别是<code>MODE_PRIVATE</code>和<code>MODE_APPEND</code>,其中</p>
+<ul>
+<li>MODE_PRIVATE：指定同样文件名的时候，会覆盖原文件的内容；</li>
+<li>MODE_APPEND：指定同样文件名的时候，会往文件中追加内容；</li>
+</ul>
+<p>还有其它的模式，如：MODE_WORLD_READABLEH和MODE_WORLD_WRITEABLE表示允许其它应用对我们程序中的文件进行读写操作，存在安全漏洞，在Android4.2版本中被废弃了。</p>
+</blockquote>
+</li>
+</ul>
+<p>保存文件的步骤如何呢：</p>
+<ol>
+<li>通过<code>openFileOutput()</code>方法得到一个<code>FileOutputStream</code>对象；</li>
+<li>通过<code>FileOutputStream</code>对象构建一个<code>OutputStreamWriter</code>对象；</li>
+<li>通过<code>OutputStreamWriter</code>对象构建一个<code>BufferedWriter</code>对象；</li>
+<li>通过<code>BufferedWriter</code>对象就可以将文本写入文件了</li>
+</ol>
+<p>具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">()</span></span>&#123;</span><br><span class="line">    String data=<span class="string">"我是要保存的内容"</span>;</span><br><span class="line">  	FileOutputStream out=<span class="keyword">null</span>;</span><br><span class="line">  	OutputStreamWriter wsw=<span class="keyword">null</span>;</span><br><span class="line">  	BufferedWriter writer=<span class="keyword">null</span>;</span><br><span class="line">  	<span class="keyword">try</span>&#123;</span><br><span class="line">        out=openFileOutput(<span class="string">"data"</span>,Context.MODE_PRIVATE);</span><br><span class="line">      	osw=<span class="keyword">new</span> OutputStreamWriter(out);</span><br><span class="line">      	writer=<span class="keyword">new</span> BufferedWriter(osw);</span><br><span class="line">      	writer.writer(data);</span><br><span class="line">    &#125;<span class="keyword">catch</span>(IOException e)&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(writer!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                writer.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span>(IOException e)&#123;</span><br><span class="line">            <span class="comment">//..</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时就可以在<code>onDestroy()</code>方法中将相应的数据保存起来了，以便再次启动时展示。</p>
+<p>如何查看我们已经保存的数据呢？在Android studio的Tools-Android-Android Device Monitor，就可以进入File Explorer标签页，从而找到<code>/data/data/&lt;package-name&gt;/fiele/</code>下相应的文件了</p>
+<h3 id="二、读取数据"><a href="#二、读取数据" class="headerlink" title="二、读取数据"></a>二、读取数据</h3><p>如何读取保存在<code>/data/data/&lt;package-name&gt;/fiele/</code>的文件数据呢，Context有一个<code>openFileInput()</code>方法，按照下面步骤即可：</p>
+<ol>
+<li>通过<code>openFileInput()</code>方法得到一个<code>FileInputStream</code>对象；</li>
+<li>通过<code>FileInputStream</code>对象构建一个<code>InputStreamWriter</code>对象；</li>
+<li>通过<code>InputStreamWriter</code>对象构建一个<code>BufferedReader</code>对象；</li>
+<li>通过<code>BufferedReader</code>对象就读取文件了</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">load</span><span class="params">()</span></span>&#123;</span><br><span class="line">  	FileInputStream in=<span class="keyword">null</span>;</span><br><span class="line">  	InputStreamWriter isw=<span class="keyword">null</span>;</span><br><span class="line">  	BufferedReader reader=<span class="keyword">null</span>;</span><br><span class="line">  	StringBuilder content=<span class="keyword">new</span> StringBuilder();</span><br><span class="line">  	<span class="keyword">try</span>&#123;</span><br><span class="line">        in=openFileInput(<span class="string">"data"</span>);</span><br><span class="line">      	isw=<span class="keyword">new</span> InputStreamWriter(in);</span><br><span class="line">      	reader=<span class="keyword">new</span> BufferedReader(isw);</span><br><span class="line">      	String line=<span class="string">""</span>;</span><br><span class="line">      	<span class="keyword">while</span>((line=reader.readerLine())!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            content.append(line);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span>(IOException e)&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(reader!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                reader.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span>(IOException e)&#123;</span><br><span class="line">            <span class="comment">//..</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时就可以在<code>onCreate()</code>方法中将相应的数据读取起来进行展示了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/24/android-file/" data-id="ck4jzi8ny000jrflr0wqs36en" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-indexeddb" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/indexeddb/" class="article-date">
+  <time datetime="2018-01-14T12:07:28.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/indexeddb/">indexedDB的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>IndexedDB是Indexed Database API的简称，是一套方便保存和读取JavaScript对象、同时支持查询和搜索的API。</p>
+<h2 id="一、数据库的创建和存储"><a href="#一、数据库的创建和存储" class="headerlink" title="一、数据库的创建和存储"></a>一、数据库的创建和存储</h2><h3 id="1-1-IndexedDB对象的声明"><a href="#1-1-IndexedDB对象的声明" class="headerlink" title="1.1 IndexedDB对象的声明"></a>1.1 IndexedDB对象的声明</h3><p>IndexDB本作为API宿主的全局对象，但是不同浏览器常常有一些不同命名：</p>
+<ul>
+<li>IE10: msIndexedDB</li>
+<li>Firfox4: mozIndexedDB</li>
+<li>Chrome: webkitIndexedDB<br>所以对IndexDB的声明需要兼顾现状：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> indexDB = <span class="built_in">window</span>.indexedDB || <span class="built_in">window</span>.msIndexedDB || <span class="built_in">window</span>.mozIndexedDB || <span class="built_in">window</span>.webkitIndexedDB</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-数据库的连接"><a href="#1-2-数据库的连接" class="headerlink" title="1.2 数据库的连接"></a>1.2 数据库的连接</h3><p>IndexedDB与传统数据库的差别是：它使用对象保存数据。一个IndexedDB数据库可以看做时相同命名空间下的对象的集合。<br>对IndexedDB数据库的连接可以使用<code>open()</code>方法，</p>
+<ul>
+<li>在回调函数中的<code>event.target</code>指向的是<code>request</code>:</li>
+<li><code>event.target.result</code>找那个有一个数据库的实例对象(IDBDatabase)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> request , database;</span><br><span class="line"><span class="comment">// 打开一个数据，返回一个IDBRequest对象</span></span><br><span class="line">request=indexedDB.open(<span class="string">"admin"</span>);</span><br><span class="line"><span class="comment">// 打开数据库发生异常时的回调函数</span></span><br><span class="line">request.onerrro=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">"打开时发生了异常："</span>+event.target.errorCode);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 打开数据库成功时的回调函数</span></span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 这里event.target指向的是request对象</span></span><br><span class="line">    database=event.target.result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-IndexedDB版本号的设置"><a href="#1-3-IndexedDB版本号的设置" class="headerlink" title="1.3 IndexedDB版本号的设置"></a>1.3 IndexedDB版本号的设置</h3><p>在Web应用中，随着对数据库结构的更新和修改，肯定会出现多个不同版本的数据库。默认情况下IndexedDB没有版本号，最好设置一下，可以使用<code>setVersion()</code>方法，以字符串的形式传递版本号，为了检验版本号是否设置成功，需要设置监听函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(database.version!=<span class="string">"1.0"</span>)&#123;</span><br><span class="line">    request=database.setVersion(<span class="string">"1.0"</span>);</span><br><span class="line">    request.onerror=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        alert(<span class="string">"打开时发生了异常："</span>+event.target.errorCode);</span><br><span class="line">    &#125;</span><br><span class="line">    request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        alert(<span class="string">"数据库初始化完成，数据库名字为："</span>+database.name+<span class="string">", 版本为："</span>+database.version);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    alert(<span class="string">"数据库已经存在，数据库名字为："</span>+database.name+<span class="string">", 版本为："</span>+database.version);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-对象存储空间的创建（建表）"><a href="#1-4-对象存储空间的创建（建表）" class="headerlink" title="1.4 对象存储空间的创建（建表）"></a>1.4 对象存储空间的创建（建表）</h3><p>先额外看一个最简单的例子，有个简单的了解：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化数据库</span></span><br><span class="line"><span class="keyword">var</span> dbParams=<span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">dbParams.db_name=<span class="string">"YYH"</span>;</span><br><span class="line">dbParams.db_version=<span class="string">"1"</span>;</span><br><span class="line">dbParams.db_store_name=<span class="string">"Test"</span>;</span><br><span class="line">dbObject.init(dbParams);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 插入三条数据</span></span><br><span class="line"><span class="keyword">var</span> v01=dbObject.put(&#123;<span class="attr">title</span>:<span class="string">"阿里巴巴与四十个大盗"</span>,<span class="attr">author</span>:<span class="string">"alibaba"</span>,<span class="attr">isbn</span>:<span class="number">123456</span>&#125;,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> v02=dbObject.put(&#123;<span class="attr">title</span>:<span class="string">"百年身，已往回首"</span>,<span class="attr">author</span>:<span class="string">"baidu"</span>,<span class="attr">isbn</span>:<span class="number">234567</span>&#125;,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">var</span> v03=dbObject.put(&#123;<span class="attr">title</span>:<span class="string">"Chrome浏览器无敌"</span>,<span class="attr">author</span>:<span class="string">"chromegroup"</span>,<span class="attr">isbn</span>:<span class="number">345678</span>&#125;,<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>在数据库连接成功之后，就要创建对象存储空间（建表）了。正如前面所说，IndexedDB保存的是系列对象的集合，加入我们保存记录是用户对象如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> user=&#123;</span><br><span class="line">    username:<span class="string">"007"</span>,</span><br><span class="line">    firstName:<span class="string">"Yang"</span>,</span><br><span class="line">    lastName:<span class="string">"Afei"</span>,</span><br><span class="line">    password:<span class="string">"iampassword"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是建表一定要有主键，我们将username设为主键，在IndexedDB中怎么做呢,可以使用<code>database</code>中的<code>createObjectStore()</code>方法，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一个参数相当于表名，第二个参数执行表的主键</span></span><br><span class="line"><span class="keyword">var</span> store = database.createObjectStore(<span class="string">"users"</span>, &#123;<span class="attr">keyPath</span>:<span class="string">"username"</span>&#125;);</span><br></pre></td></tr></table></figure>
+<p>这时，数据表已经创建好了，接下来就该插入数据了。</p>
+<h3 id="1-5-数据的插入"><a href="#1-5-数据的插入" class="headerlink" title="1.5 数据的插入"></a>1.5 数据的插入</h3><p>有了<code>store</code>这个对存储空间的引用，就可以进行数据的插入了。有两个方法进行数据的插入,它们都接收要保存的对象，区别就是处理方式的不同：</p>
+<ul>
+<li><code>add()</code>: 要插入的对象已经在数据库中存在时，返回错误</li>
+<li><code>put()</code>: 要插入的对象已经在数据库中存在时，更改数据库中的信息<br>示例代码如下</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假设users中保存着一批用户数据</span></span><br><span class="line"><span class="keyword">var</span> i=<span class="number">0</span> , len=users.length;</span><br><span class="line"><span class="keyword">while</span>(i&lt;len)&#123;</span><br><span class="line">    store.add(users[i++]);</span><br><span class="line">    <span class="comment">//或者</span></span><br><span class="line">    <span class="comment">//store.put(users[i++]);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样可以不知道每一条数据插入成功与否，其实每次add或put都会创建一个新的对这个对象存储空间的更新请求，可以获取这个请求，然后添加监听：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i=<span class="number">0</span>,</span><br><span class="line">    request,</span><br><span class="line">    requests=[],</span><br><span class="line">    len=users.length;</span><br><span class="line"><span class="keyword">while</span>(i&lt;len)&#123;</span><br><span class="line">    request=store.add(users[i++]);</span><br><span class="line">    request.onerror=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//处理错误</span></span><br><span class="line">    &#125;</span><br><span class="line">    request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//处理成功</span></span><br><span class="line">    &#125;</span><br><span class="line">    requests.put(request);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候就完成了数据的插入工作，下面就是数据的查询了</p>
+<h2 id="二、事务"><a href="#二、事务" class="headerlink" title="二、事务"></a>二、事务</h2><p>对IndexedDB中数据的查询（事实上时除了数据插入外的所有操作）都是通过事务来完成的。可以通过<code>transaction()</code>来创建事务：</p>
+<ul>
+<li>如果没有参数传递，该事务只能读取数据库中保存的对象</li>
+<li>只传一个对象存储空间名（表名），该事务只加载该‘表’中的数据</li>
+<li>传递数组形式存储的多个对象存储空间名（表名），该事务只加载该‘表’数组中的数据</li>
+<li>传递两个参数，第二个参数表示访问模式</li>
+<li><ul>
+<li>READ_ONLY(0)      ：表示只读</li>
+</ul>
+</li>
+<li><ul>
+<li>READ_WRITE(1)     ：表示读写</li>
+</ul>
+</li>
+<li><ul>
+<li>VERSION_CHANGE(2) ：表示改变</li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：在IE10+和Firfox4+中实现的是IDBTransaction，而Chrome中则交webkitIDBTransaction，使用时应该做统一接口：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> IDBTransaction = <span class="built_in">window</span>.IDBTransaction || <span class="built_in">window</span>.webkitIDBTransaction;</span><br></pre></td></tr></table></figure>
+<p>相关例子代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取数据库中保存的对象</span></span><br><span class="line"><span class="keyword">var</span> transaction1=database.transaction();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 读取数据库中指定对象存储空间（单个）保存的对象</span></span><br><span class="line"><span class="keyword">var</span> transaction2=database.transaction(<span class="string">"users"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 读取数据库中指定对象存储空间（多个）保存的对象</span></span><br><span class="line"><span class="keyword">var</span> transaction3=database.transaction([<span class="string">"users"</span>,<span class="string">"anotherStore"</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取读写模式下的事务，此种模式不仅可以读，还可以写</span></span><br><span class="line"><span class="keyword">var</span> transaction4=database.transaction(<span class="string">"users"</span>,IDBTransaction.READ_WRITE);</span><br></pre></td></tr></table></figure>
+<p>创建好事务后，可以使用<code>objectStore()</code>方法传入特定的存储空间名称访问特定的存储空间，该进行实质性的查找工作了，</p>
+<ul>
+<li>add()和put():</li>
+<li>get():接收键作为参数，取得值</li>
+<li>delete():接收键作为参数，删除对象</li>
+<li>clear():删除所有对象</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取users对象存储空间中username为007的记录</span></span><br><span class="line"><span class="keyword">var</span> request=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>).get(<span class="string">"007"</span>);</span><br><span class="line">request.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">"没有获取到对象！"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">request.onsuccess = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//获取查询到的结果</span></span><br><span class="line">    <span class="keyword">var</span> result=event.target.result;</span><br><span class="line">    alert(result.firstName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>事务主要是完成多个请求的，所以事务本身也有时间处理程序：<code>onerror</code>,<code>oncomplete</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 事务执行出错</span></span><br><span class="line">transaction.onerror=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 整个事务被取消</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 事务执行全部完成，</span></span><br><span class="line">transaction.oncomplete=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 整个事务都成功完成了,但是这里访问不到get请求回的任何数据</span></span><br><span class="line">    <span class="comment">// 要想访问到get请求回的数据，需要去相应请求中的onsuccess方法中获取</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、游标和键范围"><a href="#三、游标和键范围" class="headerlink" title="三、游标和键范围"></a>三、游标和键范围</h2><h3 id="3-1-游标"><a href="#3-1-游标" class="headerlink" title="3.1 游标"></a>3.1 游标</h3><p>使用事务可以直接通过已知的键检索单个对象，<strong>如果要检索多个对象呢，这时候就要在事务内部创建游标了</strong>。游标是一个执行结果集的指针。与传统数据库查询不同，游标并不提前搜集结果。游标指针会先指向结果中的第一项，在接到查找下一项指令时才会指向下一项。</p>
+<p>游标的创建可以使用<code>openCursor()</code>方法，该方法返回的是请求对象，因此也可以指定<code>onsuccess</code>和<code>onerror</code>事件处理程序：</p>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">    request=store.openCursor();</span><br><span class="line">    </span><br><span class="line">request.onsuccess(event)&#123;</span><br><span class="line">    <span class="comment">// 处理成功，在这里可以使用event.target.result获取存储空间的下一个对象</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">request.onerror(event)&#123;</span><br><span class="line">    <span class="comment">// 处理失败</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>onsuccess</code>方法中可以使用event.target.result获取存储空间的下一个对象，结果集中如果有下一项时，这个属性保存一个IDBCursor实例，没有下一项时，这个属性值为null，IDBCursor的属性有如下：</p>
+<ul>
+<li>direction: 游标移动的方向，默认值是：IDBCursor.NEXT(0)表示下一项；IDBCursor.NEXT_NO_DUPLICATE(1)表示下一个不重复的项；IDBCursor.PREV(2)表示前一项；IDBCursor.PREV_NO_DUPLICATE(3)表示前一个不重复的项。</li>
+<li>key:对象的键</li>
+<li>value:对象的值，实际的对象</li>
+<li>primaryKey:游标使用的键，可能是对象键，也可能是索引键（后面会有讨论）</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//获取存储空间的下一个对象</span></span><br><span class="line">    <span class="keyword">var</span> cursor=event.target.result;</span><br><span class="line">    <span class="keyword">if</span>(cursor)&#123;<span class="comment">//必须检查</span></span><br><span class="line">        <span class="comment">// 因为cursor.value是一个对象，需要先将它转化为json字符串</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"Key: "</span>+cursor.key+<span class="string">" , value: "</span>+ <span class="built_in">JSON</span>.stringfy(cursor.value));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>使用游标更新和删除对象</strong></p>
+<ul>
+<li>update() : 用指定对象更新当前游标的value，返回一个请求可以指定onsuccess和onerror</li>
+<li>delete() : 返回一个请求可以指定onsuccess和onerror<br>如果当前事务没有修改对象存储空间权限，update和delete就会报错。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">rquest.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cursor=event.target.result,</span><br><span class="line">        value,</span><br><span class="line">        updateRequest;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">if</span>(cursor)&#123;<span class="comment">//必须要检查</span></span><br><span class="line">        <span class="keyword">if</span>(cursor.key==<span class="string">"foo"</span>)&#123;</span><br><span class="line">            value=cursor.value; <span class="comment">// 取得当前的值</span></span><br><span class="line">            value.password=<span class="string">"iamanotherpw"</span>; <span class="comment">// 更新密码</span></span><br><span class="line">            </span><br><span class="line">            updateRequest=cursor.update(value); <span class="comment">//请求保存更新</span></span><br><span class="line">            updateRequest.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 更新成功</span></span><br><span class="line">            &#125;;</span><br><span class="line">            updateRequest.onerror=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 更新失败</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">rquest.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cursor=event.target.result,</span><br><span class="line">        value,</span><br><span class="line">        deleteRequest;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">if</span>(cursor)&#123;<span class="comment">//必须要检查</span></span><br><span class="line">        <span class="keyword">if</span>(cursor.key==<span class="string">"foo"</span>)&#123;</span><br><span class="line">            deleteRequest=cursor.delete(); <span class="comment">//请求删除当前项</span></span><br><span class="line">            deleteRequest.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 删除成功</span></span><br><span class="line">            &#125;;</span><br><span class="line">            deleteRequest.onerror=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 删除失败</span></span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>默认情况下，每个游标只发起一次请求，想要发送另一次请求就需要<code>cursor</code>调用下面的方法了：</p>
+<ul>
+<li><code>continue(key)</code>:移动到结果集中的下一项。参数key可选，不指定表示移动到下一项，指定key参数表示移动到指定键位置；</li>
+<li><code>advance(count)</code>:向前移动count指定的项数；<br>它们都会导致游标使用相同的请求，因此onsuccess和onerror函数也会得到重用。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rquest.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cursor=event.target.result;</span><br><span class="line">    <span class="keyword">if</span>(cursor)&#123;<span class="comment">//必须要检查</span></span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">"Key: "</span>+cursor.key+<span class="string">" , value: "</span>+ <span class="built_in">JSON</span>.stringfy(cursor.value));</span><br><span class="line">       </span><br><span class="line">       cursor.continue(); <span class="comment">//移动到下一项</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//没有更多选项可以迭代时，cursor为null</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"完成！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-键范围"><a href="#3-2-键范围" class="headerlink" title="3.2 键范围"></a>3.2 键范围</h3><p>使用游标查找数据的方式太受限了，不太理想。键范围（key range）为使用游标添加了一些灵活性。键范围由IDBKeyRange的实例表示，IE10+和Firfox4+ chrome都支持，但是chrome中名字为webkitIDBKeyRange，使用时最好先声明一个本地类型，这样可以兼顾到浏览器的差异</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> IDBKeyRange=<span class="built_in">window</span>.IDBKeyRange || <span class="built_in">window</span>.webkitIDBKeyRange;</span><br></pre></td></tr></table></figure>
+<p>那么键范围如何指定呢，如下四种方法：</p>
+<ul>
+<li><code>only(key)</code>:范围保证只取得键”007”的对象</li>
+<li><code>lowerBound(key)</code>：指定结果集的下界，保证游标从键007的对象开始，然后继续向前移动，直到最后一个对象；</li>
+<li><code>lowerBound(key,boolean)</code>：第二个参数如果是true表示忽略key对象，为false表示包含key对象</li>
+<li><code>upperBound(key)</code>：指定结果集的上界，游标从头开始，到key的对象为止</li>
+<li><code>upperBound(key,boolean)</code>：第二个参数如果是true表示忽略key对象，为false表示包含key对象</li>
+<li><code>bound(key1,key2)</code>：从key1开始，到key2的范围</li>
+<li><code>bound(key1,key2,boolean1)</code>：boolean1为true表示从key1的下一个对象开始，到key2的范围</li>
+<li><code>bound(key1,key2,boolean1,boolean2)</code>：boolean1和boolean2为true表示从key1的下一个对象开始，到key2的上一个对象为止范围<br>然后将它给<code>openCursor()</code>方法即可，下面的例子表示输出从007到ace的对象：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">var</span> onlyRange=IDBKeyRange.only(<span class="string">"007"</span>)</span><br><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">    range=IDBKeyRange.bound(<span class="string">"007"</span>,<span class="string">"ace"</span>),</span><br><span class="line">    request=store.openCursor(range);</span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cursor=event.target.result;</span><br><span class="line">    <span class="keyword">if</span>(cursor)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"Key: "</span>+cursor.key+<span class="string">" , value: "</span>+ <span class="built_in">JSON</span>.stringfy(cursor.value));</span><br><span class="line">        </span><br><span class="line">        cursor.continue();</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"完成"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-游标方向"><a href="#3-3-游标方向" class="headerlink" title="3.3 游标方向"></a>3.3 游标方向</h3><p>上边在讲游标时讲到了<code>IDBCursor</code>对象，在<code>openCursor()</code>方法时会得到一个<code>IDBCursor</code>实例。<br>其实<code>openCursor()</code>也可以接收两个参数：</p>
+<ul>
+<li>IDBKeyRange：</li>
+<li>方向的数值常量：即前边查询时讲的IDBKeyCursor的常量<br>首先考虑不同浏览器的差异：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> IDBKeyCursor=<span class="built_in">window</span>.IDBKeyCursor || <span class="built_in">window</span>.webkitIDBCursor;</span><br></pre></td></tr></table></figure>
+<p>正常情况下，游标是从对象存储空间的第一项开始，通过调用continue()或advance()前进到最后一项。游标默认方向值时IDBCursor.NEXT,如果对象存储空间中有重复的项而又想跳过重复的项，就可以使用下面的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">    request=store.openCursor(<span class="literal">null</span>,IDBCursor.NEXT_NO_DUPLICATE);</span><br></pre></td></tr></table></figure>
+<p>我们要说明的就是一个参数null，null表示默认的键范围，即包含所有对象。如果想让游标在指定的范围内移动，怎么办呢，将第一个参数换位IDBKeyRange对象即可。</p>
+<h2 id="四、索引和并发"><a href="#四、索引和并发" class="headerlink" title="四、索引和并发"></a>四、索引和并发</h2><h3 id="4-1-索引"><a href="#4-1-索引" class="headerlink" title="4.1 索引"></a>4.1 索引</h3><p>前边讲到创建对象存储空间（表）时，需要指定键（主键），但是有时候可能需要为一个对象存储空间指定多个键（比如通过用户ID和用户名两种方式保存用户资料）。这是就要用到索引了。可以考虑将用户ID作为主键，然后为用户名创建索引。<br><strong>4.1.1 如何创建索引呢：</strong></p>
+<blockquote>
+<p>(1) 首先引用对象存储空间，然后调用<code>createIndex()</code>方法，返回的是一个IDBKIndex实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">&gt;       <span class="comment">//第一个参数索引的名字，第二个参数索引的属性的名字，第三参数包含unique的可选项（必须指定，它标书键所在所有记录中是否唯一，因为usename可能有重复，所以这个索引不唯一）</span></span><br><span class="line">&gt;       index=store.createIndex(<span class="string">"username"</span>,<span class="string">"username"</span>,&#123;<span class="attr">unique</span>:<span class="literal">false</span>&#125;);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>也可以对对象存储空间调用<code>index()</code>方法，获取同样的实例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">&gt;       index=store.index(<span class="string">"username"</span>);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>(2) 然后对索引就可以通过<code>openCursor()</code>方法创建游标了。这里会把索引键保存在<code>event.target.result</code>中（与存储空间的区别：对象存储空间会把主键保存在`event.target.result中），其余的都一样。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">&gt;       index=store.index(<span class="string">"username"</span>),</span><br><span class="line">&gt;       request=index.openCursor();</span><br><span class="line">&gt; request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">&gt;       <span class="comment">//处理成功</span></span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>(3) 也可以在索引上创建一个只返回每条记录主键的游标，这时调用<code>openKeyCursor()</code>方法，它接收参数与<code>openCursor()</code>方法相同。此时在<code>event.result.key</code>中仍保存着索引键，<code>event.result.vaule</code>保存的则是主键（而不再是整个对象）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">&gt;       index=store.index(<span class="string">"username"</span>),</span><br><span class="line">&gt;       request=index.openKeyCursor();</span><br><span class="line">&gt; request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">&gt;       <span class="comment">//处理成功，event.result.key保存索引键，event.result.vaule保存主键</span></span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>4.1.2 对索引进行查询</strong><br>索引创建好了，接下来就可以通过它进行查询了。<br>(1) 通用使用<code>get()</code>方法从索引中取得一个对象，传入一个索引键参数即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">      index=store.index(<span class="string">"username"</span>),</span><br><span class="line">      request=index.get(<span class="string">"007"</span>);</span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">      <span class="comment">//处理成功</span></span><br><span class="line">&#125;;</span><br><span class="line">request.onerror=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">     <span class="comment">//处理失败</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>(2) 同样也可以通过<code>getKey()</code>方法根据索引键取得主键</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">      index=store.index(<span class="string">"username"</span>),</span><br><span class="line">      request=index.getKey(<span class="string">"007"</span>);</span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">      <span class="comment">//处理成功，event.result.key保存索引键，event.result.vaule保存主键（用户ID）</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>(3) 如果想得到索引相关信息呢 怎么办呢，可以通过IDBCursor对象获取到索引的额如下信息：</p>
+<ul>
+<li>name：索引的名字</li>
+<li>keyPath：传入<code>createIndex()</code>中的属性路径</li>
+<li>objectStore：索引的对象存储空间</li>
+<li>unique：表示索引键是否唯一的boolean值</li>
+</ul>
+<p>(4) 可以通过indexName属性访问到为该空间建立的所有索引</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">    indexNames=store.indexNames,</span><br><span class="line">    i=<span class="number">0</span>,</span><br><span class="line">    len=indexNames.length;</span><br><span class="line"><span class="keyword">while</span>(i&lt;len)&#123;</span><br><span class="line">    index=store.index(indexNames[i++]);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"索引名字："</span>+index.name+<span class="string">" , KeyPath:"</span>+index.keyPath+<span class="string">" , Unique: "</span>+index.unique);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>4.1.3 删除索引</strong><br>通过<code>deleteIndex()</code>方法删除索引</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store=database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>);</span><br><span class="line">store.deleteIndex(<span class="string">"username"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-并发"><a href="#4-2-并发" class="headerlink" title="4.2 并发"></a>4.2 并发</h3><p>异步API也会存在并发问题，一个浏览器多个标签操作数据库时就会发生。当浏览器中仅有一个标签页使用数据库时，才能调用<code>setVersion()</code>方法完成操作。<br><strong>注意刚打开数据库时要记着指定<code>onversionchange</code>事件</strong>，这样当同一个来源的另一个标签调用<code>setVersion()</code>时就会执行这个回调函数，最佳处理方式，是在里面执行立即关闭数据库，从而保证版本的顺利更新</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> request,database;</span><br><span class="line">request=indexDB.open(<span class="string">"admin"</span>);</span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    database=event.target.result;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//当其它标签页对数据库版本有更新时，执行数据库关闭</span></span><br><span class="line">    database.onversionchange=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        database.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当你要调用<code>setVersion()</code>更新数据库版本时，但是另一个标签页已经打开数据库了，这时候通知用户关闭其它标签页页很有用。可以使用<code>onblocked</code>事件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> request=database.setVersion(<span class="string">"2.0"</span>);</span><br><span class="line">request.onblock=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">"请关闭其它标签页，然后重新执行"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">request.onsuccess=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//处理成功，继续</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/indexeddb/" data-id="ck4jzi8pw003brflrbvxfanwu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-java-login" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/java-login/" class="article-date">
+  <time datetime="2018-01-14T12:01:53.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/java-login/">Java之登陆验证功能</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="登录验证"><a href="#登录验证" class="headerlink" title="登录验证"></a>登录验证</h1><hr>
+<p>参考：<br><a href="https://www.zhihu.com/question/20085241" target="_blank" rel="noopener">https://www.zhihu.com/question/20085241</a><br><a href="http://blog.csdn.net/u012920206/article/details/52518622" target="_blank" rel="noopener">http://blog.csdn.net/u012920206/article/details/52518622</a><br>先说一下需求：</p>
+<ul>
+<li>首先可以实现用户名密码的登录当然数据传输需要进行加密传输（推荐使用sha256）；</li>
+<li>用户登录后，需要保存用户的登录状态，以便请求后续功能（可以考虑sessionID，也可结合Token）；</li>
+<li>用户每次请求其它功能时，提前予以拦截验证（和具体功能函数解耦）；</li>
+</ul>
+<h3 id="一、如何在java中创建session"><a href="#一、如何在java中创建session" class="headerlink" title="一、如何在java中创建session"></a>一、如何在java中创建session</h3><p>1.1 使用例子</p>
+<p>首先你需要导入javax.servlet.http这个包，对应的jar文件是servlet-api.jar，在此基础上调用该包里面的HttpSession就能实例化session了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//创建session</span><br><span class="line">HttpSession session=ServletActionContext.getRequest().getSession();</span><br><span class="line">//保存</span><br><span class="line">ActionContext.getContext().getSession.put(&quot;msg&quot;,&quot;hello world from Session&quot;);</span><br><span class="line">session.setAttribute(&quot;softtypeid&quot;,softtypeid);</span><br><span class="line"></span><br><span class="line">//获取</span><br><span class="line">if(session.getAttribute(&quot;softtypeid&quot;)!=null)&#123;</span><br><span class="line">	if(!softtypeid.equals(session.getAttribute(&quot;softtypeid&quot;)))&#123;</span><br><span class="line">		pager_offset=1;//如果不是同一种分类，返回第一页</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">HttpServletRequest request=ServletActionContext.getRequest();</span><br><span class="line">HttpServletReponse response=ServletActionContext.getResponse();</span><br><span class="line">HttpSession session=request.getSession();</span><br></pre></td></tr></table></figure>
+<p>1.2 session、和cookie</p>
+<p>cookie特点：</p>
+<ul>
+<li>会话数据存放在浏览器</li>
+<li>数据类型只能是String，而且有大小限制</li>
+<li>数据存放不安全</li>
+</ul>
+<p>session特点： </p>
+<ul>
+<li>会话数据存放在服务器（服务器内存）</li>
+<li>数据类型任意，没有大小限制</li>
+<li>相对安全</li>
+</ul>
+<p>cookie技术原理：</p>
+<ul>
+<li>服务器创建cookie对象，保存会话数据，把cookie数据发送给浏览器</li>
+<li>浏览器获取cookie数据，保存到浏览器缓存区，然后在下次访问服务器携带cookie数据</li>
+<li>服务器获取浏览器发送的cookie数据</li>
+</ul>
+<p>cookie简单使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Cookie cookie=new Cookie(&quot;name&quot;,&quot;nidie&quot;);//创建Cookie对象，保存会话数据</span><br><span class="line">response.addCookie(cookie);// 通过响应头携带cookie给浏览器</span><br><span class="line">//或者 response.setHeader(&quot;set-cookie&quot;,&quot;name=nidie&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//浏览器下次访问的时候，在请求头将cookie发送给服务器</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//服务器获取浏览器发送的cookie</span><br><span class="line">//String name=request.getHeader(&quot;cookie&quot;);</span><br><span class="line"></span><br><span class="line">Cookie[] cookies=request.getcookies();</span><br><span class="line">for(Cookie cookie:cookies)&#123;</span><br><span class="line">	String name=cookie.getName();</span><br><span class="line">	String value=cookie.getValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>cookie细节</p>
+<ul>
+<li>cookie的数据类型一定是字符串，如果发送中文，需要通过URLEncoder进行加密，和URlDecoder进行解密。</li>
+<li>setPath(path):默认情况下，是当期项目的根目录下，可以通过setpath更改，如果把该cookie设置到某个有效路径下，只有当访问该有效路径的时候才会携带该cookie信息</li>
+<li>setMaxAge(整数): 设置cookie的有效时间。 </li>
+<li><ul>
+<li>正整数：表示超过了正该值cookie会丢失（cookie保存到浏览器的缓存中），单位：秒。</li>
+</ul>
+</li>
+<li><ul>
+<li>负整数：表示如果浏览器关闭了，cookie就会消失（cookie保存在浏览器的内存中）</li>
+</ul>
+</li>
+<li><ul>
+<li>0:表示删除同名的cookie</li>
+</ul>
+</li>
+<li>cookie可以有多个，浏览器一般存放300个cookie，每个站点最多存放20个，每个cookie大小限制为4K</li>
+</ul>
+<p>Session使用步骤</p>
+<ul>
+<li>创建HttpSession对象，用于保存会话数据。<br>request.getSession();//创建或获取session</li>
+<li>修改HttpSession对象<br>setMaxInactiveInterval（）;</li>
+<li>保存会话数据（作为域对象）<br>session.setAttribute(“name”, “yangqing”);</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//创建或者获取session对象</span><br><span class="line"></span><br><span class="line">      HttpSession session = request.getSession();</span><br><span class="line">      //修改session</span><br><span class="line">      session.setMaxInactiveInterval(20);//20秒后session对象将要被销毁</span><br><span class="line">      //保存会话数据（作为域对象）</span><br><span class="line">      session.setAttribute(&quot;name&quot;, &quot;yangqing&quot;);</span><br></pre></td></tr></table></figure>
+<p>session细节</p>
+<ul>
+<li>1 setMaxInactiveInterval(秒)：设置session对象的有效时间 </li>
+<li>2 设置JSESSIONID不会随着浏览器的关闭而关闭</li>
+<li>3 通过invalidate()方法直接销毁session对象</li>
+<li>4 request.getSession()//request.getSession(true):查询session对象，如果没有session对象，创建新的<br>request.getSession(false):如果没有session对象，返回null。</li>
+</ul>
+<h2 id="二、sha256加密处理"><a href="#二、sha256加密处理" class="headerlink" title="二、sha256加密处理"></a>二、sha256加密处理</h2><p>参考：<a href="http://blog.csdn.net/u012188107/article/details/69267054" target="_blank" rel="noopener">http://blog.csdn.net/u012188107/article/details/69267054</a></p>
+<p>2.1 方式1</p>
+<p>利用Apache的工具类实现：<br>maven添加依赖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;commons-codec&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;commons-codec&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;$&#123;common-codec.version&#125;&lt;/version&gt;</span><br><span class="line"> &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>实现代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  利用Apache的工具类实现SHA-256加密</span><br><span class="line"> * @param str 加密后的报文</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static String getSHA256Str(String str)&#123;</span><br><span class="line"></span><br><span class="line">    MessageDigest messageDigest;</span><br><span class="line">    String encdeStr = &quot;&quot;;</span><br><span class="line">    try &#123;</span><br><span class="line">        messageDigest = MessageDigest.getInstance(&quot;SHA-256&quot;);</span><br><span class="line">        byte[] hash = messageDigest.digest(str.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">        encdeStr = Hex.encodeHexString(hash);</span><br><span class="line">    &#125; catch (NoSuchAlgorithmException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; catch (UnsupportedEncodingException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    return encdeStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.2 方式2<br>利用java自带的实现加密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  利用java原生的摘要实现SHA256加密</span><br><span class="line"> * @param str 加密后的报文</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static String getSHA256StrJava(String str)&#123;</span><br><span class="line">    MessageDigest messageDigest;</span><br><span class="line">    String encodeStr = &quot;&quot;;</span><br><span class="line">    try &#123;</span><br><span class="line">        messageDigest = MessageDigest.getInstance(&quot;SHA-256&quot;);</span><br><span class="line">        messageDigest.update(str.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">        encodeStr = byte2Hex(messageDigest.digest());</span><br><span class="line">    &#125; catch (NoSuchAlgorithmException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; catch (UnsupportedEncodingException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    return encodeStr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 将byte转为16进制</span><br><span class="line"> * @param bytes</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">private static String byte2Hex(byte[] bytes)&#123;</span><br><span class="line">    StringBuffer stringBuffer = new StringBuffer();</span><br><span class="line">    String temp = null;</span><br><span class="line">    for (int i=0;i&lt;bytes.length;i++)&#123;</span><br><span class="line">        temp = Integer.toHexString(bytes[i] &amp; 0xFF);</span><br><span class="line">        if (temp.length()==1)&#123;</span><br><span class="line">            //1得到一位的进行补0操作</span><br><span class="line">            stringBuffer.append(&quot;0&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        stringBuffer.append(temp);</span><br><span class="line">    &#125;</span><br><span class="line">    return stringBuffer.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/java-login/" data-id="ck4jzi8oi001hrflr837wn40w" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-broadcast" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-broadcast/" class="article-date">
+  <time datetime="2018-01-14T11:47:46.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-broadcast/">Android之广播接收器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>广播，之前也又学习过，但却未再项目中实战过，今天再回顾一下。</p>
+<p>Android中每个应用程序都可以对自己感兴趣的广播进行注册，以获取对自己有用的信息。广播可以分两类：</p>
+<ul>
+<li>标准广播：完全异步执行，所有接收器同一时刻接收</li>
+<li>有序广播：同步执行，同一时刻只有一个接收器能接收，优先级高的先接收，并且可以决定是否可以截断该广播</li>
+</ul>
+<h2 id="一、接收系统广播"><a href="#一、接收系统广播" class="headerlink" title="一、接收系统广播"></a>一、接收系统广播</h2><p>组册广播的方式又两种：</p>
+<ul>
+<li>动态注册：在代码中注册</li>
+<li>静态注册：在AndroidManifest.xml中注册</li>
+</ul>
+<h3 id="1-1-动态注册广播监听网络变化"><a href="#1-1-动态注册广播监听网络变化" class="headerlink" title="1.1 动态注册广播监听网络变化"></a>1.1 动态注册广播监听网络变化</h3><h4 id="1-1-1-创建一个广播接收器"><a href="#1-1-1-创建一个广播接收器" class="headerlink" title="1.1.1 创建一个广播接收器"></a>1.1.1 创建一个广播接收器</h4><p>新建一个类继承自BroadcastReciever，重写onReceiver()方法，这样方广播到来时，就会执行onReceiver()方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppcompatActivity</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> IntentFilter intentFilter;</span><br><span class="line">    <span class="keyword">private</span> NetworkChangeReceiver networkChangeReceiver;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="comment">//1、创建IntentFileter实例</span></span><br><span class="line">        intentFilter=<span class="keyword">new</span> IntentFileter();</span><br><span class="line">        <span class="comment">//2、添加对网络状态变化的监听</span></span><br><span class="line">        intentFilter.addAction(<span class="string">"android.net.conn.CONNECTIVITY_CHANGE"</span>);</span><br><span class="line">        <span class="comment">//3、创建NetworkChangeReceiver实例</span></span><br><span class="line">        networkChangeReceiver=<span class="keyword">new</span> NetworkChangeReceiver();</span><br><span class="line">        <span class="comment">//4、注册广播</span></span><br><span class="line">        registerReceiver(networkChangeReceiver,intentFilter);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        <span class="comment">//5、取消对网络变化的广播注册</span></span><br><span class="line">        unregisterReceiver(networkChangeReceiver);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">NetworkChangeReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context,Intent intent)</span></span>&#123;</span><br><span class="line">            <span class="comment">//do something</span></span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1-1-2-处理广播事件"><a href="#1-1-2-处理广播事件" class="headerlink" title="1.1.2 处理广播事件"></a>1.1.2 处理广播事件</h4><p>在NetworkChangeReceiver中重写onReceive()方法，那么怎么处理该事件呢，可以这么做，提示网络状态</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NetworkChangeReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context,Intent intent)</span></span>&#123;</span><br><span class="line">            <span class="comment">//1、获取ConnectivityManager实例，一个管理网络连接的系统服务类</span></span><br><span class="line">            ConnectivityManager connectivityManager=getSystemService(Context.CONNECTIVITY_SERVICE);</span><br><span class="line">            <span class="comment">//2、得到NetworkInfo实例，可以判断是否有网络</span></span><br><span class="line">            NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();</span><br><span class="line">            <span class="keyword">if</span>(networkInfo!=<span class="keyword">null</span> &amp;&amp; networkInfo.isAvailable())&#123;</span><br><span class="line">                Toast.makeText(context,<span class="string">"网络可用"</span>,Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                Toast.makeText(context,<span class="string">"网络不可用"</span>,Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，需要在AndroidManifest.xml中声明网络请求的权限，否则会直接崩溃</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-2-静态注册广播实现开机启动"><a href="#1-2-静态注册广播实现开机启动" class="headerlink" title="1.2 静态注册广播实现开机启动"></a>1.2 静态注册广播实现开机启动</h3><p>动态注册广播只有在程序启动之后才能接收广播，如果想不启动程序也能接收广播，可以吗？可以，使用静态注册的方式</p>
+<h4 id="1-2-1-创建一个广播接收器"><a href="#1-2-1-创建一个广播接收器" class="headerlink" title="1.2.1 创建一个广播接收器"></a>1.2.1 创建一个广播接收器</h4><p>Android studio中右键-new-other-Broadcast Receiver；</p>
+<ul>
+<li>Exported属性表示允许这个广播接收器接收本程序以外的广播</li>
+<li>Enabled属性表示是否启用这个广播接收器</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BootCompleteReceiver</span> <span class="keyword">extends</span> <span class="title">BoradcastReceiver</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceiver</span><span class="params">(Context context,Intent intent)</span></span>&#123;</span><br><span class="line">        Toast.makeText(context,<span class="string">"开机啦"</span>,Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-2-在AndroidManifest-xml中注册该广播"><a href="#1-2-2-在AndroidManifest-xml中注册该广播" class="headerlink" title="1.2.2 在AndroidManifest.xml中注册该广播"></a>1.2.2 在AndroidManifest.xml中注册该广播</h4><p>在application中添加一个新标签<code>&lt;receiver&gt;</code>，Android studio中自动完成了。并且在内部添加<code>&lt;intent-filter&gt;</code>标签，添加开机启动的action，这样在开机启动发出广播时就可以被接收到了</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".BootCompleteReceiver"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:enabled</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:exprted</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.BOOT_COMPLETED"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="1-2-3-添加权限声明"><a href="#1-2-3-添加权限声明" class="headerlink" title="1.2.3 添加权限声明"></a>1.2.3 添加权限声明</h4><p>此时还不能实现接收开机广播，还需要添加权限声明</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.RECEIVER_BOOT_COMPLETED"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意：在onReceive()方法中不要进行复杂耗时的操作，广播接收器中不允许开启线程，若允许长时间就会报错。通常是发通知或启动服务</strong></p>
+<h2 id="二、发送自定义广播"><a href="#二、发送自定义广播" class="headerlink" title="二、发送自定义广播"></a>二、发送自定义广播</h2><p>会接收广播，就得会发送广播，</p>
+<h3 id="2-1-发送标准广播"><a href="#2-1-发送标准广播" class="headerlink" title="2.1 发送标准广播"></a>2.1 发送标准广播</h3><p>（1） 定义广播接收器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcastReceiver</span> <span class="keyword">extends</span> <span class="title">BoradcastReceiver</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceiver</span><span class="params">(Context context,Intent intent)</span></span>&#123;</span><br><span class="line">        Toast.makeText(context,<span class="string">"自己的广播"</span>,Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（2）在AndroidManifest.xml中对该接收器修改</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".MyBroadcastReceiver"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:enabled</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:exprted</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.example.broadcast.My_Broadcast"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>（3）发送广播<br>此时就可以在相应的地方通过Context发送该广播了，可以给一个按钮添加监听，将广播发送出去，此时所有监听“com.example.broadcast.My_Broadcast”的接收器都可以收到一条标准广播了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">button.setOnclickListener(</span><br><span class="line">    <span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">            Intent i=<span class="keyword">new</span> Intent(<span class="string">"com.example.broadcast.My_Broadcast"</span>);</span><br><span class="line">            sendBroadcast(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-发送有序广播"><a href="#2-2-发送有序广播" class="headerlink" title="2.2 发送有序广播"></a>2.2 发送有序广播</h3><p>标准广播可以被多个进程同时接收，如何发送有序广播呢？<br>（1）修改广播的发送方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">button.setOnclickListener(</span><br><span class="line">    <span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">            Intent i=<span class="keyword">new</span> Intent(<span class="string">"com.example.broadcast.My_Broadcast"</span>);</span><br><span class="line">            <span class="comment">//实行Context的sendOrderedBroadcast方法发送有序广播；第二个参数是与权限有关的字符串</span></span><br><span class="line">            sendOrderedBroadcast(i,<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>（2）在AndroidManifest.xml中对该接收器添加优先级别，这样优先级越高的就先接到该广播。（100优先级最高）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".MyBroadcastReceiver"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:enabled</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:exprted</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span> <span class="attr">android:priority</span>=<span class="string">"100"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.example.broadcast.My_Broadcast"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>（3）截断广播<br>如果优先级较高的广播接收器，在接收到该广播之后不想让后边优先级低的接收器继续接收，在onReceive中使用<code>abortBrodcast()</code>方法，这样该广播就不会继续传递下去了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcastReceiver</span> <span class="keyword">extends</span> <span class="title">BoradcastReceiver</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceiver</span><span class="params">(Context context,Intent intent)</span></span>&#123;</span><br><span class="line">        Toast.makeText(context,<span class="string">"自己的广播"</span>,Toast.LENGTH_SHORT).show();</span><br><span class="line">        abortBrodcast();<span class="comment">//截断该广播</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、使用本地广播"><a href="#三、使用本地广播" class="headerlink" title="三、使用本地广播"></a>三、使用本地广播</h2><p>上边使用的都是全局广播，很容易引起垃圾广播，如何只让广播在应用程序内部传播呢，很简单只需要使用一个<code>LocalBroadcastManager</code>对广播进行管理就可以了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppcompatActivity</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> IntentFilter intentFilter;</span><br><span class="line">    <span class="keyword">private</span> LocalReceiver localReceiver;</span><br><span class="line">    <span class="keyword">private</span> LocalBroadcastManager localBroadcastManager;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        localBroadcastManager=LocalBroadcastManager.getInstance(<span class="keyword">this</span>);</span><br><span class="line">        Button btn=...</span><br><span class="line">        btn.setOnClickListener(<span class="keyword">new</span> OnClickListener()&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">()</span></span>&#123;</span><br><span class="line">                Intent i=<span class="keyword">new</span> Intent(<span class="string">"com.example.broadcast.LOCAL_BROADCAST"</span>);</span><br><span class="line">                localBroadcastManager.sendBroadcast(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//1、创建IntentFileter实例</span></span><br><span class="line">        intentFilter=<span class="keyword">new</span> IntentFileter();</span><br><span class="line">        <span class="comment">//2、添加对网络状态变化的监听</span></span><br><span class="line">        intentFilter.addAction(<span class="string">"com.example.broadcast.LOCAL_BROADCAST"</span>);</span><br><span class="line">        <span class="comment">//3、LocalReceiver</span></span><br><span class="line">        localReceiver=<span class="keyword">new</span> LocalReceiver();</span><br><span class="line">        <span class="comment">//4、注册本地广播</span></span><br><span class="line">        localBroadcastManager.registerReceiver(localReceiver,intentFilter);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        <span class="comment">//5、取消对网络变化的广播注册</span></span><br><span class="line">        localBroadcastManager.unregisterReceiver(localReceiver);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">LocalReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context,Intent intent)</span></span>&#123;</span><br><span class="line">            <span class="comment">//do something</span></span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>小技巧：一般如果要实现在任何一个界面都可以直接退出应用程序的功能时，可以创建一个BaseActivity，在里面添加相应的操作，然后所有的活动都继承于该BaseActivity即可</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-broadcast/" data-id="ck4jzi8p9002jrflr5sqvigci" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-recyclerview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-recyclerview/" class="article-date">
+  <time datetime="2018-01-14T11:43:28.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-recyclerview/">Android之recyclerview</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="RecyclerView的使用"><a href="#RecyclerView的使用" class="headerlink" title="RecyclerView的使用"></a>RecyclerView的使用</h2><hr>
+<h3 id="一、引用与布局"><a href="#一、引用与布局" class="headerlink" title="一、引用与布局"></a>一、引用与布局</h3><h4 id="1、添加依赖"><a href="#1、添加依赖" class="headerlink" title="1、添加依赖"></a>1、添加依赖</h4><p>为了让RecyclerView兼容所有的版本，Android团队将RecyclerView定义在了support库中了。所以首先在<code>build.gradle</code>文件的dependencies中添加依赖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.android.support:recyclerview-v7:24.2.1&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="2、添加布局"><a href="#2、添加布局" class="headerlink" title="2、添加布局"></a>2、添加布局</h4><p>引用依赖之后，就可以在layer中添加该控件了，如下就完成了对recyclerview的添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.v7.widget.RecyclerView</span><br><span class="line">	android:id=&quot;@+id/recycler_view&quot;</span><br><span class="line">	android:layout_width=&quot;match_parent&quot;</span><br><span class="line">	android:layout_height=&quot;match_parent&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="二、数据的准备"><a href="#二、数据的准备" class="headerlink" title="二、数据的准备"></a>二、数据的准备</h3><h4 id="1、模拟数据"><a href="#1、模拟数据" class="headerlink" title="1、模拟数据"></a>1、模拟数据</h4><p>以一个数组来模拟要展示的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private String[] data=&#123;</span><br><span class="line">	&quot;Apple&quot;,&quot;Banana&quot;,&quot;Orange&quot;,&quot;Watermelon&quot;,&quot;Pear&quot;,</span><br><span class="line">	&quot;Grape&quot;,&quot;Pineapple&quot;,&quot;Strawberry&quot;,&quot;Cherry&quot;,&quot;Mango&quot;,</span><br><span class="line">	&quot;Apple&quot;,&quot;Banana&quot;,&quot;Orange&quot;,&quot;Watermelon&quot;,&quot;Pear&quot;,</span><br><span class="line">	&quot;Grape&quot;,&quot;Pineapple&quot;,&quot;Strawberry&quot;,&quot;Cherry&quot;,&quot;Mango&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、创建一个水果类"><a href="#2、创建一个水果类" class="headerlink" title="2、创建一个水果类"></a>2、创建一个水果类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class Fruit&#123;</span><br><span class="line">	private String name;</span><br><span class="line">	private int imageId;</span><br><span class="line">	public Fruit(String name,int imageId)&#123;</span><br><span class="line">		this.name=name;</span><br><span class="line">		this.imageId=imageId;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getName()&#123;</span><br><span class="line">		return name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public int getImageId()&#123;</span><br><span class="line">		return imageId;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、创建一个item的布局文件"><a href="#3、创建一个item的布局文件" class="headerlink" title="3、创建一个item的布局文件"></a>3、创建一个item的布局文件</h4><p>每一条数据以何种样式展示，加入是一张图片配一个名字。在layout文件夹下创建一个<code>fruit_item.xml</code>的布局文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android</span><br><span class="line">	android:layout_width=&quot;match_parent&quot;</span><br><span class="line">	android:layout_height=&quot;wrap_content&quot;&gt;</span><br><span class="line">	&lt;ImageView</span><br><span class="line">		android:id=&quot;@+id/fruit_image&quot;</span><br><span class="line">		android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_height=&quot;wrap_content&quot;&gt;</span><br><span class="line">	&lt;IextView</span><br><span class="line">		android:id=&quot;@+id/fruit_name&quot;</span><br><span class="line">		android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_gravity=&quot;center_vertical&quot;</span><br><span class="line">		andriod:layout_marginLeft=&quot;10dp&quot;&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="三、适配器的编写"><a href="#三、适配器的编写" class="headerlink" title="三、适配器的编写"></a>三、适配器的编写</h3><p>有了上面的准备就可以开始编写适配器了，需要继承自RecyclerView.Adapter类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class FruitAdapter extends RecyclerView.Adapter&lt;FruitAdapter.ViewHolder&gt;&#123;</span><br><span class="line">	private List&lt;Fruit&gt; fruitList;</span><br><span class="line">	static class ViewHolder extends RecyclerView.ViewHolder&#123;</span><br><span class="line">		ImageView fruitImage;</span><br><span class="line">		TextView fruitName;</span><br><span class="line">		public ViewHolder(View v)&#123;</span><br><span class="line">			super(v);</span><br><span class="line">			fruitImage=(ImageView)view.findViewById(R.id.fruit_image);</span><br><span class="line">			fruitName=(TextView)view.findViewById(R.id.fruit_name);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//构造函数接收数据源</span><br><span class="line">	public 	FruitAdapter(List&lt;Fruit&gt; fruitList)&#123;</span><br><span class="line">		this.fruitList=fruitList;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//通过架子啊fruit_item布局，创建ViewHolder实例，并返回该实例</span><br><span class="line">	@Override</span><br><span class="line">	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)&#123;</span><br><span class="line">		View view=LayoutInflater.from(parent.getContext())</span><br><span class="line">			.inflate(R.layout.fruit_item,parent,false);</span><br><span class="line">		ViewHolder holder=new ViewHolder(view);</span><br><span class="line">		return holder;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//将RecyclerView的子项进行赋值</span><br><span class="line">	@Override</span><br><span class="line">	public void onBindViewHolder(ViewHolder holder,int position)&#123;</span><br><span class="line">		Fruit fruit=fruitList.get(position);</span><br><span class="line">		holder.fruitImage.setImageResource(fruit.getImageId());</span><br><span class="line">		holder.fruitName.setText(fuit.getName());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//获取一共有多少项</span><br><span class="line">	@Override</span><br><span class="line">	public int getItemCount()&#123;</span><br><span class="line">		return fruitList.size();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、RecyclerView的加载"><a href="#四、RecyclerView的加载" class="headerlink" title="四、RecyclerView的加载"></a>四、RecyclerView的加载</h3><p>现在就可以展示数据了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppcompatActivity&#123;</span><br><span class="line">	private List&lt;Fruit&gt; fruitList=new ArrayList&lt;&gt;();</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public void onCreate(Bundle savedInstanceState)&#123;</span><br><span class="line">		super.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		//初始化数据</span><br><span class="line">		initFruits();</span><br><span class="line">		RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recycler_view);</span><br><span class="line"></span><br><span class="line">		//指定RecyclerView的布局方式</span><br><span class="line">		LinearLayoutManager layoutManager=new LinearLayoutManager(this);</span><br><span class="line">		recyclerView.setLayoutManager(layoutManager);</span><br><span class="line">		FruitAdapter adapter=new FruitAdapter(fruitList);</span><br><span class="line">	</span><br><span class="line">		recyclerView.setAdapter(adapter);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//初始化数据</span><br><span class="line">	public void initFruits()&#123;</span><br><span class="line">		Fruit apple=new Fruit(&quot;apple&quot;,R.drawable.apple_pic);</span><br><span class="line">		fruitList.add(apple);</span><br><span class="line">		//...</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="五、改变RecyclerView的布局"><a href="#五、改变RecyclerView的布局" class="headerlink" title="五、改变RecyclerView的布局"></a>五、改变RecyclerView的布局</h3><p>通过上边的步骤就可以成功展示列表数据了，排列方式是纵向排列。如果要实现横向布局怎么办呢？<br>第四部中出现了<code>LinearLayoutManager</code>，表示纵向布局，可以给这个类添加朝向,通过<br><code>setOrientation</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onCreate(Bundle savedInstanceState)&#123;</span><br><span class="line">	super.onCreate(savedInstanceState);</span><br><span class="line">	setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">	//初始化数据</span><br><span class="line">	initFruits();</span><br><span class="line">	RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recycler_view);</span><br><span class="line"></span><br><span class="line">	//指定RecyclerView的布局方式</span><br><span class="line">	LinearLayoutManager layoutManager=new LinearLayoutManager(this);</span><br><span class="line">	//横向布局 </span><br><span class="line">	layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);</span><br><span class="line">	recyclerView.setLayoutManager(layoutManager);</span><br><span class="line">	FruitAdapter adapter=new FruitAdapter(fruitList);</span><br><span class="line"></span><br><span class="line">	recyclerView.setAdapter(adapter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这需要改一下<code>fruit_item.xml</code>文件的布局</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android</span><br><span class="line">	android:orientation=&quot;vertical&quot;</span><br><span class="line">	android:layout_width=&quot;100dp&quot;</span><br><span class="line">	android:layout_height=&quot;wrap_content&quot;&gt;</span><br><span class="line">	&lt;ImageView</span><br><span class="line">		android:id=&quot;@+id/fruit_image&quot;</span><br><span class="line">		android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_gravity=&quot;center_horizontal&quot;&gt;</span><br><span class="line">	&lt;IextView</span><br><span class="line">		android:id=&quot;@+id/fruit_name&quot;</span><br><span class="line">		android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_gravity=&quot;center_horizontal&quot;</span><br><span class="line">		andriod:layout_marginTop=&quot;10dp&quot;&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>这是就实现了横向布局。</p>
+<h3 id="六、其它的布局类"><a href="#六、其它的布局类" class="headerlink" title="六、其它的布局类"></a>六、其它的布局类</h3><ul>
+<li>GridLayoutManager  网格状布局</li>
+<li>StaggeredGridLayoutManager 瀑布流式布局</li>
+</ul>
+<p>比如瀑布流式布局，只需修改layoutManager即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//第一个参数表示列数；第二个参数指定布局的排列方向</span><br><span class="line">StaggeredGridLayoutManager layoutManager=new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);</span><br></pre></td></tr></table></figure>
+<p>同样也需要修改<code>fruit_item.xml</code>文件，不再赘述</p>
+<h3 id="七、点击事件"><a href="#七、点击事件" class="headerlink" title="七、点击事件"></a>七、点击事件</h3><p>RecyclerView的所有的点击事件都由具体的view去注册，这样就可以给整个子item注册事件，也可以给item中的子控件注册事件。是在Adaper中实现的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">public class FruitAdapter extends RecyclerView.Adapter&lt;FruitAdapter.ViewHolder&gt;&#123;</span><br><span class="line">	private List&lt;Fruit&gt; fruitList;</span><br><span class="line">	static class ViewHolder extends RecyclerView.ViewHolder&#123;</span><br><span class="line">		//1</span><br><span class="line">		View fruitView;</span><br><span class="line"></span><br><span class="line">		ImageView fruitImage;</span><br><span class="line">		TextView fruitName;</span><br><span class="line">		public ViewHolder(View v)&#123;</span><br><span class="line">			super(v);</span><br><span class="line"></span><br><span class="line">			//2</span><br><span class="line">			fruitView=view;</span><br><span class="line">	</span><br><span class="line">			fruitImage=(ImageView)view.findViewById(R.id.fruit_image);</span><br><span class="line">			fruitName=(TextView)view.findViewById(R.id.fruit_name);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//构造函数接收数据源</span><br><span class="line">	public 	FruitAdapter(List&lt;Fruit&gt; fruitList)&#123;</span><br><span class="line">		this.fruitList=fruitList;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//通过架子啊fruit_item布局，创建ViewHolder实例，并返回该实例</span><br><span class="line">	@Override</span><br><span class="line">	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)&#123;</span><br><span class="line">		View view=LayoutInflater.from(parent.getContext())</span><br><span class="line">			.inflate(R.layout.fruit_item,parent,false);</span><br><span class="line">		//3		</span><br><span class="line">	    final ViewHolder holder=new ViewHolder(view);</span><br><span class="line">		//注册点击事件</span><br><span class="line">		holder.fruitView.setOnclickListener(new OnClickListener()&#123;</span><br><span class="line">			@Override</span><br><span class="line">			public void onClick(View v)&#123;</span><br><span class="line">				int position=holder.getAdapterPosition();</span><br><span class="line">				Fruit fruit=fruitList.get(position);</span><br><span class="line">				//...</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		holder.fruitImage.setOnclickListener(new OnClickListener()&#123;</span><br><span class="line">			@Override</span><br><span class="line">			public void onClick(View v)&#123;</span><br><span class="line">				int position=holder.getAdapterPosition();</span><br><span class="line">				Fruit fruit=fruitList.get(position);</span><br><span class="line">				//...</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		return holder;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//将RecyclerView的子项进行赋值</span><br><span class="line">	@Override</span><br><span class="line">	public void onBindViewHolder(ViewHolder holder,int position)&#123;</span><br><span class="line">		Fruit fruit=fruitList.get(position);</span><br><span class="line">		holder.fruitImage.setImageResource(fruit.getImageId());</span><br><span class="line">		holder.fruitName.setText(fuit.getName());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//获取一共有多少项</span><br><span class="line">	@Override</span><br><span class="line">	public int getItemCount()&#123;</span><br><span class="line">		return fruitList.size();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="八、RecyclerView的更新"><a href="#八、RecyclerView的更新" class="headerlink" title="八、RecyclerView的更新"></a>八、RecyclerView的更新</h3><p>1、如果对数据源传入了新数据，需要更新RecyclerView的显示，可以通过调用adapter的<code>NotifyItemInserted</code>方法来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adatper.notufyItemInsert(msgList.size()-1);</span><br><span class="line">recyclerView·scrollToPosition(msgList.size()-1);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-recyclerview/" data-id="ck4jzi8pc002mrflrdcdzeux5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-include" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-include/" class="article-date">
+  <time datetime="2018-01-14T11:42:00.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-include/">Android之引入布局</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、引入xml文件"><a href="#一、引入xml文件" class="headerlink" title="一、引入xml文件"></a>一、引入xml文件</h3><p>如果你要自定义标题栏，是不是要为每一个页面都重复的编写标题栏配置呢，当然不用，使用引入布局就可以实现一次编写处处使用的效果。<br>1、首先在layouy文件夹下新建title.xml的布局文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:background</span>=<span class="string">"@drawable/title_bg"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/title_back"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"@drawable/back_bg"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"back"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/title_txt"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:garvity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"title"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textSize</span>=<span class="string">"24sp"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/title_edit"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"@drawable/edit_bg"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"edit"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、在Activity的布局文件中通过关键字include引入该布局</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/title"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>3、在Activity的java文件中隐藏默认标题栏</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContent(R.layout.activity_main);</span><br><span class="line">    </span><br><span class="line">    ActionBar actionBar=getSupportActionBar();</span><br><span class="line">    <span class="keyword">if</span>(actionBar!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        actionBar.hide();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二、引入带监听事件的控件"><a href="#二、引入带监听事件的控件" class="headerlink" title="二、引入带监听事件的控件"></a>二、引入带监听事件的控件</h3><p>仅仅引入xml文件，如果给title添加监听事件岂不是还要做大量的重复工作，对于一些通用的监听事件也可以独立出来。</p>
+<p>1、新建一个类继承LinearLayout, 并且在里面添加监听按钮事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TitleLayout</span> <span class="keyword">extends</span> <span class="title">LinearLayout</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TitleLayout</span><span class="params">(Context context , AttributeSet attrs)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context,attrs);</span><br><span class="line">        <span class="comment">//inflate方法动态加载一个布局文件</span></span><br><span class="line">        LayoutInflater.from(context).inflate(R.layout.title,<span class="keyword">this</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//给返回按钮，添加监听</span></span><br><span class="line">        Button btn1=findViewById(R.id.title_back);</span><br><span class="line">        btn1.setOnClickListener(<span class="keyword">new</span> OnClickListener()&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">                ((Activity)getContext()).finish();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、在activity_main.xml文件中添加这个控件即可</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">com.example.ui.TitleLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_contetn"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-include/" data-id="ck4jzi8nz000lrflrwznze1wh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-intent2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-intent2/" class="article-date">
+  <time datetime="2018-01-14T11:40:18.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-intent2/">Android之再谈Intent</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、在使用Intent启动新的activity时需要传递参数，如下面这样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(MainActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">String data=<span class="string">"hello 你好！"</span></span><br><span class="line"><span class="comment">//第一个参数是键，第二个是值</span></span><br><span class="line">intetn.putExtra(“extra_data”,data);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>但是对要传递的数据却不清楚，要么阅读SecondActivity代码，要么询问写SecondActivity的人，费时费力，如何减少这种麻烦呢？</p>
+<p>2、可以在SecondActivity中添加一个静态方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">actionStart</span><span class="params">(Context context,String data1,String data2)</span></span>&#123;</span><br><span class="line">    Intent i=<span class="keyword">new</span> Intent(context,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    i.putExtra(<span class="string">"param1"</span>,data1);</span><br><span class="line">    i.putExtra(<span class="string">"param2"</span>,data2);</span><br><span class="line">    context.startActivity(intent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、然后在MainActivity中可以直接调用SecondActivity中的方法来启动SecondActivity并进行传参</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SecondActivity.actionStart(MainActivity.<span class="keyword">this</span>,<span class="string">"data1"</span>,<span class="string">"data2"</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-intent2/" data-id="ck4jzi8o4000srflr3rhy620z" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-exit" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-exit/" class="article-date">
+  <time datetime="2018-01-14T11:38:24.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-exit/">Android之退出应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、activity的退出"><a href="#一、activity的退出" class="headerlink" title="一、activity的退出"></a>一、activity的退出</h3><p>对于单个的activity的退出，只需要简单的调用<code>finish()</code>方法即可。</p>
+<h3 id="二、应用程序的退出"><a href="#二、应用程序的退出" class="headerlink" title="二、应用程序的退出"></a>二、应用程序的退出</h3><p>如果又多个activity启动，如何在任意一个activity中退出该应用程序呢？</p>
+<p><strong>思路：</strong>创建一个activity的管理类，管理所有启动的activity。<br><strong>实现：</strong><br>1、创建一个活动管理器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ActivityControllor</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Activity&gt; activityList=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="title">addActivity</span><span class="params">(Activity activity)</span></span>&#123;</span><br><span class="line">        activityList.add(activity);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">removeActivity</span><span class="params">(Activity activity)</span></span>&#123;</span><br><span class="line">        activityList.remove(activity);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">finishAll</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(Activity activity:activityList)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!activity.isFinishing())&#123;</span><br><span class="line">                activity.finish();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        activityList.clear();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、创建一个activity的基类，重写<code>onCreate</code>和<code>onDestroy</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivrty</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        <span class="comment">//添加此activity</span></span><br><span class="line">        Activitycontroller.addActivity(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        <span class="comment">//移除该activity</span></span><br><span class="line">        ActivityController.removeActivity(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、然后所有创建的Activity都继承该BaseActivity，若要退出，只需要调用静态的<code>finishAll()</code>方法即可,然后再杀掉当前进程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ActivityController.finishAll();</span><br><span class="line"><span class="comment">// killProcess()只能杀掉当前进程，mypid()方法获取当前进程</span></span><br><span class="line">android.os.Process.killProcess(android.os.Process.myPid());</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-exit/" data-id="ck4jzi8o2000qrflr4aroufhi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-start" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-start/" class="article-date">
+  <time datetime="2018-01-14T11:35:00.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-start/">Android之启动模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、Android中启动模式的设置"><a href="#一、Android中启动模式的设置" class="headerlink" title="一、Android中启动模式的设置"></a>一、Android中启动模式的设置</h3><p>1、可以在AndroidManifest.xml中给activity的标签指定<code>android:launchMode</code>属性来选择启动模式；</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".FirstActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:launchMode</span>=<span class="string">"singleTask"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">"标题"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、也可以在代码上进行修改</p>
+<h3 id="二、不同启动模式的区别"><a href="#二、不同启动模式的区别" class="headerlink" title="二、不同启动模式的区别"></a>二、不同启动模式的区别</h3><ul>
+<li>standard:默认方式，每次启动都会创建新的实例；</li>
+<li>singleTop:启动时如果栈顶就是，则直接调用栈顶的activity；</li>
+<li>singleTask:每次启动时都检查栈内是否已存在，存在则将该activity之上的activity全部清除，然后调用该activity；</li>
+<li>singleInstance:启用一个新的返回栈来管理这个活动。（可以解决共享实例问题）</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-start/" data-id="ck4jzi8o90012rflrpn7kxkkk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-intent" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-intent/" class="article-date">
+  <time datetime="2018-01-14T11:28:45.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-intent/">Android之Intent</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、显式使用Intent"><a href="#一、显式使用Intent" class="headerlink" title="一、显式使用Intent"></a>一、显式使用Intent</h3><p>显式使用Intent很简单，如下所示就可以从MainActivity中启动secondActivity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数表示上下文，第二个参数表示目标活动</span></span><br><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(MainActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<h3 id="二、隐式使用Intent"><a href="#二、隐式使用Intent" class="headerlink" title="二、隐式使用Intent"></a>二、隐式使用Intent</h3><p>隐式即是 不直接通过activity的类名来启动activity。怎么做呢？<br>1、在AndroidManifest.xml中找到要启动的Activity，添加intent-filter</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.example.activitytest.ACTION_START"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、只有在<action>和<category>同时匹配上Intent时，才能启用该活动，在创建Intent时直接将action的字符串<code>com.example.activitytest.ACTION_START</code>传递进去，表示想要启动过能够响应这个字符串的Activity，下面的代码没有添加category，是因为<code>android.intent.category.DEFAULT</code>是默认的category，在调用startActivity时会自动添加到Intent中。</category></action></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(“com.example.activitytest.ACTION_START”);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>3、自定义category<br>如果要启动的category有自己的category，怎么办呢，如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.example.activitytest.ACTION_START"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"com.example.activitytest.My_CATEGORY"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用Intent的<code>addCategory</code>方法，就可以启动指定的activity了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(“com.example.activitytest.ACTION_START”);</span><br><span class="line">intent.addCategory(<span class="string">"com.example.activitytest.My_CATEGORY"</span>);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p><strong>注意：没个intent只能指定一个action，但是可以指定多个category</strong></p>
+<h3 id="三、隐式启用系统的服务"><a href="#三、隐式启用系统的服务" class="headerlink" title="三、隐式启用系统的服务"></a>三、隐式启用系统的服务</h3><p>如何隐式的调用系统浏览器呢，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(Intent.ACTION_VIEW);</span><br><span class="line">intent.setData(<span class="string">"http://www.baidu.com"</span>);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>其中action<code>Intent.ACTION_VIEW</code>是一个系统内置的动作，常量值为“android.intent.action.VIEW”;</p>
+<p>‘setData’方法指定当前Intent正在操作的数据，通常以字符串的形式传如到Uri.parse()方法中解析产生。</p>
+
+<p>可以给<code>&lt;intent-filter/&gt;</code>标签配置<code>&lt;data&gt;</code>标签，更精确的指定当前活动能够响应什么类型的数据，<code>&lt;data&gt;</code>标签可以配置如下内容：</p>
+<ul>
+<li>anroid:scheme    指定数据的协议</li>
+<li>android:host     指定数据的主机名，</li>
+<li>android:port     指定数据的端口</li>
+<li>android:path     指定主机鸣鹤端口之后的部分</li>
+<li>android:mimetype 指定处理的数据类型</li>
+</ul>
+<p>只有<code>&lt;data&gt;</code>标签指定的内容和intent中携带的Data一致时，当前活动才能响应该intent。不过一般<code>&lt;data&gt;</code>标签不会指定过多的内容，如要启动浏览器，只需要指定Android:acheme为http即可，<br>如，给一个activity指定：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".ThirdActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.View"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:scheme</span>=<span class="string">"http"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这是如过再隐式调用浏览器服务，就会弹出让你选择的项。</p>
+<p>除了调用系统的浏览器，还可以调用系统的一系列的其它服务，如调用系统的电话拨号界面：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(Intent.ACTION_DIAL);</span><br><span class="line">intent.setData(<span class="string">"tel:10086"</span>);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<h3 id="四、向下一个Activity传递数据"><a href="#四、向下一个Activity传递数据" class="headerlink" title="四、向下一个Activity传递数据"></a>四、向下一个Activity传递数据</h3><p>1、启动新的activity时传递数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数表示上下文，第二个参数表示目标活动</span></span><br><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(MainActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">String data=<span class="string">"hello 你好！"</span></span><br><span class="line"><span class="comment">//第一个参数是键，第二个是值</span></span><br><span class="line">intetn.putExtra(“extra_data”,data);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>2、然后就能在SecondActivity的create方法中获取了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=getIntent();</span><br><span class="line"><span class="comment">//又键获取相应的值</span></span><br><span class="line">String data=intent.getStringExtra(<span class="string">"extra_data"</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这里如果值是字符串就使用getStringExtra；</li>
+<li>如果是整型数据，就使用getIntExtra；</li>
+<li>如果是布尔型数据，就使用getBooleanExtra;</li>
+</ul>
+<p>当然也可以传递bundle对象。</p>
+<h3 id="五、向上一个Activity返回数据"><a href="#五、向上一个Activity返回数据" class="headerlink" title="五、向上一个Activity返回数据"></a>五、向上一个Activity返回数据</h3><p>如何给上一个activity中回传一个数据呢？<br>1、在第一个activity中使用<code>startActivityForResult</code>方法；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span> Intent(FirstActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"><span class="comment">//1是请求码</span></span><br><span class="line">startActivityForResult(intent,<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>然后重写<code>onActivityResult</code>方法,三个参数，第一个就是启动时传入的请求码，第二个是返回数据时传入的处理结果，第三个是携带着返回数据的Intent：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode,<span class="keyword">int</span> resultCode,Intent data)</span></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span>(requestCode)&#123;</span><br><span class="line">        <span class="keyword">case</span>:<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span>(resultCode==RESULT_OK)&#123;</span><br><span class="line">                String requestData=data.getStringExtra(<span class="string">"data_return"</span>);</span><br><span class="line">                <span class="comment">//...</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、在要请求的SecondActivity中相应位置，组装intent，然后调用finish()销毁当前activity即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">btn.setOnClickListener(<span class="keyword">new</span> OnCickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        Intent i=<span class="keyword">new</span> Intent();</span><br><span class="line">        i.putExtra(<span class="string">"data_return"</span>,<span class="string">"我是数据！"</span>);</span><br><span class="line">        setResult(RESULT_OK,intent);</span><br><span class="line">        finish();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这时，点击相应按钮，就可以在FirstActivity中收到回传的数据了。</p>
+<p>如果SecondActivity页面是通过按返回键销毁的呢，只需要重写<code>onBackPressed</code>方法即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBackPressed</span><span class="params">()</span></span>&#123;</span><br><span class="line">     Intent i=<span class="keyword">new</span> Intent();</span><br><span class="line">     i.putExtra(<span class="string">"data_return"</span>,<span class="string">"我是数据！"</span>);</span><br><span class="line">     setResult(RESULT_OK,intent);</span><br><span class="line">     finish();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-intent/" data-id="ck4jzi8o0000nrflrmlubh7yi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">__('next') &raquo;</a>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

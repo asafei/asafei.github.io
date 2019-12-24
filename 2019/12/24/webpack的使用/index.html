@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>webpack的使用 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、工程初始化1.1 入门 创建目录catirl  进入目录，执行初始化  123cd catirlnpm init -ynpm install webpack webpack-cli --save-dev  创建源文件夹，并添加文件index.js  12345catirl  |- package.json+ |- index.html+ |- /src+   |- index.js   注意：">
+<meta name="keywords" content="webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack的使用">
+<meta property="og:url" content="http://yoursite.com/2019/12/24/webpack的使用/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="一、工程初始化1.1 入门 创建目录catirl  进入目录，执行初始化  123cd catirlnpm init -ynpm install webpack webpack-cli --save-dev  创建源文件夹，并添加文件index.js  12345catirl  |- package.json+ |- index.html+ |- /src+   |- index.js   注意：">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T14:29:29.782Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack的使用">
+<meta name="twitter:description" content="一、工程初始化1.1 入门 创建目录catirl  进入目录，执行初始化  123cd catirlnpm init -ynpm install webpack webpack-cli --save-dev  创建源文件夹，并添加文件index.js  12345catirl  |- package.json+ |- index.html+ |- /src+   |- index.js   注意：">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-webpack的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/webpack的使用/" class="article-date">
+  <time datetime="2019-12-24T14:22:38.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      webpack的使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、工程初始化"><a href="#一、工程初始化" class="headerlink" title="一、工程初始化"></a>一、工程初始化</h3><h4 id="1-1-入门"><a href="#1-1-入门" class="headerlink" title="1.1 入门"></a>1.1 入门</h4><ul>
+<li><p>创建目录catirl</p>
+</li>
+<li><p>进入目录，执行初始化</p>
+</li>
+<li><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd catirl</span><br><span class="line">npm init -y</span><br><span class="line">npm install webpack webpack-cli --save-dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建源文件夹，并添加文件index.js</p>
+</li>
+<li><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">catirl</span><br><span class="line">  |- package.json</span><br><span class="line">+ |- index.html</span><br><span class="line">+ |- <span class="regexp">/src</span></span><br><span class="line"><span class="regexp">+   |- index.js</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>注意：</strong>此时我们在<code>package.json</code>中保留<code>&quot;main&quot;: &quot;index.js&quot;</code>即可，没有必要改为<code>&quot;private&quot;: true</code>，保留的好处是，我们可以随时调试源代码，但是这样的不支持源代码中带有<code>import</code>和<code>export</code>语法 。</p>
+<h4 id="1-2-支持import语法"><a href="#1-2-支持import语法" class="headerlink" title="1.2 支持import语法"></a>1.2 支持import语法</h4><p>为了支持<code>import</code>和<code>export</code>语法 ,webpack可以做转，在<code>package.json</code>文件，修改如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+   <span class="string">"private"</span>: <span class="literal">true</span>,</span><br><span class="line">-   <span class="string">"main"</span>: <span class="string">"index.js"</span>,</span><br></pre></td></tr></table></figure>
+<p>然后创建一个dist的目录，将<code>index.html</code>移动进去，并执行命令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx webpack</span><br></pre></td></tr></table></figure>
+<p>此时会将我们的脚本作为<a href="https://www.webpackjs.com/concepts/entry-points" target="_blank" rel="noopener">入口起点</a>，然后 <a href="https://www.webpackjs.com/concepts/output" target="_blank" rel="noopener">输出</a> 为 <code>main.js</code>，将<code>main.js</code>引入<code>index.html</code>就可以继续访问页面了。</p>
+<p>通过npm进行打包，在<code>package.json</code>中补充</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"build"</span>: <span class="string">"webpack"</span></span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<p>就可以使用npm命令进行构建了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-进一步定制webpack"><a href="#1-3-进一步定制webpack" class="headerlink" title="1.3 进一步定制webpack"></a>1.3 进一步定制webpack</h4><p>以上使用的都是默认的webpack的配置，如何定制呢，比如修改源文件入口文件、输出文件路径、输出文件名称，这时候就得配置<code>webpack.config.js</code>文件了。</p>
+<p>新建<code>webpack.config.js</code>文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="string">'./src/index.js'</span>,    <span class="comment">//入口文件</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'bundle.js'</span>,    <span class="comment">//输出文件名称</span></span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>)<span class="comment">//输出文件路径</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>还有很多更复杂的配置，以后再讲</p>
+<h4 id="1-4-可调试源码"><a href="#1-4-可调试源码" class="headerlink" title="1.4 可调试源码"></a>1.4 可调试源码</h4><p>此时碰到一个问题，打包出来的 <code>main.js</code>或 <code>bundle.js</code>是压缩过的代码，很难调试，这时候怎么办呢？<a href="https://www.jb51.net/article/150357.htm" target="_blank" rel="noopener">参考</a></p>
+<p>此时就需要配置<code>webpack.config.js</code>了，在里面添加</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"> devtool: <span class="string">'source-map'</span>,</span><br><span class="line"> entry:<span class="string">""</span>,</span><br><span class="line"> output: &#123;</span><br><span class="line"> &#125;</span><br><span class="line"> ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再次执行<code>npm run build</code>就可以看到，生成的文件多了一个<code>bundle.js.map</code>文件,</p>
+<p>有了它，就可以调试源码的页面了。</p>
+<p>但是这样还不是很方便，在编写代码过程中，我们往往需要实时热更新加载。这该怎么办呢？</p>
+<h4 id="1-5-热更新加载"><a href="#1-5-热更新加载" class="headerlink" title="1.5 热更新加载"></a>1.5 热更新加载</h4><p><a href="https://blog.csdn.net/a2013126370/article/details/88249664" target="_blank" rel="noopener">参考</a></p>
+<p>首先需要一个本地web服务器，可以使用<code>webpack-dev-server</code>，安装该模块，并启动</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack-dev-server</span><br><span class="line">npx webpack-dev-server</span><br></pre></td></tr></table></figure>
+<p>这样就启动了，打开浏览器输入<a href="http://localhost:8080/就可以访问当前目录了" target="_blank" rel="noopener">http://localhost:8080/就可以访问当前目录了</a></p>
+<p>当然，我们可以定制启动的路径，端口号等。</p>
+<p>在<code>webpack.config.js</code>中添加：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  devServer: &#123;<span class="comment">//开发服务器的配置</span></span><br><span class="line">    <span class="comment">//端口号配置，默认为8080</span></span><br><span class="line">    port: <span class="number">3000</span>,</span><br><span class="line">    <span class="comment">//进度条</span></span><br><span class="line">    progress: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">//指定打开浏览器显示的目录，默认为根目录（项目目录）</span></span><br><span class="line">    contentBase: <span class="string">'./dist'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候就可以通过输入<a href="http://localhost:3030/" target="_blank" rel="noopener">http://localhost:3030/</a> 直接访问<code>dist</code>根目录了，</p>
+<p>此时我们在源码中直接修改代码，就可以在页面中实时更新了。</p>
+<p><strong>疑问</strong></p>
+<p>这里我有个疑问，如果之前我没有构建<code>bundle.js</code>或<code>bundle.js.map</code>文件，该server还能继续使用吗，我在<code>dist</code>文件夹下删除其余的文件，启动server，照样可以看到内容，奇怪。</p>
+<p>然后我将html文件中对<code>bundle.js</code>的引用给注销掉，再次启动server就不行了，说明server自动构建了临时<code>bundle.js</code>了。这个构建规则遵从之前的打包配置规则。验证了一下，确实如此。</p>
+<p>在<code>webpack.config.js</code>中将<code>bundle.js</code>名字改为<code>main.js</code>，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    <span class="comment">// filename: 'bundle.js',</span></span><br><span class="line">    filename: <span class="string">'main.js'</span>, </span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>再次启动server，页面就不正常显示了。但是在浏览器中输入<a href="http://localhost:3030/main.js，是可以看到代码内容的，说明web服务器中生成了`main.js`文件。" target="_blank" rel="noopener">http://localhost:3030/main.js，是可以看到代码内容的，说明web服务器中生成了`main.js`文件。</a></p>
+<p><strong>结论：</strong>说明通过server启动访问的页面，优先访问web服务器内部生成的js文件。</p>
+<p>如何让这个html文件中对js文件的引用也自动化起来呢，不至于这么摸不着头脑。</p>
+<h4 id="1-6-通过模版html自动配置js文件"><a href="#1-6-通过模版html自动配置js文件" class="headerlink" title="1.6 通过模版html自动配置js文件"></a>1.6 通过模版html自动配置js文件</h4><p>使用<code>html-webpack-plugin</code>插件</p>
+<p>首先安装该插件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install html-webpack-plugin</span><br></pre></td></tr></table></figure>
+<p>然后在<code>webpack.config.js</code>文件中配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入</span></span><br><span class="line"><span class="keyword">let</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line">...</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">...</span><br><span class="line"> plugins: [ <span class="comment">//数组：放着所有的webpack插件</span></span><br><span class="line"> 	<span class="comment">// 配置</span></span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="string">'./dist/template.html'</span>,</span><br><span class="line">      filename: <span class="string">'./dist/index.html'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中template是模版路径，<code>template.html</code>是模版内容，内容为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Catirl<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>而<code>filename</code>属性的意思就是所生成HTML文件名，内容只是比<code>template</code>所指的HTML文件多引入你之前在<code>output-filename</code>中输出的js文件。</p>
+<p><strong>注意：</strong> 通过server生成的html和js文件都没有保存在本地。</p>
+<p>至此就完成了热加载的配置工作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/webpack的使用/" data-id="ck4jzi8op001trflrvet752rj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/12/24/drawArrays和drawElements/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          drawArrays和drawElements
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/12/24/坐标参考/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">坐标参考</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/git-rebase/">git rebase</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
