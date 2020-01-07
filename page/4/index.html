@@ -62,6 +62,95 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-android-sharedpreference" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/24/android-sharedpreference/" class="article-date">
+  <time datetime="2018-01-24T12:56:05.000Z" itemprop="datePublished">2018-01-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/24/android-sharedpreference/">Android数据持久化---SharedPreferences</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SharedPreferences是一种比文件更加简单的存储方式，它以键值对的形式将数据存储在<code>/data/data/&lt;package-name&gt;/shared_prefs/</code>文件夹下。可以存储整形、字符串或布尔型的数据。</p>
+<h3 id="一、存储数据到SharedPreferences中"><a href="#一、存储数据到SharedPreferences中" class="headerlink" title="一、存储数据到SharedPreferences中"></a>一、存储数据到SharedPreferences中</h3><p>网SharedPreferences中存储数据非常简单，分三步：</p>
+<ol>
+<li>获取SharedPreferences对象sp；</li>
+<li>通过sp获取SharedPreferences.Editor对象spe；</li>
+<li>通过spe添加数据</li>
+<li>通过spe的apply方法完成提交</li>
+</ol>
+<h4 id="1-1-获取SharedPreferences对象"><a href="#1-1-获取SharedPreferences对象" class="headerlink" title="1.1 获取SharedPreferences对象"></a>1.1 获取SharedPreferences对象</h4><p>获取SharedPreferences对象的方法有三种：</p>
+<p>（1）Context类中的<code>getSharedPreference()</code>方法</p>
+<blockquote>
+<p>该方法中接收两个参数：</p>
+<ul>
+<li><p>第一个参数：指定SharedPreferences文件的名称，该文件存储在<code>/data/data/&lt;package-name&gt;/shared_prefs/</code>文件夹下；</p>
+</li>
+<li><p>第二个参数：指定操作模式，目前只有MODE_PRIVATE方法可选，和传入0</p>
+<p>效果相同，表示只有当前应用程序才可以使用这个文件进行读写。其它模式如：MODE_WORLD_READABLE和MODE_WORLD_WRITEABLE在Android4.2中已废弃，MODE_MULTI_PROCESS在Android6.0中已废弃；</p>
+</li>
+</ul>
+</blockquote>
+<p>（2）Activity中的<code>getPreference()</code>方法</p>
+<blockquote>
+<p>和Context类中的<code>getSharedPreference()</code>方法类似，只接受一个操作模式作为参数，这种方式会自动将当前活动的类名作为SharedPreference的文件名。</p>
+</blockquote>
+<p>（3）PreferenceManager类中的<code>getDefaultSharedPreference()</code></p>
+<blockquote>
+<p>这是一个静态方法，接受一个Context参数，自动使用当前包名作为SharedPreference的文件的前缀名</p>
+</blockquote>
+<h4 id="1-2-获取SharedPreferences-Editor对象"><a href="#1-2-获取SharedPreferences-Editor对象" class="headerlink" title="1.2 获取SharedPreferences.Editor对象"></a>1.2 获取SharedPreferences.Editor对象</h4><p>通过获取到的SharedPreferences对象的<code>edit()</code>方法就可以获取SharedPreferences.Editor对象了，可以如下实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SharedPreferences.Editor editor=getSharedPreference(<span class="string">"data"</span>,MODE_PRIVATE).edit();</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-向SharedPreferences-Editor对象中添加数据"><a href="#1-3-向SharedPreferences-Editor对象中添加数据" class="headerlink" title="1.3 向SharedPreferences.Editor对象中添加数据"></a>1.3 向SharedPreferences.Editor对象中添加数据</h4><p>获取到SharedPreferences.Editor对象后，就可以添加数据了，有三种方法：</p>
+<blockquote>
+<ul>
+<li>putBoolean() ： 添加布尔数据</li>
+<li>putString()： 添加字符串数据</li>
+<li>putInt()： 添加整形数据</li>
+</ul>
+</blockquote>
+<p>实例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">editor.putString(<span class="string">"name"</span>,<span class="string">"xiaoyang"</span>);</span><br><span class="line">editor.putInt(<span class="string">"age"</span>,<span class="number">27</span>);</span><br><span class="line">editor.putBoolean(<span class="string">"married"</span>,<span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="1-4-数据提交"><a href="#1-4-数据提交" class="headerlink" title="1.4 数据提交"></a>1.4 数据提交</h4><p>添加完数据，就可以使用<code>apply()</code>提交完成保存操作了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">editor.apply();</span><br></pre></td></tr></table></figure>
+<p>此时数据就完成了存储，可以在<code>/data/data/&lt;package-name&gt;/shared_prefs/</code>文件夹下找到data文件进行查看，SharedPreferences是以xml格式来管理数据的。</p>
+<h2 id="二、从SharedPreferences中读取数据"><a href="#二、从SharedPreferences中读取数据" class="headerlink" title="二、从SharedPreferences中读取数据"></a>二、从SharedPreferences中读取数据</h2><p>从SharedPreferences中读取数据的方法和存储数据的方式对应，有三个如下所示，其中第一个参数表示要获取数据的键，第二个参数表示默认值，即当传入的键不存在时则以默认值返回。</p>
+<ul>
+<li>getBoolean() ： 获取布尔数据</li>
+<li>getString()： 获取字符串数据</li>
+<li>getInt()： 获取整形数据</li>
+</ul>
+<p>实例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SharedPreferences.Editor editor=getSharedPreference(<span class="string">"data"</span>,MODE_PRIVATE).edit();</span><br><span class="line">editor.getString(<span class="string">"name"</span>,<span class="string">""</span>);</span><br><span class="line">editor.getInt(<span class="string">"age"</span>,<span class="number">0</span>);</span><br><span class="line">editor.getBoolean(<span class="string">"married"</span>,<span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/24/android-sharedpreference/" data-id="ck54081qh0011tolr6g21v23j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-android-file" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/24/android-file/" class="article-date">
@@ -125,7 +214,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/24/android-file/" data-id="ck4osl64p000hyvo1bv3djuf4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/24/android-file/" data-id="ck54081qa000qtolrv2n4eryt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -312,7 +401,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/indexeddb/" data-id="ck4osl6770033yvo1o3jmnz1e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/indexeddb/" data-id="ck54081s5003etolrpxfert98" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -422,7 +511,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/java-login/" data-id="ck4osl654001dyvo1dquxbgck" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/java-login/" data-id="ck54081qq001itolrj340xwbf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -505,7 +594,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-broadcast/" data-id="ck4osl65t002ayvo1p7yny5ij" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-broadcast/" data-id="ck54081ri002mtolruwrdaktu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -573,7 +662,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-recyclerview/" data-id="ck4osl65x002gyvo1t7cgsso8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-recyclerview/" data-id="ck54081rk002ptolrekzpt673" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -622,7 +711,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-include/" data-id="ck4osl64q000kyvo1p8kgki36" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-include/" data-id="ck54081qb000rtolrc06tvmj3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -667,7 +756,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-intent2/" data-id="ck4osl64s000oyvo1syqibopl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-intent2/" data-id="ck54081qf000ztolrx2i8r9oj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -713,7 +802,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-exit/" data-id="ck4osl64o000fyvo1pbjtdpf5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-exit/" data-id="ck54081q3000htolrj4i961lb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -760,93 +849,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-start/" data-id="ck4osl64y000yyvo1jqdtywq7" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-android-intent" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/14/android-intent/" class="article-date">
-  <time datetime="2018-01-14T11:28:45.000Z" itemprop="datePublished">2018-01-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/14/android-intent/">Android之Intent</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="一、显式使用Intent"><a href="#一、显式使用Intent" class="headerlink" title="一、显式使用Intent"></a>一、显式使用Intent</h3><p>显式使用Intent很简单，如下所示就可以从MainActivity中启动secondActivity</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数表示上下文，第二个参数表示目标活动</span></span><br><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(MainActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<h3 id="二、隐式使用Intent"><a href="#二、隐式使用Intent" class="headerlink" title="二、隐式使用Intent"></a>二、隐式使用Intent</h3><p>隐式即是 不直接通过activity的类名来启动activity。怎么做呢？<br>1、在AndroidManifest.xml中找到要启动的Activity，添加intent-filter</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.example.activitytest.ACTION_START"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>2、只有在<action>和<category>同时匹配上Intent时，才能启用该活动，在创建Intent时直接将action的字符串<code>com.example.activitytest.ACTION_START</code>传递进去，表示想要启动过能够响应这个字符串的Activity，下面的代码没有添加category，是因为<code>android.intent.category.DEFAULT</code>是默认的category，在调用startActivity时会自动添加到Intent中。</category></action></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(“com.example.activitytest.ACTION_START”);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<p>3、自定义category<br>如果要启动的category有自己的category，怎么办呢，如下</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.example.activitytest.ACTION_START"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"com.example.activitytest.My_CATEGORY"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>使用Intent的<code>addCategory</code>方法，就可以启动指定的activity了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(“com.example.activitytest.ACTION_START”);</span><br><span class="line">intent.addCategory(<span class="string">"com.example.activitytest.My_CATEGORY"</span>);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<p><strong>注意：没个intent只能指定一个action，但是可以指定多个category</strong></p>
-<h3 id="三、隐式启用系统的服务"><a href="#三、隐式启用系统的服务" class="headerlink" title="三、隐式启用系统的服务"></a>三、隐式启用系统的服务</h3><p>如何隐式的调用系统浏览器呢，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(Intent.ACTION_VIEW);</span><br><span class="line">intent.setData(<span class="string">"http://www.baidu.com"</span>);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<p>其中action<code>Intent.ACTION_VIEW</code>是一个系统内置的动作，常量值为“android.intent.action.VIEW”;</p>
-<p>‘setData’方法指定当前Intent正在操作的数据，通常以字符串的形式传如到Uri.parse()方法中解析产生。</p>
-
-<p>可以给<code>&lt;intent-filter/&gt;</code>标签配置<code>&lt;data&gt;</code>标签，更精确的指定当前活动能够响应什么类型的数据，<code>&lt;data&gt;</code>标签可以配置如下内容：</p>
-<ul>
-<li>anroid:scheme    指定数据的协议</li>
-<li>android:host     指定数据的主机名，</li>
-<li>android:port     指定数据的端口</li>
-<li>android:path     指定主机鸣鹤端口之后的部分</li>
-<li>android:mimetype 指定处理的数据类型</li>
-</ul>
-<p>只有<code>&lt;data&gt;</code>标签指定的内容和intent中携带的Data一致时，当前活动才能响应该intent。不过一般<code>&lt;data&gt;</code>标签不会指定过多的内容，如要启动浏览器，只需要指定Android:acheme为http即可，<br>如，给一个activity指定：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".ThirdActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.View"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:scheme</span>=<span class="string">"http"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这是如过再隐式调用浏览器服务，就会弹出让你选择的项。</p>
-<p>除了调用系统的浏览器，还可以调用系统的一系列的其它服务，如调用系统的电话拨号界面：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(Intent.ACTION_DIAL);</span><br><span class="line">intent.setData(<span class="string">"tel:10086"</span>);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<h3 id="四、向下一个Activity传递数据"><a href="#四、向下一个Activity传递数据" class="headerlink" title="四、向下一个Activity传递数据"></a>四、向下一个Activity传递数据</h3><p>1、启动新的activity时传递数据</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数表示上下文，第二个参数表示目标活动</span></span><br><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(MainActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">String data=<span class="string">"hello 你好！"</span></span><br><span class="line"><span class="comment">//第一个参数是键，第二个是值</span></span><br><span class="line">intetn.putExtra(“extra_data”,data);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
-<p>2、然后就能在SecondActivity的create方法中获取了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=getIntent();</span><br><span class="line"><span class="comment">//又键获取相应的值</span></span><br><span class="line">String data=intent.getStringExtra(<span class="string">"extra_data"</span>);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>这里如果值是字符串就使用getStringExtra；</li>
-<li>如果是整型数据，就使用getIntExtra；</li>
-<li>如果是布尔型数据，就使用getBooleanExtra;</li>
-</ul>
-<p>当然也可以传递bundle对象。</p>
-<h3 id="五、向上一个Activity返回数据"><a href="#五、向上一个Activity返回数据" class="headerlink" title="五、向上一个Activity返回数据"></a>五、向上一个Activity返回数据</h3><p>如何给上一个activity中回传一个数据呢？<br>1、在第一个activity中使用<code>startActivityForResult</code>方法；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span> Intent(FirstActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"><span class="comment">//1是请求码</span></span><br><span class="line">startActivityForResult(intent,<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
-<p>然后重写<code>onActivityResult</code>方法,三个参数，第一个就是启动时传入的请求码，第二个是返回数据时传入的处理结果，第三个是携带着返回数据的Intent：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode,<span class="keyword">int</span> resultCode,Intent data)</span></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span>(requestCode)&#123;</span><br><span class="line">        <span class="keyword">case</span>:<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span>(resultCode==RESULT_OK)&#123;</span><br><span class="line">                String requestData=data.getStringExtra(<span class="string">"data_return"</span>);</span><br><span class="line">                <span class="comment">//...</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>2、在要请求的SecondActivity中相应位置，组装intent，然后调用finish()销毁当前activity即可：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">btn.setOnClickListener(<span class="keyword">new</span> OnCickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        Intent i=<span class="keyword">new</span> Intent();</span><br><span class="line">        i.putExtra(<span class="string">"data_return"</span>,<span class="string">"我是数据！"</span>);</span><br><span class="line">        setResult(RESULT_OK,intent);</span><br><span class="line">        finish();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>这时，点击相应按钮，就可以在FirstActivity中收到回传的数据了。</p>
-<p>如果SecondActivity页面是通过按返回键销毁的呢，只需要重写<code>onBackPressed</code>方法即可：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBackPressed</span><span class="params">()</span></span>&#123;</span><br><span class="line">     Intent i=<span class="keyword">new</span> Intent();</span><br><span class="line">     i.putExtra(<span class="string">"data_return"</span>,<span class="string">"我是数据！"</span>);</span><br><span class="line">     setResult(RESULT_OK,intent);</span><br><span class="line">     finish();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-intent/" data-id="ck4osl64v000tyvo1fr70aaeb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-start/" data-id="ck54081qi0014tolrafv42ue0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -874,7 +877,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebAssembly/">WebAssembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
     </div>
   </div>
 
@@ -884,7 +887,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/WebAssembly/" style="font-size: 10px;">WebAssembly</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
     </div>
   </div>
 
@@ -893,7 +896,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
     </div>
   </div>
 
@@ -904,6 +907,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/01/07/WebAssembly初体验/">WebAssembly初体验</a>
+          </li>
         
           <li>
             <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
@@ -921,10 +928,6 @@
             <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
           </li>
         
-          <li>
-            <a href="/2019/12/24/git-rebase/">git rebase</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -937,7 +940,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2019 杨亚辉<br>
+      &copy; 2020 杨亚辉<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
