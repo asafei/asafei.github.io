@@ -62,6 +62,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-android-start" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-start/" class="article-date">
+  <time datetime="2018-01-14T11:35:00.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-start/">Android之启动模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、Android中启动模式的设置"><a href="#一、Android中启动模式的设置" class="headerlink" title="一、Android中启动模式的设置"></a>一、Android中启动模式的设置</h3><p>1、可以在AndroidManifest.xml中给activity的标签指定<code>android:launchMode</code>属性来选择启动模式；</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".FirstActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:launchMode</span>=<span class="string">"singleTask"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">"标题"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、也可以在代码上进行修改</p>
+<h3 id="二、不同启动模式的区别"><a href="#二、不同启动模式的区别" class="headerlink" title="二、不同启动模式的区别"></a>二、不同启动模式的区别</h3><ul>
+<li>standard:默认方式，每次启动都会创建新的实例；</li>
+<li>singleTop:启动时如果栈顶就是，则直接调用栈顶的activity；</li>
+<li>singleTask:每次启动时都检查栈内是否已存在，存在则将该activity之上的activity全部清除，然后调用该activity；</li>
+<li>singleInstance:启用一个新的返回栈来管理这个活动。（可以解决共享实例问题）</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-start/" data-id="ck55ihhn900159flrigd4zavf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-android-intent" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/14/android-intent/" class="article-date">
@@ -136,7 +183,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-intent/" data-id="ck54081qc000utolrovkqjjqc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-intent/" data-id="ck55ihhn700129flr9496x9a6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -303,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/Gradle入门/" data-id="ck54081pl0001tolry9duht9z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/Gradle入门/" data-id="ck55ihhmc00019flrfhdq1jx6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gradle/">Gradle</a></li></ul>
@@ -374,7 +421,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/Java反射/" data-id="ck54081rd002htolrc82yn9av" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/Java反射/" data-id="ck55ihho8002i9flry5a5uud2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -494,7 +541,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/SpringBoot进阶/" data-id="ck54081re002itolr61jxf6js" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/SpringBoot进阶/" data-id="ck55ihhoc002l9flr8ciyv884" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
@@ -657,7 +704,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/SpringBoot基础/" data-id="ck54081rg002ktolr88r86wdw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/SpringBoot基础/" data-id="ck55ihhoa002j9flr09l2cxel" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
@@ -742,7 +789,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/利用Docker搭建一个博客/" data-id="ck54081ru0036tolru21r0k1l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/07/14/利用Docker搭建一个博客/" data-id="ck55ihhox00379flr3f1xzp6w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
@@ -792,7 +839,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/WebGIS中切片获取和展示的原理/" data-id="ck54081q7000ntolr8hdbgdrh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/07/14/WebGIS中切片获取和展示的原理/" data-id="ck55ihhmw000l9flr6614ycns" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GIS/">GIS</a></li></ul>
@@ -857,7 +904,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/Android开发中用到的jar和aar文件的区别/" data-id="ck54081pg0000tolrj3kdrkwk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/07/14/Android开发中用到的jar和aar文件的区别/" data-id="ck55ihhm700009flrhfad84yr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -932,53 +979,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/Markdown语法简介/" data-id="ck54081pw0009tolrq76myuqt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/07/14/Markdown语法简介/" data-id="ck55ihhmj00089flr852rv9tz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown/">Markdown</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux下npm的安装" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/14/Linux下npm的安装/" class="article-date">
-  <time datetime="2017-07-13T17:29:26.000Z" itemprop="datePublished">2017-07-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/14/Linux下npm的安装/">Linux下npm的安装</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="什么是npm"><a href="#什么是npm" class="headerlink" title="什么是npm"></a>什么是npm</h3><h5 id="npm是Node-js的包管理工具（package-manager）。"><a href="#npm是Node-js的包管理工具（package-manager）。" class="headerlink" title="npm是Node.js的包管理工具（package manager）。"></a>npm是Node.js的包管理工具（package manager）。</h5><p>#####为啥我们需要一个包管理工具呢？因为我们在Node.js上开发时，会用到很多别人写的JavaScript代码。如果我们要使用别人写的某个包，每次都根据名称搜索一下官方网站，下载代码，解压，再使用，非常繁琐。于是一个集中管理的工具应运而生：大家都把自己开发的模块打包后放到npm官网上，如果要使用，直接通过npm安装就可以直接用，不用管代码存在哪，应该从哪下载。</p>
-<p>#####更重要的是，如果我们要使用模块A，而模块A又依赖于模块B，模块B又依赖于模块X和模块Y，npm可以根据依赖关系，把所有依赖的包都下载下来并管理起来。否则，靠我们自己手动管理，肯定既麻烦又容易出错。</p>
-<h3 id="npm的安装"><a href="#npm的安装" class="headerlink" title="npm的安装"></a>npm的安装</h3><p>在ubuntu系统中可以在终端敲入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install npm</span><br></pre></td></tr></table></figure></p>
-<p>在命令行提示中输入“y”，即可完成npm的自动安装。<br>然后在命令行输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm -version</span><br></pre></td></tr></table></figure></p>
-<p>就会显示npm的安装版本，即安装成功。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/Linux下npm的安装/" data-id="ck54081pr0004tolrelr3bucg" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/">npm</a></li></ul>
 
     </footer>
   </div>
@@ -1035,6 +1039,10 @@
       <ul>
         
           <li>
+            <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
+          </li>
+        
+          <li>
             <a href="/2020/01/07/WebAssembly初体验/">WebAssembly初体验</a>
           </li>
         
@@ -1048,10 +1056,6 @@
         
           <li>
             <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
           </li>
         
       </ul>

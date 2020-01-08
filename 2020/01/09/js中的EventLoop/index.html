@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>js中的EventLoop | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、由promise和setTimeout引出的问题面试中最尴尬的情况大概就是当对方抛出问题时，你却不知从何说起。当问起promise和setTimeout时接下来很大程度上都会问到执行顺序，引出js的EventLoop的话题。 二、什么是EventLoop​    JavaScript语言的一大特点就是单线程，这已经成了这门语言的核心特征，将来也不会改变。为了利用多核CPU的计算能力，HTML5">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js中的EventLoop">
+<meta property="og:url" content="http://yoursite.com/2020/01/09/js中的EventLoop/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="一、由promise和setTimeout引出的问题面试中最尴尬的情况大概就是当对方抛出问题时，你却不知从何说起。当问起promise和setTimeout时接下来很大程度上都会问到执行顺序，引出js的EventLoop的话题。 二、什么是EventLoop​    JavaScript语言的一大特点就是单线程，这已经成了这门语言的核心特征，将来也不会改变。为了利用多核CPU的计算能力，HTML5">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-01-08T16:25:22.870Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js中的EventLoop">
+<meta name="twitter:description" content="一、由promise和setTimeout引出的问题面试中最尴尬的情况大概就是当对方抛出问题时，你却不知从何说起。当问起promise和setTimeout时接下来很大程度上都会问到执行顺序，引出js的EventLoop的话题。 二、什么是EventLoop​    JavaScript语言的一大特点就是单线程，这已经成了这门语言的核心特征，将来也不会改变。为了利用多核CPU的计算能力，HTML5">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js中的EventLoop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/01/09/js中的EventLoop/" class="article-date">
+  <time datetime="2020-01-08T16:24:21.000Z" itemprop="datePublished">2020-01-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      js中的EventLoop
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="一、由promise和setTimeout引出的问题"><a href="#一、由promise和setTimeout引出的问题" class="headerlink" title="一、由promise和setTimeout引出的问题"></a>一、由promise和setTimeout引出的问题</h4><p>面试中最尴尬的情况大概就是当对方抛出问题时，你却不知从何说起。当问起promise和setTimeout时接下来很大程度上都会问到执行顺序，引出js的EventLoop的话题。</p>
+<h4 id="二、什么是EventLoop"><a href="#二、什么是EventLoop" class="headerlink" title="二、什么是EventLoop"></a>二、什么是EventLoop</h4><p>​    JavaScript语言的一大特点就是单线程，这已经成了这门语言的核心特征，将来也不会改变。为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。</p>
+<p>​    js中任务可以分成两种，一种是同步任务（synchronous），另一种是异步任务（asynchronous）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* 所有的同步任务会在主线程中依次执行，而异步任务会被挂起；</span><br><span class="line">* 当被挂起的异步任务有了运行结果，回调函数就会被添加在任务队列中，该任务队列等待被主线程下次执行；</span><br><span class="line">* 当主线程内当然的同步任务被执行完之后，就会获取任务队列中任务，依次同步执行；</span><br><span class="line">* 依次往复，每当主线程中的任务被执行完后，都会去重新获取任务队列中的任务，这就是js的EventLoop</span><br></pre></td></tr></table></figure>
+<p>当然上面说的是最简单的模型，当任务队列中还存在异步任务时，会发生什么呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">* 当主线程执行一个新的任务队列时，回依次执行里面的同步任务，</span><br><span class="line">* 若碰到异步任务，会将它挂起，待异步任务有了运行结果，回调函数会被添加到新的任务队列</span><br><span class="line">* 新的任务对象，等待被主线程下次获取，从而执行。</span><br></pre></td></tr></table></figure>
+<p>到这里就可以回答一个初级的面试问题了，当使用setTimeout时延时指定的时间后，函数会不会立即执行？</p>
+<p>答案是不会立即执行，因为setTimeout延迟指定时间后，只是将函数放入任务队列中，主线程首先得先执行完当前的所有同步任务后，才能去获取新的任务队列中的任务，然后依次执行任务队列中的任务。</p>
+<p>当然，事情远不如此简单。异步跟异步也是有区分的。</p>
+<h4 id="三、宏任务（macro-task）和微任务（micro-task）"><a href="#三、宏任务（macro-task）和微任务（micro-task）" class="headerlink" title="三、宏任务（macro-task）和微任务（micro-task）"></a>三、宏任务（macro-task）和微任务（micro-task）</h4><p>宏任务一般包括：setTimeout，setInterval</p>
+<p>微任务一般包括：Promise（then方法的执行）、process.nextTick</p>
+<p>区别在哪呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* 假设所有的异步任务都有了运行结果，它们的回调被放在了两个任务队列中：宏任务队列和微任务队列</span><br><span class="line">* 当主线程执行完毕后，首先执行微任务队列中的任务，然后执行红任务队列中的任务</span><br><span class="line">* 如果在微任务队列中，有新的微任务，则该微任务队列执行完毕后，会立即执行新的微任务队列，然后再执行宏任务队列</span><br><span class="line">* 当执行宏任务队列时，同样若存在新的微任务，也会在本宏任务队列执行完后立即执行微任务队列；若存在新的宏任务时，新的宏任务会被挂起然后放在新的宏任务队列中，等待主线程的下次轮询。</span><br></pre></td></tr></table></figure>
+<p>上面说的比较拗口，可以换一种说法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">* 所有宏任务有了运行结果，回调会被存放了任务队列中；</span><br><span class="line">* 所有的微任务有了运行结果，回调会被理解添加到当前主线程的执行序列中，</span><br><span class="line">* 这样当主线程执行到最后，都会继续执行所有微任务的回调，然后获取新的任务队列进行轮询</span><br></pre></td></tr></table></figure>
+<p>更进阶的面试题就是，说出下面的代码的输出：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'1'</span>);</span><br><span class="line">&#125;,<span class="number">0</span>);</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'3'</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<p>正确答案是：2-5-3-4-1</p>
+<p>网上有更多的联系题，可以自己去看看。本文讲到这里</p>
+<h4 id="四、其它"><a href="#四、其它" class="headerlink" title="四、其它"></a>四、其它</h4><p>宏任务还有<a href="http://nodejs.org/docs/latest/api/timers.html#timers_setimmediate_callback_arg" target="_blank" rel="noopener">setImmediate</a>，node的事件轮询也有一些差别，这里不再详述，可以参考下面的文档。</p>
+<p>参考：</p>
+<p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener"><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/10/event-loop.html</a></a></p>
+<p><a href="https://blog.csdn.net/qq_41805715/article/details/84849280" target="_blank" rel="noopener"><a href="https://blog.csdn.net/qq_41805715/article/details/84849280" target="_blank" rel="noopener">https://blog.csdn.net/qq_41805715/article/details/84849280</a></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/01/09/js中的EventLoop/" data-id="ck55ihhni001h9flrfg1udyeo" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/01/07/WebAssembly初体验/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">WebAssembly初体验</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebAssembly/">WebAssembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/WebAssembly/" style="font-size: 10px;">WebAssembly</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/07/WebAssembly初体验/">WebAssembly初体验</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

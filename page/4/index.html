@@ -62,6 +62,140 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-android-sqlite" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/24/android-sqlite/" class="article-date">
+  <time datetime="2018-01-24T12:57:25.000Z" itemprop="datePublished">2018-01-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/24/android-sqlite/">Android数据持久化---SQLite</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>无论是文件存储还是sharedPreference存储，都只能存储简单的数据或键值对。如果要存储复杂的关系型数据时该怎么办呢？SQLite就派上用场了，它是内置在Android中的一个轻量级的关系型数据库，且不用设置用户名和密码就可以使用，功能强大。</p>
+<h3 id="一、创建数据库"><a href="#一、创建数据库" class="headerlink" title="一、创建数据库"></a>一、创建数据库</h3><p>为了方便的管理数据库，android专门提供了一个SQLiteOpenHelper帮助类，用它可以完成数据库的创建和升级。</p>
+<p>SQLiteOpenHelper是一个抽象类，在使用时需要我们创建一个类去继承它，并实现它的两个抽象方法：</p>
+<ul>
+<li><code>onCreate()</code>： 首次创建数据库时会调用这个方法</li>
+<li><code>onUpgrade()</code>：对数据库进行更新时会调用该方法</li>
+</ul>
+<p>另外SQLiteOpenHelper还有两个方法用来打开或创建一个现有的数据库，如果数据库已存在则打开，不存在则新建数据库。并且返回一个可对数据库进行读写操作的对象。</p>
+<ul>
+<li><code>getReadableDatabase()</code>： 当不可写入时，只读方式打开</li>
+<li><code>getWritableDatabase()</code>： 当不可写入时，出现异常</li>
+</ul>
+<p>SQLiteOpenHelper有两个参数可供重写，参数较少的构造方法需要提供四个参数：</p>
+<ul>
+<li>Context：只有它才能进行数据库操作</li>
+<li>数据库名：指定要创建的数据库名字</li>
+<li>自定义的Curfor：运行查询数据时返回的一个自定义的Cursor，一般传入null即可</li>
+<li>当前数据库版本号：用来对把数据库升级操作</li>
+</ul>
+<p>创建好的数据库存放在<code>/data/data/&lt;package-name&gt;/databases/</code>目录下，一般使用adb进行查看，具体后边会有介绍。</p>
+<p>如何创建一个数据库，并创建表呢？</p>
+<h5 id="1-1-创建一个类继承自SQLiteOpenHelper"><a href="#1-1-创建一个类继承自SQLiteOpenHelper" class="headerlink" title="1.1 创建一个类继承自SQLiteOpenHelper"></a>1.1 创建一个类继承自SQLiteOpenHelper</h5><p>创建一个BookStore的数据库，并且在里面创建一个Book的表，其中：</p>
+<ul>
+<li>integer表示整形</li>
+<li>real表示浮点型</li>
+<li>text表示文本型</li>
+<li>blob表示二进制类型</li>
+</ul>
+<p>primary key表示将id设为主键，autoincrement表示该列自增，这样的化以后增加数据时就不用传递这一列的参数了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDatabaseHelper</span> <span class="keyword">extends</span> <span class="title">SQLiteOpenHelper</span></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CREATE_BOOK=<span class="string">"create table Book(id integer primary key autoincrement,author text,price real,pages integer,name text)"</span></span><br><span class="line">  <span class="keyword">private</span> Context mContext;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">MyDatabaseHelper</span><span class="params">(Context context,String name,SQLiteDatabase.CursorFactory factory, <span class="keyword">int</span> version)</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context,name,factory,version);</span><br><span class="line">    mContext=context;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//首次创建数据库时执行的语句</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(SQLiteDatabse db)</span></span>&#123;</span><br><span class="line">     <span class="comment">//执行创建表的操作 </span></span><br><span class="line">    db.execSQL(CREATE_BOOK);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//升级数据库时执行的语句</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabse db,<span class="keyword">int</span> oldVersion,<span class="keyword">int</span> newVersion)</span></span>&#123;</span><br><span class="line">      <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在适当的位置就可以调用该类进行数据库和表的创建了，可以给一个按钮设置该监听</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个名为BookStore.db的数据库</span></span><br><span class="line">MyDatabaseHelper mdb=<span class="keyword">new</span> MyDatabaseHelper(<span class="keyword">this</span>,<span class="string">"BookStore.db"</span>,<span class="keyword">null</span>,<span class="number">1</span>);</span><br><span class="line"><span class="comment">//如果点击该按钮时，不存在名为BookStore.db的数据库，就会执行mdb内部的onCreate方法进行创建Book表的操作</span></span><br><span class="line">btn_catete.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        mdb.getWritableDatabase();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h5 id="1-2-数据库的升级"><a href="#1-2-数据库的升级" class="headerlink" title="1.2 数据库的升级"></a>1.2 数据库的升级</h5><p>现在数据库下已经有一个Book表了，如果要对数据库进行升级操作（比如增加一个），该怎么办呢，这就要用到<code>onUpgrade()</code>方法了，想让mdb执行这个方法就需要在创建（开发）数据库时传递一个更高的版本号。</p>
+<p>在<code>onUpgrade()</code>方法中添加相关的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDatabaseHelper</span> <span class="keyword">extends</span> <span class="title">SQLiteOpenHelper</span></span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CREATE_CATEGORY=<span class="string">"create table Category(id integer primary key autoincrement,category_name text,category_code integer)"</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">//首次创建数据库时执行的语句</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(SQLiteDatabse db)</span></span>&#123;</span><br><span class="line">     <span class="comment">//执行创建表的操作 </span></span><br><span class="line">    db.execSQL(CREATE_BOOK);</span><br><span class="line">    db.execSQL(CREATE_CATEGORY);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//升级数据库时执行的语句</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabse db,<span class="keyword">int</span> oldVersion,<span class="keyword">int</span> newVersion)</span></span>&#123;</span><br><span class="line">      	<span class="comment">//如果Book和Category表已经存在，则删除它们</span></span><br><span class="line">    	db.execSQL(<span class="string">"drop table if exists Book"</span>);</span><br><span class="line">    	db.execSQL(<span class="string">"drop table if exists Category"</span>);</span><br><span class="line">    	onCreate(db);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在适当位置给某按钮添加监听，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将版本号提高为2，</span></span><br><span class="line">MyDatabaseHelper mdb=<span class="keyword">new</span> MyDatabaseHelper(<span class="keyword">this</span>,<span class="string">"BookStore.db"</span>,<span class="keyword">null</span>,<span class="number">2</span>);</span><br><span class="line"><span class="comment">//如果此时已经存在BookStore.db的数据库，就会执行mdb内部的onCUpgrade方法</span></span><br><span class="line">btn_upgrade.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        mdb.getWritableDatabase();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这时，BookStore数据库下就有两个表了。当然具体升级的思路多种多样，不再多述。</p>
+<h5 id="1-3-添加数据"><a href="#1-3-添加数据" class="headerlink" title="1.3 添加数据"></a>1.3 添加数据</h5><p>可以通过SQLiteOpenHelper的<code>getReadableDatabase()</code>或<code>getWritableDatabase()</code></p>
+<p>方法获取到一个SQLiteDatabse对象，可以借助于它来实现CRUD操作（增删改查）。对于插入操作SQLiteDatabse对象提供了<code>insert()</code>方法，接收三个参数：</p>
+<ul>
+<li>第一个参数是表名：</li>
+<li>第二个参数：直接传null即可。一般不用，在未指定添加数据的情况下可为空的列赋值NULL。</li>
+<li>第三个参数是ContentValues对象：可通过put方法向ContentValues中添加数据</li>
+</ul>
+<p>实例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">btn_addBook.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        mdb.getWritableDatabase();</span><br><span class="line">      </span><br><span class="line">      	<span class="comment">//</span></span><br><span class="line">      	ContentValues values=<span class="keyword">new</span> ContentValues();</span><br><span class="line">      	values.put(<span class="string">"name"</span>,<span class="string">"西游记"</span>);</span><br><span class="line">      	values.put(<span class="string">"author"</span>,<span class="string">"吴承恩"</span>);</span><br><span class="line">      	values.put(<span class="string">"pages"</span>,<span class="number">10000</span>);</span><br><span class="line">      	values.put(<span class="string">"price"</span>,<span class="number">100.00</span>);</span><br><span class="line">      	<span class="comment">//执行添加操作</span></span><br><span class="line">      	mdb.insert(<span class="string">"Book"</span>,<span class="keyword">null</span>,values);</span><br><span class="line">      </span><br><span class="line">      	values.clear();<span class="comment">//清空values</span></span><br><span class="line">      	values.put(<span class="string">"name"</span>,<span class="string">"红楼梦"</span>);</span><br><span class="line">      	values.put(<span class="string">"author"</span>,<span class="string">"曹雪芹"</span>);</span><br><span class="line">      	values.put(<span class="string">"pages"</span>,<span class="number">20000</span>);</span><br><span class="line">      	values.put(<span class="string">"price"</span>,<span class="number">200.00</span>);</span><br><span class="line">      	<span class="comment">//插入第二条数据</span></span><br><span class="line">      	mdb.insert(<span class="string">"Book"</span>,<span class="keyword">null</span>,values);</span><br><span class="line">      	</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在创建Book表的时候还有一个id的列，在这里没有赋值，因为它是自增长的，会在入库时自动生成，就不需要手动赋值了。</p>
+<h5 id="1-4-更新数据"><a href="#1-4-更新数据" class="headerlink" title="1.4 更新数据"></a>1.4 更新数据</h5><p>SQLiteDatabse对象提供了<code>update()</code>方法来更新数据，它接收四个参数</p>
+<ul>
+<li>第一个参数是表名：</li>
+<li>第二个参数是ContentValues对象：</li>
+<li>第三个参数是约束行：即sql语句where后面的部分</li>
+<li>第四个参数是数据：与第三个参数对应的具体数据（为where中的占位符提供的具体的值），共同起到约束行的作用</li>
+</ul>
+<p>示例如下：如果不传第三个和第四的数据的话，则会更新所有行数据中相关的列的值。</p>
+<p>其中<code>?</code>是一个占位符，具体内容由第四个参数来填充。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">btn_updateBook.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        mdb.getWritableDatabase();</span><br><span class="line">      </span><br><span class="line">      	ContentValues values=<span class="keyword">new</span> ContentValues();</span><br><span class="line">      	<span class="comment">//要更新的数据列</span></span><br><span class="line">      	values.put(<span class="string">"price"</span>,<span class="number">150.00</span>);</span><br><span class="line">      	<span class="comment">//将书名为西游记的数的价格改为150.00</span></span><br><span class="line">      	mdb.update(<span class="string">"Book"</span>,values,<span class="string">"name= ? "</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"西游记"</span>&#125;);</span><br><span class="line">      	</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h5 id="1-5-删除数据"><a href="#1-5-删除数据" class="headerlink" title="1.5 删除数据"></a>1.5 删除数据</h5><p>SQLiteDatabse对象提供了<code>delete()</code>方法来删除数据，它接收三个参数</p>
+<ul>
+<li>第一个参数是表名：</li>
+<li>第二个参数是约束行：即sql语句where后面的部分</li>
+<li>第三个参数是数据：与第二个参数对应的具体数据，共同起到约束行的作用</li>
+</ul>
+<p>如果不指定第二和第三个参数的话，默认删除所有行数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">btn_deleteBookData.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        mdb.getWritableDatabase();</span><br><span class="line">      </span><br><span class="line">      	ContentValues values=<span class="keyword">new</span> ContentValues();</span><br><span class="line">      	<span class="comment">//删除页数大于10000页的书籍</span></span><br><span class="line">      	mdb.delete(<span class="string">"Book"</span>,<span class="string">"page &gt; ? "</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"10000"</span>&#125;);</span><br><span class="line">      	</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="1-6-查询数据"><a href="#1-6-查询数据" class="headerlink" title="1.6 查询数据"></a>1.6 查询数据</h4><p>查询数据是最难的，SQLiteDatabse对象提供了<code>query()</code>方法来查询数据，最短的一个重载方法也有7个参数</p>
+<ul>
+<li>第一个：table – 表名</li>
+<li>第二个：colunms – 查询哪几列</li>
+<li>第三个：selections – 约束查询的行（指定where的约束条件）</li>
+<li>第四个：selectionArgs – 约束查询的行的数值（为where中的占位符提供的具体的值）</li>
+<li>第五个：groupBy – 需要group by的列</li>
+<li>第六个：having – group by之后需要近一步过滤的数据</li>
+<li>第七个：orderBy – 指定查询结果的排序方式</li>
+</ul>
+<p>示例代码如下：后边的参数全为null，表示查询表中的所有数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">btn_queryBook.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">        mdb.getWritableDatabase();</span><br><span class="line">     	Cursor cursor=mdb.query(<span class="string">"Book"</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="keyword">null</span>);</span><br><span class="line">      	<span class="keyword">if</span>(cursor.moveToFirst())&#123;</span><br><span class="line">            <span class="keyword">do</span>&#123;</span><br><span class="line">                String name=cursor.getString(cursor.getColumnIndex(<span class="string">"name"</span>));</span><br><span class="line">              	String author=cursor.getString(cursor.getColumnIndex(<span class="string">"author"</span>));</span><br><span class="line">             	<span class="keyword">int</span> pages=cursor.getInt(cursor.getColumnIndex(<span class="string">"pages"</span>));</span><br><span class="line">              	doubole price=cursor.getDouble(cursor.getColumnIndex(<span class="string">"price"</span>));</span><br><span class="line">              	<span class="comment">//...</span></span><br><span class="line">            &#125;<span class="keyword">while</span>(cursor.moveToNext())</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//注意不要忘了关闭cursor</span></span><br><span class="line">      	cursor.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="二、使用SQL语句操作数据库"><a href="#二、使用SQL语句操作数据库" class="headerlink" title="二、使用SQL语句操作数据库"></a>二、使用SQL语句操作数据库</h3><p>上边介绍的是Android提供的API操作数据库，还可以通过常规的SQL语句进行数据库的操作</p>
+<p>eg:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//插入数据</span></span><br><span class="line">mdb.execSQL(<span class="string">"insert into Book (name,author,pages,price) valuse(?,?,?,?)"</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"三国演义"</span>,<span class="string">"佚名"</span>,<span class="string">"800"</span>,<span class="string">"50.00"</span>&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//更新数据，三国演义的价格改为600.00</span></span><br><span class="line">mdb.execSQL(<span class="string">"update Book set price = ? where name = ? "</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"600.00"</span>,<span class="string">"三国演义"</span>,<span class="string">"800"</span>,<span class="string">"50.00"</span>&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除数据</span></span><br><span class="line">mdb.execSQL(<span class="string">"delete from Book where pages &gt; ? "</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"800"</span>&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//查询数据</span></span><br><span class="line">mdb.rawQuery(<span class="string">"select * from Book"</span>,<span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="三、使用adb查看数据库"><a href="#三、使用adb查看数据库" class="headerlink" title="三、使用adb查看数据库"></a>三、使用adb查看数据库</h3><p>上边提到了使用adb可以查看SQLite创建的数据库。</p>
+<p>adb存放在sdk的platform-tools的文件夹下，可以用来调试连接在电脑上的手机或模拟器。如果想通过命令行使用它，可以配置环境变量：</p>
+<ul>
+<li>window ： 在Path中 将platform-tools的目录配置进去</li>
+<li>Linux和Mac： 在home路径下的.bashenjain中，将platform-tools的目录配置进去</li>
+</ul>
+<p>配置好之后在命令行输入<code>adb shell</code>就可以进入设备的控制台了，<code>#</code>表示超级管理员，<code>$</code>表示普通用户，可以通过<code>su</code>命令切换到超级管理员；</p>
+<p>使用<code>cd /data/data/&lt;package-name&gt;/databases/</code>目录下，就可以ls里面的所有文件了</p>
+<ul>
+<li>打开数据库： <code>sqlite3 BookStore.db</code></li>
+<li>查看表目录：<code>.table</code></li>
+<li>查看建表语句：<code>.schema</code></li>
+<li>操作数据库：SQL语句，如<code>select * from Book</code></li>
+<li>退出数据库编辑：<code>.exit</code>或<code>.quit</code></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/24/android-sqlite/" data-id="ck55ihhoq002v9flrscq71xef" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-android-sharedpreference" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/24/android-sharedpreference/" class="article-date">
@@ -139,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/24/android-sharedpreference/" data-id="ck54081qh0011tolr6g21v23j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/24/android-sharedpreference/" data-id="ck55ihhn600109flrsbjnaval" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -214,7 +348,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/24/android-file/" data-id="ck54081qa000qtolrv2n4eryt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/24/android-file/" data-id="ck55ihhmx000n9flriad0s7nv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -401,7 +535,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/indexeddb/" data-id="ck54081s5003etolrpxfert98" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/indexeddb/" data-id="ck55ihhp8003f9flr4zeswdx2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -511,7 +645,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/java-login/" data-id="ck54081qq001itolrj340xwbf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/java-login/" data-id="ck55ihhnm001o9flr9vvqqv2o" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -594,7 +728,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-broadcast/" data-id="ck54081ri002mtolruwrdaktu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-broadcast/" data-id="ck55ihhol002n9flr2vck2ymx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -662,7 +796,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-recyclerview/" data-id="ck54081rk002ptolrekzpt673" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-recyclerview/" data-id="ck55ihhon002q9flrfhvol71h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -711,7 +845,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-include/" data-id="ck54081qb000rtolrc06tvmj3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-include/" data-id="ck55ihhmy000q9flru4cwhwgc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -756,7 +890,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-intent2/" data-id="ck54081qf000ztolrx2i8r9oj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-intent2/" data-id="ck55ihhn2000v9flro6j50hwq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -802,54 +936,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-exit/" data-id="ck54081q3000htolrj4i961lb" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-android-start" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/14/android-start/" class="article-date">
-  <time datetime="2018-01-14T11:35:00.000Z" itemprop="datePublished">2018-01-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/14/android-start/">Android之启动模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="一、Android中启动模式的设置"><a href="#一、Android中启动模式的设置" class="headerlink" title="一、Android中启动模式的设置"></a>一、Android中启动模式的设置</h3><p>1、可以在AndroidManifest.xml中给activity的标签指定<code>android:launchMode</code>属性来选择启动模式；</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".FirstActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:launchMode</span>=<span class="string">"singleTask"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">"标题"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>2、也可以在代码上进行修改</p>
-<h3 id="二、不同启动模式的区别"><a href="#二、不同启动模式的区别" class="headerlink" title="二、不同启动模式的区别"></a>二、不同启动模式的区别</h3><ul>
-<li>standard:默认方式，每次启动都会创建新的实例；</li>
-<li>singleTop:启动时如果栈顶就是，则直接调用栈顶的activity；</li>
-<li>singleTask:每次启动时都检查栈内是否已存在，存在则将该activity之上的activity全部清除，然后调用该activity；</li>
-<li>singleInstance:启用一个新的返回栈来管理这个活动。（可以解决共享实例问题）</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-start/" data-id="ck54081qi0014tolrafv42ue0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-exit/" data-id="ck55ihhmu000j9flre5rk1cns" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -909,6 +996,10 @@
       <ul>
         
           <li>
+            <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
+          </li>
+        
+          <li>
             <a href="/2020/01/07/WebAssembly初体验/">WebAssembly初体验</a>
           </li>
         
@@ -922,10 +1013,6 @@
         
           <li>
             <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/24/浏览器跨域/">浏览器跨域</a>
           </li>
         
       </ul>
