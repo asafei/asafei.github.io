@@ -102,16 +102,16 @@
 <p>更进阶的面试题就是，说出下面的代码的输出：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'1'</span>);</span><br><span class="line">&#125;,<span class="number">0</span>);</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'3'</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
 <p>正确答案是：2-5-3-4-1</p>
-<p>网上有更多的联系题，可以自己去看看。本文讲到这里</p>
+<p>网上有更多的练习题，可以自己去看看。本文讲到这里</p>
 <h4 id="四、其它"><a href="#四、其它" class="headerlink" title="四、其它"></a>四、其它</h4><p>宏任务还有<a href="http://nodejs.org/docs/latest/api/timers.html#timers_setimmediate_callback_arg" target="_blank" rel="noopener">setImmediate</a>，node的事件轮询也有一些差别，这里不再详述，可以参考下面的文档。</p>
 <p>参考：</p>
 <p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener"><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/10/event-loop.html</a></a></p>
-<p><a href="https://blog.csdn.net/qq_41805715/article/details/84849280" target="_blank" rel="noopener"><a href="https://blog.csdn.net/qq_41805715/article/details/84849280" target="_blank" rel="noopener">https://blog.csdn.net/qq_41805715/article/details/84849280</a></a></p>
+<p><a href="https://blog.csdn.net/qq_41805715/article/details/84849280" target="_blank" rel="noopener"><a href="https://blog.csdn.net/qq_41805715/article/details/84849280" target="_blank" rel="noopener">https://blog.csdn.net/qq_41805715/article/details/84849280</a></a><br><a href="https://blog.csdn.net/u014298440/article/details/88430838" target="_blank" rel="noopener">https://blog.csdn.net/u014298440/article/details/88430838</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/01/09/js中的EventLoop/" data-id="ck55ihhni001h9flrfg1udyeo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/01/09/js中的EventLoop/" data-id="ck55is4ff001lc5lrccmwrtm8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -180,7 +180,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/01/07/WebAssembly初体验/" data-id="ck55ihhmp000f9flrat0qk2rx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/01/07/WebAssembly初体验/" data-id="ck55is4el000fc5lr3zp1wxdy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebAssembly/">WebAssembly</a></li></ul>
@@ -343,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/webgl2基础/" data-id="ck55ihhow00359flrme7mmtd8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/webgl2基础/" data-id="ck55is4gg0036c5lrir8zxeml" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webgl/">webgl</a></li></ul>
@@ -382,7 +382,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/low-graphics-mode解决方法/" data-id="ck55ihhnl001m9flrjwnmpvbc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/low-graphics-mode解决方法/" data-id="ck55is4fg001nc5lr2g8pott6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -443,7 +443,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/Ubuntu固定ip和软件愿/" data-id="ck55ihhmn000d9flr0vjmpqh8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/Ubuntu固定ip和软件愿/" data-id="ck55is4ej000dc5lrpxmag9ua" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -504,7 +504,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/浏览器跨域/" data-id="ck55ihhnv00259flrdopsxiq0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/浏览器跨域/" data-id="ck55is4fo0022c5lrax40v96v" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -557,7 +557,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/git-rebase/" data-id="ck55ihhng001e9flrokam1p1y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/git-rebase/" data-id="ck55is4f70019c5lrm1iaxa66" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
@@ -608,7 +608,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/sublime的使用/" data-id="ck55ihhnr001w9flrtep4bfwq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/sublime的使用/" data-id="ck55is4fl001vc5lrjnnp5gdf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sublime/">sublime</a></li></ul>
@@ -655,7 +655,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/es6引入css/" data-id="ck55ihhnc001a9flr4kpran7p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/es6引入css/" data-id="ck55is4f9001bc5lrf93rbk4h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -701,7 +701,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/drawArrays和drawElements/" data-id="ck55ihhna00179flr81rnmrfw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/drawArrays和drawElements/" data-id="ck55is4f50016c5lrb6ysi5j8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webgl/">webgl</a></li></ul>
