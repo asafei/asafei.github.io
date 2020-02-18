@@ -62,6 +62,97 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-android-intent2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-intent2/" class="article-date">
+  <time datetime="2018-01-14T11:40:18.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-intent2/">Android之再谈Intent</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、在使用Intent启动新的activity时需要传递参数，如下面这样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Intent intent=<span class="keyword">new</span></span><br><span class="line">Intent(MainActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">String data=<span class="string">"hello 你好！"</span></span><br><span class="line"><span class="comment">//第一个参数是键，第二个是值</span></span><br><span class="line">intetn.putExtra(“extra_data”,data);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>但是对要传递的数据却不清楚，要么阅读SecondActivity代码，要么询问写SecondActivity的人，费时费力，如何减少这种麻烦呢？</p>
+<p>2、可以在SecondActivity中添加一个静态方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">actionStart</span><span class="params">(Context context,String data1,String data2)</span></span>&#123;</span><br><span class="line">    Intent i=<span class="keyword">new</span> Intent(context,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    i.putExtra(<span class="string">"param1"</span>,data1);</span><br><span class="line">    i.putExtra(<span class="string">"param2"</span>,data2);</span><br><span class="line">    context.startActivity(intent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、然后在MainActivity中可以直接调用SecondActivity中的方法来启动SecondActivity并进行传参</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SecondActivity.actionStart(MainActivity.<span class="keyword">this</span>,<span class="string">"data1"</span>,<span class="string">"data2"</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-intent2/" data-id="ck6rcryel000x22o1grigv8am" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-exit" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-exit/" class="article-date">
+  <time datetime="2018-01-14T11:38:24.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-exit/">Android之退出应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、activity的退出"><a href="#一、activity的退出" class="headerlink" title="一、activity的退出"></a>一、activity的退出</h3><p>对于单个的activity的退出，只需要简单的调用<code>finish()</code>方法即可。</p>
+<h3 id="二、应用程序的退出"><a href="#二、应用程序的退出" class="headerlink" title="二、应用程序的退出"></a>二、应用程序的退出</h3><p>如果又多个activity启动，如何在任意一个activity中退出该应用程序呢？</p>
+<p><strong>思路：</strong>创建一个activity的管理类，管理所有启动的activity。<br><strong>实现：</strong><br>1、创建一个活动管理器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ActivityControllor</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Activity&gt; activityList=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="title">addActivity</span><span class="params">(Activity activity)</span></span>&#123;</span><br><span class="line">        activityList.add(activity);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">removeActivity</span><span class="params">(Activity activity)</span></span>&#123;</span><br><span class="line">        activityList.remove(activity);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">finishAll</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(Activity activity:activityList)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!activity.isFinishing())&#123;</span><br><span class="line">                activity.finish();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        activityList.clear();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、创建一个activity的基类，重写<code>onCreate</code>和<code>onDestroy</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivrty</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        <span class="comment">//添加此activity</span></span><br><span class="line">        Activitycontroller.addActivity(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        <span class="comment">//移除该activity</span></span><br><span class="line">        ActivityController.removeActivity(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、然后所有创建的Activity都继承该BaseActivity，若要退出，只需要调用静态的<code>finishAll()</code>方法即可,然后再杀掉当前进程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ActivityController.finishAll();</span><br><span class="line"><span class="comment">// killProcess()只能杀掉当前进程，mypid()方法获取当前进程</span></span><br><span class="line">android.os.Process.killProcess(android.os.Process.myPid());</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-exit/" data-id="ck6rcryef000m22o1tpnmob5j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-android-start" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/14/android-start/" class="article-date">
@@ -97,7 +188,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-start/" data-id="ck55it3kz0014cglrssuc7usc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-start/" data-id="ck6rcryeq001722o12s9gutjg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -183,7 +274,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-intent/" data-id="ck55it3ku000ucglrahttft1c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-intent/" data-id="ck6rcryen001222o13oxjacfq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -350,7 +441,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/Gradle入门/" data-id="ck55it3k40001cglrpjhl26nc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/Gradle入门/" data-id="ck6rcrye0000322o1mz8lp5iv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gradle/">Gradle</a></li></ul>
@@ -421,7 +512,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/Java反射/" data-id="ck55it3lx002jcglryxymdqvk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/Java反射/" data-id="ck6rcryfv002l22o1016e3lnl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -541,7 +632,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/SpringBoot进阶/" data-id="ck55it3m1002mcglrjl3cl4n2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/SpringBoot进阶/" data-id="ck6rcryg0002m22o1yfcgwkms" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
@@ -704,7 +795,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/SpringBoot基础/" data-id="ck55it3lz002kcglr4ec0qzbw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/SpringBoot基础/" data-id="ck6rcryg3002o22o1krp1xs8c" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
@@ -789,7 +880,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/利用Docker搭建一个博客/" data-id="ck55it3mn0038cglr2nyr9gva" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/07/14/利用Docker搭建一个博客/" data-id="ck6rcrygt003a22o19aayg1bg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
@@ -839,150 +930,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/WebGIS中切片获取和展示的原理/" data-id="ck55it3km000jcglrh0oe0hcn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/07/14/WebGIS中切片获取和展示的原理/" data-id="ck6rcryed000k22o1yujs19z5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GIS/">GIS</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android开发中用到的jar和aar文件的区别" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/14/Android开发中用到的jar和aar文件的区别/" class="article-date">
-  <time datetime="2017-07-13T17:45:15.000Z" itemprop="datePublished">2017-07-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/14/Android开发中用到的jar和aar文件的区别/">Android开发中用到的jar和aar文件的区别</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p> 在开发java应用时经常会引用第三方的jar包文件，而在开发Android应用时发现又多出了一个aar结尾的可引用文件。它们之间什么区别呢？</p>
-<h3 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h3><p> jar：Java Application Resource；<br><br> aar：Android Application Resource。</p>
-<h6 id="可以看出jar文件是给java应用程序使用的，而aar是专门针对Android应用提供共的引用文件。"><a href="#可以看出jar文件是给java应用程序使用的，而aar是专门针对Android应用提供共的引用文件。" class="headerlink" title="可以看出jar文件是给java应用程序使用的，而aar是专门针对Android应用提供共的引用文件。"></a>可以看出jar文件是给java应用程序使用的，而aar是专门针对Android应用提供共的引用文件。</h6><h3 id="二、区别"><a href="#二、区别" class="headerlink" title="二、区别"></a>二、区别</h3><p>jar：只包含了class文件与清单文件 ，不包含资源文件，如图片等所有res中的文件；<br><br>aar：包含jar包和资源文件，如图片等所有res中的文件。</p>
-<h3 id="三、导入"><a href="#三、导入" class="headerlink" title="三、导入"></a>三、导入</h3><h4 id="3-1-jar包的导入"><a href="#3-1-jar包的导入" class="headerlink" title="3.1 jar包的导入"></a>3.1 jar包的导入</h4><ul>
-<li>把工程切换到 <strong>Project</strong> 视图下，在module目录下可以看到 <strong>libs</strong> 目录；</li>
-<li>将相应的jar文件拷贝到 <strong>libs</strong>　文件夹中；</li>
-<li><p>更改module的build.gradle配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line"> compile fileTree(include: [&apos;*.jar&apos;], dir: &apos;libs&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在studio新版本中会自动生成，所有你只需直接拷贝.jar到lib目录下编译既可</p>
-</li>
-<li>最后sync一下工程即可（或者rebuild一下工程）<br><br></li>
-</ul>
-<h4 id="3-2-aar包的导入"><a href="#3-2-aar包的导入" class="headerlink" title="3.2 aar包的导入"></a>3.2 aar包的导入</h4><ul>
-<li>将*.aar拷贝到app中的lib下；</li>
-<li><p>更改build.gradle 配置文件,在该module的 build.gradle中添加一个本地仓库，并把libs作为仓库地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">   flatDir &#123;</span><br><span class="line">      dirs &apos;libs&apos;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line">dependencies &#123;</span><br><span class="line">    compile(name: &apos;你aar文件的名字&apos;, ext: &apos;aar&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>最后sync一下工程即可（或者rebuild一下工程）</p>
-</li>
-</ul>
-<h3 id="四、导出"><a href="#四、导出" class="headerlink" title="四、导出"></a>四、导出</h3><p> 在Android studio中可以同时生成jar文件和aar文件，步骤如下：</p>
-<ul>
-<li>新建库，File——New——New Module——Android Library</li>
-<li>编译或生成工程，Build——Make Module即可得到相应的文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jar包路径：build\intermediates\bundles\release\class.jar</span><br><span class="line">arr包路径：build\outputs\aar\包名.aar</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="五、参考"><a href="#五、参考" class="headerlink" title="五、参考"></a>五、参考</h3><p><a href="http://www.aichengxu.com/android/11086139.htm" target="_blank" rel="noopener">http://www.aichengxu.com/android/11086139.htm</a>;<br><a href="http://jingyan.baidu.com/article/2a13832890d08f074a134ff0.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/2a13832890d08f074a134ff0.html</a>;<br><a href="http://www.w2bc.com/article/214269" target="_blank" rel="noopener">http://www.w2bc.com/article/214269</a>.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/Android开发中用到的jar和aar文件的区别/" data-id="ck55it3jz0000cglrwiiua3wj" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Markdown语法简介" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/14/Markdown语法简介/" class="article-date">
-  <time datetime="2017-07-13T17:37:29.000Z" itemprop="datePublished">2017-07-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/14/Markdown语法简介/">Markdown语法简介</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="1、为什么要用markdown？"><a href="#1、为什么要用markdown？" class="headerlink" title="1、为什么要用markdown？"></a>1、为什么要用markdown？</h3><p>在接触hexo以及nodeppt时都需要markdown语法的编写，便下定决心好好学习一下markdown的语法。另外markdown也可以避开word或者不同软件的语法规则，通用性更强一些。套用一句有名的话：<strong>我们坚信写作写的是内容，所思所想，而不是花样格式</strong>。</p>
-<h3 id="2、markdown难吗？"><a href="#2、markdown难吗？" class="headerlink" title="2、markdown难吗？"></a>2、markdown难吗？</h3><p>markdown常用的标记符号不超过10个，学习成本低，并且有如下优点:</p>
-<ul>
-<li>专注你的文字内容而不是排版样式，安心写作；</li>
-<li>轻松道出HTML、PDF和本身的 .md文件；</li>
-<li>纯文本内容，兼容所有的文本编辑器与字处理软件;</li>
-<li>随时修改你的文章版本，不必像字处理软件生成若干文件版本导致混乱;</li>
-<li>可读、直观、学习成本低。</li>
-</ul>
-<h3 id="3、工具选择"><a href="#3、工具选择" class="headerlink" title="3、工具选择"></a>3、工具选择</h3><p>在知乎上<a href="https://asafei.github.io/2017/06/20/Markdown%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B/" target="_blank" rel="noopener">有人</a>推荐Mou，但是去官网下载失败了。然后发现macdown等同于Mou的开源版本，就下载来使用，可以编辑和查看markdown的文件。</p>
-<h3 id="4、语法简介"><a href="#4、语法简介" class="headerlink" title="4、语法简介"></a>4、语法简介</h3><ul>
-<li>#、##、###、####、分别为一二三四级标题</li>
-<li>*和 - 表示无序列表，数字开头表示有序列表</li>
-<li>”&gt;“引用，即左划线</li>
-<li>“![]()”是图片链接；“[](url)”是文字超链接</li>
-<li>两个星号包围的是<strong>粗体</strong>，单个星号包围的事斜体 分割线是三个星号</li>
-<li>表格</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>title1</th>
-<th>title2</th>
-<th>title3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>aaa</td>
-<td>bbb</td>
-<td>cc</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>代码框：前后各三个 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">private static void main(String[] args)</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/Markdown语法简介/" data-id="ck55it3kd0009cglrjhzcavy5" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown/">Markdown</a></li></ul>
 
     </footer>
   </div>
@@ -1026,7 +977,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
     </div>
   </div>
 

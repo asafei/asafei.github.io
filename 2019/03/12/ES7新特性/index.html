@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>ES7新特性 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、ES7新特性常用的更新有两个：  求幂运算符 数组的includes方法  1.1 求幂运算符（**）基本使用方式，求5的2次幂 1235**2  //25//等价于Math.pow(5,2); 复合使用的话依然遵循从右向左的优先级 1232**4**2//灯架2**(4**2) 1.2 Array.prototype.includes()方法includes()查找一个值在不在数组里，若在，">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES7新特性">
+<meta property="og:url" content="http://yoursite.com/2019/03/12/ES7新特性/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="一、ES7新特性常用的更新有两个：  求幂运算符 数组的includes方法  1.1 求幂运算符（**）基本使用方式，求5的2次幂 1235**2  //25//等价于Math.pow(5,2); 复合使用的话依然遵循从右向左的优先级 1232**4**2//灯架2**(4**2) 1.2 Array.prototype.includes()方法includes()查找一个值在不在数组里，若在，">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-02-18T04:01:54.021Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES7新特性">
+<meta name="twitter:description" content="一、ES7新特性常用的更新有两个：  求幂运算符 数组的includes方法  1.1 求幂运算符（**）基本使用方式，求5的2次幂 1235**2  //25//等价于Math.pow(5,2); 复合使用的话依然遵循从右向左的优先级 1232**4**2//灯架2**(4**2) 1.2 Array.prototype.includes()方法includes()查找一个值在不在数组里，若在，">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ES7新特性" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/12/ES7新特性/" class="article-date">
+  <time datetime="2019-03-12T03:52:35.000Z" itemprop="datePublished">2019-03-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ES7新特性
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="一、ES7新特性"><a href="#一、ES7新特性" class="headerlink" title="一、ES7新特性"></a>一、ES7新特性</h4><p>常用的更新有两个：</p>
+<ul>
+<li>求幂运算符</li>
+<li>数组的includes方法</li>
+</ul>
+<h5 id="1-1-求幂运算符（-）"><a href="#1-1-求幂运算符（-）" class="headerlink" title="1.1 求幂运算符（**）"></a>1.1 求幂运算符（**）</h5><p>基本使用方式，求5的2次幂</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>**<span class="number">2</span>  <span class="comment">//25</span></span><br><span class="line"><span class="comment">//等价于</span></span><br><span class="line"><span class="built_in">Math</span>.pow(<span class="number">5</span>,<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<p>复合使用的话依然遵循从右向左的优先级</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>**<span class="number">4</span>**<span class="number">2</span></span><br><span class="line"><span class="comment">//灯架</span></span><br><span class="line"><span class="number">2</span>**(<span class="number">4</span>**<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="1-2-Array-prototype-includes-方法"><a href="#1-2-Array-prototype-includes-方法" class="headerlink" title="1.2 Array.prototype.includes()方法"></a>1.2 Array.prototype.includes()方法</h5><p><code>includes()</code>查找一个值在不在数组里，若在，则返回<code>true</code>，反之返回<code>false</code>。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].includes(<span class="string">'a'</span>)     <span class="comment">// true</span></span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].includes(<span class="string">'d'</span>)     <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>include也可以接收两个参数，要搜索的值和起始索引。当第二个参数被传入时，该方法会从索引处开始往后搜索（默认索引值为0）。若搜索值在数组中存在则返回<code>true</code>，否则返回<code>false</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>].includes(<span class="string">'b'</span>)         <span class="comment">// true</span></span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>].includes(<span class="string">'b'</span>, <span class="number">1</span>)      <span class="comment">// true</span></span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>].includes(<span class="string">'b'</span>, <span class="number">2</span>)      <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>Includes方法与indexof的区别在于：</p>
+<ul>
+<li><p>includes更轻便，无需再判断返回值是否大于-1；</p>
+</li>
+<li><p>includes可以判断Nan，而indexof不能判断Nan</p>
+<blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">let</span> demo = [<span class="number">1</span>, <span class="literal">NaN</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">&gt; </span><br><span class="line">&gt; demo.indexOf(<span class="literal">NaN</span>)        <span class="comment">//-1</span></span><br><span class="line">&gt; demo.includes(<span class="literal">NaN</span>)       <span class="comment">//true</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>Include 对于+0和-0按相等处理的</p>
+<blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; [<span class="number">1</span>, +<span class="number">0</span>, <span class="number">3</span>, <span class="number">4</span>].includes(<span class="number">-0</span>)    <span class="comment">//true</span></span><br><span class="line">&gt; [<span class="number">1</span>, +<span class="number">0</span>, <span class="number">3</span>, <span class="number">4</span>].indexOf(<span class="number">-0</span>)     <span class="comment">//1</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<h4 id="二、ES8新特性"><a href="#二、ES8新特性" class="headerlink" title="二、ES8新特性"></a>二、ES8新特性</h4><h5 id="2-1-async-await"><a href="#2-1-async-await" class="headerlink" title="2.1 async/await"></a>2.1 async/await</h5><p>传统的JavaScript中，对于异步的处理通常是通过回调函数处理的，但是一旦出现回调函数的嵌套，就很容易陷入回调地狱（callback hell）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.$http.jsonp(<span class="string">'/login'</span>, (res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">this</span>.$http.jsonp(<span class="string">'/getInfo'</span>, (info) =&gt; &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>一种改进方式是使用promise，通过then方法将回调嵌套改为了链式的,尽管如此，当请求任务过多时一堆then也会造成语义的难以理解。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ar promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">this</span>.login(resolve)</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.getInfo())</span><br><span class="line">.catch(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="string">"Error"</span>) &#125;)</span><br></pre></td></tr></table></figure>
+<p>另一种异步机制时使用Generator函数，它通过* 、yield和next的来执行分段操作。Generator 函数是分段执行的，yield表达式是暂停执行的标记，而next方法可以恢复执行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">helloWorldGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'hello'</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">'world'</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'ending'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> hw = helloWorldGenerator();</span><br><span class="line"></span><br><span class="line">hw.next()</span><br><span class="line"><span class="comment">// &#123; value: 'hello', done: false &#125;</span></span><br><span class="line">hw.next()</span><br><span class="line"><span class="comment">// &#123; value: 'world', done: false &#125;</span></span><br><span class="line">hw.next()</span><br><span class="line"><span class="comment">// &#123; value: 'ending', done: true &#125;</span></span><br><span class="line">hw.next()</span><br><span class="line"><span class="comment">// &#123; value: undefined, done: true &#125;</span></span><br></pre></td></tr></table></figure>
+<p>虽然Generator将异步操作表示得很简洁，但是流程管理却不方便（即何时执行第一阶段、何时执行第二阶段）。此时，我们便希望能出现一种能自动执行Generator函数的方法。我们的主角来了：async/await。</p>
+<p>ES8引入了async函数，使得异步操作变得更加方便。简单说来，它就是Generator函数的语法糖。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncFunc</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result1 = <span class="keyword">await</span> <span class="keyword">this</span>.login()</span><br><span class="line">  <span class="keyword">const</span> result2 = <span class="keyword">await</span> <span class="keyword">this</span>.getInfo()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>处理单个异步结果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">await</span> otherAsyncFunc();</span><br><span class="line">  <span class="built_in">console</span>.log(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>顺序处理多个异步结果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result1 = <span class="keyword">await</span> otherAsyncFunc1();</span><br><span class="line">  <span class="built_in">console</span>.log(result1);</span><br><span class="line">  <span class="keyword">const</span> result2 = <span class="keyword">await</span> otherAsyncFunc2();</span><br><span class="line">  <span class="built_in">console</span>.log(result2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并行处理多个异步结果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [result1, result2] = <span class="keyword">await</span> <span class="built_in">Promise</span>.all([</span><br><span class="line">    otherAsyncFunc1(),</span><br><span class="line">    otherAsyncFunc2()</span><br><span class="line">  ]);</span><br><span class="line">  <span class="built_in">console</span>.log(result1, result2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>处理错误</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">await</span> otherAsyncFunc();</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-2-Object-entries-和Object-values"><a href="#2-2-Object-entries-和Object-values" class="headerlink" title="2.2 Object.entries()和Object.values()"></a>2.2 Object.entries()和Object.values()</h5><h6 id="2-2-1Object-entries"><a href="#2-2-1Object-entries" class="headerlink" title="2.2.1Object.entries()"></a>2.2.1Object.entries()</h6><p>如果一个对象是具有键值对的数据结构，则每一个键值对都将会编译成一个具有两个元素的数组，这些数组最终会放到一个数组中，返回一个二维数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.entries(&#123; <span class="attr">one</span>: <span class="number">1</span>, <span class="attr">two</span>: <span class="number">2</span> &#125;)    <span class="comment">//[['one', 1], ['two', 2]]</span></span><br><span class="line"><span class="built_in">Object</span>.entries([<span class="number">1</span>, <span class="number">2</span>])                <span class="comment">//[['0', 1], ['1', 2]]</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>键值对中，如果键的值是Symbol，编译时将会被忽略。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.entries(&#123; [<span class="built_in">Symbol</span>()]: <span class="number">1</span>, <span class="attr">two</span>: <span class="number">2</span> &#125;)       <span class="comment">//[['two', 2]]</span></span><br></pre></td></tr></table></figure>
+<p><code>Object.entries()</code>返回的数组的顺序与for-in循环保持一致，即如果对象的key值是数字，则返回值会对key值进行排序，返回的是排序后的结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.entries(&#123; <span class="number">3</span>: <span class="string">'a'</span>, <span class="number">4</span>: <span class="string">'b'</span>, <span class="number">1</span>: <span class="string">'c'</span> &#125;)    <span class="comment">//[['1', 'c'], ['3', 'a'], ['4', 'b']]</span></span><br></pre></td></tr></table></figure>
+<h6 id="2-2-2-Object-values"><a href="#2-2-2-Object-values" class="headerlink" title="2.2.2 Object.values()"></a>2.2.2 Object.values()</h6><p>它的工作原理跟<code>Object.entries()</code>很像，顾名思义，它只返回自己的键值对中属性的值。它返回的数组顺序，也跟<code>Object.entries()</code>保持一致。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.values(&#123; <span class="attr">one</span>: <span class="number">1</span>, <span class="attr">two</span>: <span class="number">2</span> &#125;)            <span class="comment">//[1, 2]</span></span><br><span class="line"><span class="built_in">Object</span>.values(&#123; <span class="number">3</span>: <span class="string">'a'</span>, <span class="number">4</span>: <span class="string">'b'</span>, <span class="number">1</span>: <span class="string">'c'</span> &#125;)    <span class="comment">//['c', 'a', 'b']</span></span><br></pre></td></tr></table></figure>
+<h5 id="2-3-padStart和padEnd"><a href="#2-3-padStart和padEnd" class="headerlink" title="2.3 padStart和padEnd"></a>2.3 padStart和padEnd</h5><p>ES8提供了新的字符串方法-padStart和padEnd。<code>padStart</code>函数通过填充字符串的首部来保证字符串达到固定的长度，反之，<code>padEnd</code>是填充字符串的尾部来保证字符串的长度的。该方法提供了两个参数：字符串目标长度和填充字段，其中第二个参数可以不填，默认情况下使用空格填充。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'Vue'</span>.padStart(<span class="number">10</span>)           <span class="comment">//'       Vue'</span></span><br><span class="line"><span class="string">'React'</span>.padStart(<span class="number">10</span>)         <span class="comment">//'     React'</span></span><br><span class="line"><span class="string">'JavaScript'</span>.padStart(<span class="number">10</span>)    <span class="comment">//'JavaScript'</span></span><br></pre></td></tr></table></figure>
+<p>那么我们现在来看看第二个参数，我们可以指定字符串来代替空字符串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'Vue'</span>.padStart(<span class="number">10</span>, <span class="string">'_*'</span>)           <span class="comment">//'_*_*_*_Vue'</span></span><br><span class="line"><span class="string">'React'</span>.padStart(<span class="number">10</span>, <span class="string">'Hello'</span>)      <span class="comment">//'HelloReact'</span></span><br><span class="line"><span class="string">'JavaScript'</span>.padStart(<span class="number">10</span>, <span class="string">'Hi'</span>)    <span class="comment">//'JavaScript'</span></span><br><span class="line"><span class="string">'JavaScript'</span>.padStart(<span class="number">8</span>, <span class="string">'Hi'</span>)     <span class="comment">//'JavaScript'</span></span><br></pre></td></tr></table></figure>
+<p><code>padEnd</code>函数作用同<code>padStart</code>，只不过它是从字符串尾部做填充</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'Vue'</span>.padEnd(<span class="number">10</span>, <span class="string">'_*'</span>)           <span class="comment">//'Vue_*_*_*_'</span></span><br><span class="line"><span class="string">'React'</span>.padEnd(<span class="number">10</span>, <span class="string">'Hello'</span>)      <span class="comment">//'ReactHello'</span></span><br><span class="line"><span class="string">'JavaScript'</span>.padEnd(<span class="number">10</span>, <span class="string">'Hi'</span>)    <span class="comment">//'JavaScript'</span></span><br><span class="line"><span class="string">'JavaScript'</span>.padEnd(<span class="number">8</span>, <span class="string">'Hi'</span>)     <span class="comment">//'JavaScript'</span></span><br></pre></td></tr></table></figure>
+<h5 id="2-4-Object-getOwnPropertyDescriptors"><a href="#2-4-Object-getOwnPropertyDescriptors" class="headerlink" title="2.4 Object.getOwnPropertyDescriptors()"></a>2.4 Object.getOwnPropertyDescriptors()</h5><p>略</p>
+<h5 id="2-5-共享内存和原子（Shared-memory-and-atomics）"><a href="#2-5-共享内存和原子（Shared-memory-and-atomics）" class="headerlink" title="2.5 共享内存和原子（Shared memory and atomics）"></a>2.5 共享内存和原子（Shared memory and atomics）</h5><p>内存管理碰撞课程：<a href="https://segmentfault.com/a/1190000009878588" target="_blank" rel="noopener">https://segmentfault.com/a/1190000009878588</a></p>
+<p>图解 ArrayBuffers 和 SharedArrayBuffers：<a href="https://segmentfault.com/a/1190000009878632" target="_blank" rel="noopener">https://segmentfault.com/a/1190000009878632</a></p>
+<p>用 Atomics 避免 SharedArrayBuffers 竞争条件：<a href="https://segmentfault.com/a/1190000009878699" target="_blank" rel="noopener">https://segmentfault.com/a/1190000009878699</a></p>
+<p>参考：<a href="https://www.cnblogs.com/zhuanzhuanfe/p/7493433.html" target="_blank" rel="noopener"></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/12/ES7新特性/" data-id="ck6rcrydr000022o1ktr16ep5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/12/24/WebGL跨域图片/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          WebGL跨域图片
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/12/作用域绑定/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">作用域绑定</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebAssembly/">WebAssembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/WebAssembly/" style="font-size: 10px;">WebAssembly</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/07/WebAssembly初体验/">WebAssembly初体验</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

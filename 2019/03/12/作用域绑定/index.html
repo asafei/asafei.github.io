@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>作用域绑定 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、作用域绑定先看下面的例子 12345678910111213var name=&quot;afei&quot;;var age=&quot;28&quot;;var A=&amp;#123;    name:&quot;alan&quot;,    A_age:this.age,    getInfo:function()&amp;#123;        console.log(this.name+&quot;的年龄是&quot;+this.age);    &amp;#125;&amp;#125;;">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="作用域绑定">
+<meta property="og:url" content="http://yoursite.com/2019/03/12/作用域绑定/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="一、作用域绑定先看下面的例子 12345678910111213var name=&quot;afei&quot;;var age=&quot;28&quot;;var A=&amp;#123;    name:&quot;alan&quot;,    A_age:this.age,    getInfo:function()&amp;#123;        console.log(this.name+&quot;的年龄是&quot;+this.age);    &amp;#125;&amp;#125;;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-02-18T04:01:23.425Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="作用域绑定">
+<meta name="twitter:description" content="一、作用域绑定先看下面的例子 12345678910111213var name=&quot;afei&quot;;var age=&quot;28&quot;;var A=&amp;#123;    name:&quot;alan&quot;,    A_age:this.age,    getInfo:function()&amp;#123;        console.log(this.name+&quot;的年龄是&quot;+this.age);    &amp;#125;&amp;#125;;">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-作用域绑定" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/12/作用域绑定/" class="article-date">
+  <time datetime="2019-03-12T03:48:15.000Z" itemprop="datePublished">2019-03-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      作用域绑定
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="一、作用域绑定"><a href="#一、作用域绑定" class="headerlink" title="一、作用域绑定"></a>一、作用域绑定</h4><p>先看下面的例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name=<span class="string">"afei"</span>;</span><br><span class="line"><span class="keyword">var</span> age=<span class="string">"28"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> A=&#123;</span><br><span class="line">    name:<span class="string">"alan"</span>,</span><br><span class="line">    A_age:<span class="keyword">this</span>.age,</span><br><span class="line">    getInfo:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name+<span class="string">"的年龄是"</span>+<span class="keyword">this</span>.age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">A.getInfo();<span class="comment">//alan的年龄是undefined</span></span><br></pre></td></tr></table></figure>
+<p>这就是作用域改变的例子，在getInfo中的this指向A，而A中没有age属性。</p>
+<p>再看下一个例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name=<span class="string">"afei"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line">B();<span class="comment">//afei</span></span><br></pre></td></tr></table></figure>
+<p>这时的this指向的是全局变量window。</p>
+<p>那么如何能改变this指向的作用域呢，传统的方式有bind、apply、call。应用如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name=<span class="string">"afei"</span>;</span><br><span class="line"><span class="keyword">var</span> age=<span class="string">"28"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Test=&#123;</span><br><span class="line">    name:<span class="string">"alan"</span>,</span><br><span class="line">    A_age:<span class="keyword">this</span>.age,</span><br><span class="line">    getInfo:<span class="function"><span class="keyword">function</span>(<span class="params">from,to</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name+<span class="string">"的年龄是"</span>+<span class="keyword">this</span>.age+<span class="string">"来自"</span>+<span class="keyword">from</span>+<span class="string">"去往"</span>+to);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> A=&#123;</span><br><span class="line">    name:<span class="string">"A"</span>,</span><br><span class="line">    age:<span class="number">11</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> B=&#123;</span><br><span class="line">    name:<span class="string">"B"</span>,</span><br><span class="line">    age:<span class="number">22</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Test.getInfo.call(A,<span class="string">"河南"</span>,<span class="string">"浙江"</span>);<span class="comment">//A的年龄是11来自河南去往浙江</span></span><br><span class="line">Test.getInfo.call(<span class="keyword">this</span>,<span class="string">"河南"</span>,<span class="string">"浙江"</span>);<span class="comment">//afei的年龄是28来自河南去往浙江</span></span><br><span class="line">Test.getInfo.apply(A,[<span class="string">"河南"</span>,<span class="string">"浙江"</span>]);<span class="comment">//B的年龄是22来自河南去往浙江</span></span><br><span class="line">Test.getInfo.bind(A,<span class="string">"河南"</span>,<span class="string">"浙江"</span>)();<span class="comment">//A的年龄是11来自河南去往浙江</span></span><br></pre></td></tr></table></figure>
+<p>简单可知：</p>
+<ul>
+<li>call、bind、apply接受第一个参数就是this指向的上下文</li>
+<li>call的接收的原始参数不变，apply接收的原始参数以数组形式传递</li>
+<li>bind处理返回的是函数外其余的与call一样</li>
+<li>bind返回的是函数，还需要执行</li>
+</ul>
+<p>还有一种不需要局部绑定this的方法，那就是使用箭头函数</p>
+<h4 id="二、箭头（arros）函数"><a href="#二、箭头（arros）函数" class="headerlink" title="二、箭头（arros）函数"></a>二、箭头（arros）函数</h4><h5 id="2-1-语法更简洁"><a href="#2-1-语法更简洁" class="headerlink" title="2.1 语法更简洁"></a>2.1 语法更简洁</h5><p>常规语法定义函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">arg1</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg1*<span class="number">5</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用箭头函数则只需要一行代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func=<span class="function">(<span class="params">args</span>)=&gt;</span>args*<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="2-2-箭头函数语法"><a href="#2-2-箭头函数语法" class="headerlink" title="2.2 箭头函数语法"></a>2.2 箭头函数语法</h5><p>箭头函数的语法如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(parameters)=&gt;&#123;statements&#125;</span><br></pre></td></tr></table></figure>
+<p>如果没有参数则可以直接写成</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">()=&gt;&#123;statements&#125;</span><br></pre></td></tr></table></figure>
+<p>如果只有一个参数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parameter=&gt;&#123;statements&#125;</span><br></pre></td></tr></table></figure>
+<p>如果返回值仅仅是一个表达式(expression)，可以省略大括号</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">parameter=&gt;expression</span><br><span class="line"><span class="comment">//等价于</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params">parameter</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> expression;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-3-与this的关系"><a href="#2-3-与this的关系" class="headerlink" title="2.3 与this的关系"></a>2.3 与this的关系</h5><p>箭头函数不会绑定this，即箭头函数不会改变this的本来绑定</p>
+<p>例如，想再函数内部实现递增效果，需要有this的局部绑定,不然的话setInterval调用中的this就会绑定给全局变量，从而不能得到正确的count。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">CounterTest</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> that=<span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">this</span>.timer=setInterval(<span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        that.count++;</span><br><span class="line">        <span class="built_in">console</span>.log(that.count);</span><br><span class="line">    &#125;,<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//执行new CounterTest()，就会一直执行累加计算</span></span><br><span class="line"><span class="comment">//如果不绑定this，会打印Nan</span></span><br></pre></td></tr></table></figure>
+<p>如果不要局部绑定，不用call、apply、bind等方式，还有什么方法呢，就是箭头函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">CounterTest</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">this</span>.timer=setInterval(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count++;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.count);</span><br><span class="line">    &#125;,<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出，CounterTest构造函数绑定的this会被保留，在setInterval函数中的this依然是CounterTest的作用域。</p>
+<p>参考：<a href="http://www.cnblogs.com/fundebug/p/6904753.html" target="_blank" rel="noopener"></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/12/作用域绑定/" data-id="ck6rcxt46000041o14512sqtv" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/12/ES7新特性/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ES7新特性
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/28/闭包/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">闭包</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebAssembly/">WebAssembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/WebAssembly/" style="font-size: 10px;">WebAssembly</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/07/WebAssembly初体验/">WebAssembly初体验</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
