@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>React高阶组件笔记 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、高阶组件的概念 高阶组件就是接收一个组件作为参数并返回一个数组 高阶组件是一个函数，并不是组件  二、为什么需要高阶组件 多个组件都需要某个相同的功能，使用高阶组件减少重复实现  三、高阶组件示例 react-redux中的connnect  1export default connect(mapStateToProps,mapDispatchToProps)(Header); 四、编写高阶组">
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React高阶组件笔记">
+<meta property="og:url" content="http://yoursite.com/2020/04/02/React高阶组件笔记/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="一、高阶组件的概念 高阶组件就是接收一个组件作为参数并返回一个数组 高阶组件是一个函数，并不是组件  二、为什么需要高阶组件 多个组件都需要某个相同的功能，使用高阶组件减少重复实现  三、高阶组件示例 react-redux中的connnect  1export default connect(mapStateToProps,mapDispatchToProps)(Header); 四、编写高阶组">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-02T15:25:52.540Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React高阶组件笔记">
+<meta name="twitter:description" content="一、高阶组件的概念 高阶组件就是接收一个组件作为参数并返回一个数组 高阶组件是一个函数，并不是组件  二、为什么需要高阶组件 多个组件都需要某个相同的功能，使用高阶组件减少重复实现  三、高阶组件示例 react-redux中的connnect  1export default connect(mapStateToProps,mapDispatchToProps)(Header); 四、编写高阶组">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-React高阶组件笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/02/React高阶组件笔记/" class="article-date">
+  <time datetime="2020-04-02T15:25:34.000Z" itemprop="datePublished">2020-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React高阶组件笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、高阶组件的概念"><a href="#一、高阶组件的概念" class="headerlink" title="一、高阶组件的概念"></a>一、高阶组件的概念</h3><ul>
+<li>高阶组件就是接收一个组件作为参数并返回一个数组</li>
+<li>高阶组件是一个函数，并不是组件</li>
+</ul>
+<h3 id="二、为什么需要高阶组件"><a href="#二、为什么需要高阶组件" class="headerlink" title="二、为什么需要高阶组件"></a>二、为什么需要高阶组件</h3><ul>
+<li>多个组件都需要某个相同的功能，使用高阶组件减少重复实现</li>
+</ul>
+<h3 id="三、高阶组件示例"><a href="#三、高阶组件示例" class="headerlink" title="三、高阶组件示例"></a>三、高阶组件示例</h3><ul>
+<li>react-redux中的connnect</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(mapStateToProps,mapDispatchToProps)(Header);</span><br></pre></td></tr></table></figure>
+<h3 id="四、编写高阶组件"><a href="#四、编写高阶组件" class="headerlink" title="四、编写高阶组件"></a>四、编写高阶组件</h3><ul>
+<li>实现一个普通组件</li>
+<li>将普通组件使用函数包裹</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="comment">//接收一个入参，参数就是一个组件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">d</span>(<span class="params">WrappedComponent</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">D</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">        render()&#123;</span><br><span class="line">            <span class="keyword">return</span> (</span><br><span class="line">            	&lt;div&gt;</span><br><span class="line">                	&lt;WrappedComponent /&gt;</span><br><span class="line">                &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            );</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default d;</span></span><br></pre></td></tr></table></figure>
+<h3 id="五、使用高阶组件"><a href="#五、使用高阶组件" class="headerlink" title="五、使用高阶组件"></a>五、使用高阶组件</h3><ul>
+<li><p>higherOrderComponent(WrappedComponent);</p>
+</li>
+<li><p>@higherOrderComponent. 装饰器模式</p>
+<blockquote>
+<p>1、运行命令：react-scripts reject  中途选yes</p>
+<p>2、安装依赖：npm install -D babel-preset-stage-2</p>
+<p>​            npm install -D babel-preset-react-native-stage-0</p>
+<p>3、添加.babelrc的文件</p>
+<p>​    {</p>
+<p>​        “presets”:[“react-native-stage-0/decorator-support”]</p>
+<p>​    }</p>
+<p>此时我们的被装饰者可以这么写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line">&gt; <span class="keyword">import</span> d <span class="keyword">from</span> <span class="string">'./D'</span>;</span><br><span class="line">&gt; </span><br><span class="line">&gt; @d</span><br><span class="line">&gt; <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">&gt;     render()&#123;</span><br><span class="line">&gt;         <span class="keyword">return</span> (</span><br><span class="line">&gt;         	<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">&gt;             	//...</span></span><br><span class="line"><span class="xml">&gt;             <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&gt;         );</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+</blockquote>
+</li>
+</ul>
+<h3 id="六、高阶组件的应用"><a href="#六、高阶组件的应用" class="headerlink" title="六、高阶组件的应用"></a>六、高阶组件的应用</h3><ul>
+<li><p>代理方式的高阶组件</p>
+<blockquote>
+<p>返回的新组件类直接继承自React.Component类，新组件扮演的角色传入参数组件的一个代理，在新组件的render函数中，将被包裹组件渲染出来，除了高阶组件自己要做的工作，其余功能全都转手给了被包裹的组件</p>
+</blockquote>
+</li>
+<li><p>继承方式的高阶组件</p>
+<blockquote>
+<p>采用继承关联作为参数的组件和返回组件，加入传入的组件参数是WrappedComponent，那么返回的组件就直接继承自WrappedComponent</p>
+</blockquote>
+</li>
+<li><p>高阶组件显示名</p>
+<blockquote>
+<p>在使用高阶组件时，有时候不好调试，并不知道最终渲染的是哪一个子组件，这时候就需要使用displayName了，可组件内部可以定义该静态变量</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">static</span> displayName=<span class="string">`newComponent<span class="subst">$&#123;getDisplayName(WrappedComponent)&#125;</span>`</span>;<span class="comment">//getDisplayName()是在外部自定义的</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+</blockquote>
+</li>
+</ul>
+<h4 id="6-1-代理方式的高阶组件"><a href="#6-1-代理方式的高阶组件" class="headerlink" title="6.1 代理方式的高阶组件"></a>6.1 代理方式的高阶组件</h4><ul>
+<li>操纵prop.       可以增加、删除属性</li>
+<li>抽取状态 </li>
+<li>访问ref</li>
+<li>包装组件</li>
+</ul>
+<h3 id="七、实战"><a href="#七、实战" class="headerlink" title="七、实战"></a>七、实战</h3><h4 id="7-1-初始化工程"><a href="#7-1-初始化工程" class="headerlink" title="7.1 初始化工程"></a>7.1 初始化工程</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create-react-app tabbar</span><br><span class="line"><span class="comment">//若未安装create-react-app，可以使用</span></span><br><span class="line">npx create-react-app tabbar</span><br></pre></td></tr></table></figure>
+<p>在<code>src</code>文件夹下新建<code>components</code>的文件夹，用来放置组件类；</p>
+<p>在<code>components</code>的文件夹下，新建<code>tabbar</code>的文件夹；</p>
+<p>然后在<code>tabbar</code>文件夹下新建<code>index.js</code>的文件，作为开发的主文件，同时在<code>tabbar</code>文件夹下新建一个样式文件<code>index.css</code>；</p>
+<p>并且在App.js中引入Tarbar组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'tarbar'</span>&gt;</span><br><span class="line">            	<span class="number">123</span></span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/index.css</span></span><br><span class="line"><span class="regexp">.tarbar&#123;</span></span><br><span class="line"><span class="regexp">    height:50px;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/App.js</span></span><br><span class="line"><span class="regexp">import React ,&#123;Component&#125; from 'react';</span></span><br><span class="line"><span class="regexp">import Tabbar from './</span>component/tarbar<span class="string">';</span></span><br><span class="line"><span class="string">class Tarbar extends Component&#123;</span></span><br><span class="line"><span class="string">    render()&#123;</span></span><br><span class="line"><span class="string">        return (</span></span><br><span class="line"><span class="string">        	&lt;div className='</span>App<span class="string">'&gt;</span></span><br><span class="line"><span class="string">            	&lt;Tarbar /&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">        );</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="7-2使用iconfont"><a href="#7-2使用iconfont" class="headerlink" title="7.2使用iconfont"></a>7.2使用iconfont</h4><p>进入阿里巴巴矢量图标库，下载四个我们需要的图标（home、car、category、user）。添加项目-下载到本地-解压，然后将里面iconfont开头的文件拷出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iconfont.css</span><br><span class="line">iconfont.eot</span><br><span class="line">iconfont.js</span><br><span class="line">iconfont.svg</span><br><span class="line">iconfont.ttf</span><br><span class="line">iconfont.woff</span><br></pre></td></tr></table></figure>
+<p>在<code>src</code>文件夹下新建<code>static</code>的文件夹，用来放置所有的静态文件，将上面的iconfont的文件放进来。</p>
+<p>然后在App.js文件中引入iconfont</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//App.js</span></span><br><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Tabbar <span class="keyword">from</span> <span class="string">'./component/tarbar'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'./static/iconfont.css'</span>;<span class="comment">//引入iconfont</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'App'</span>&gt;</span><br><span class="line">            	&lt;Tarbar /&gt;</span><br><span class="line">            	&lt;div className=<span class="string">'iconfont iconfont-home'</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>经完善后，APP.js的文件为</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//App.js</span></span><br><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Tabbar <span class="keyword">from</span> <span class="string">'./component/tarbar'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'./static/iconfont.css'</span>;<span class="comment">//引入iconfont</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> tabbar=&#123;</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-home'</span>,<span class="attr">text</span>:<span class="string">'首页'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-fenlei'</span>,<span class="attr">text</span>:<span class="string">'分类'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-gouwuche'</span>,<span class="attr">text</span>:<span class="string">'购物车'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-user'</span>,<span class="attr">text</span>:<span class="string">'我的'</span>&#125;，</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'tabbar'</span>&gt;</span><br><span class="line">            	&lt;div className=<span class="string">'tabbar-content'</span>&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        tabbar.map(<span class="function">(<span class="params">v,i</span>)=&gt;</span>&#123;</span><br><span class="line">                            &lt;div key=&#123;i&#125; className=<span class="string">'tabbar-item'</span>&gt;</span><br><span class="line">                                &lt;div className=&#123;<span class="string">'iconfont '</span>+v.img&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">                                &lt;div&gt;&#123;v.text&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">                            &lt;/</span>div&gt;</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">    			&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来index.css文件中添加样式文件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="selector-class">.iconfont</span>&#123;</span><br><span class="line">    font-size:28px !important;//!important强制生效</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.tarbar</span>&#123;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">position</span>:absolute;</span><br><span class="line">    <span class="attribute">bottom</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#ccc</span>;</span><br><span class="line">    <span class="attribute">padding</span>:<span class="number">5px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.tabbar-content</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.tabbar-item</span>&#123;</span><br><span class="line">    flex:1;//每个元素的区间是均分的</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="7-4-添加事件"><a href="#7-4-添加事件" class="headerlink" title="7.4 添加事件"></a>7.4 添加事件</h4><p>需要给tabbar-item添加点击切换事件，图标响应不同颜色。思路：通过点击事件-改变state-实时更新样式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Tabbar</span></span><br><span class="line">...</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state=&#123;</span><br><span class="line">            index:<span class="string">''</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    itemChange=<span class="function">(<span class="params">i</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;<span class="attr">index</span>:i&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'tabbar'</span>&gt;</span><br><span class="line">            	&lt;div className=<span class="string">'tabbar-content'</span>&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        tabbar.map(<span class="function">(<span class="params">v,i</span>)=&gt;</span>&#123;</span><br><span class="line">                            &lt;div key=&#123;i&#125; className=&#123;<span class="string">'tabbar-item'</span>+ <span class="keyword">this</span>.state.index===i?<span class="string">'active:'</span><span class="string">' &#125; onClick=&#123;()=&gt;this.itemChange(i)&#125;&gt;</span></span><br><span class="line"><span class="string">                                &lt;div className=&#123;'</span>iconfont <span class="string">'+v.img&#125;&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                                &lt;div&gt;&#123;v.text&#125;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                            &lt;/div&gt;</span></span><br><span class="line"><span class="string">                        &#125;);</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">    			&lt;/div&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">        );</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">//在index.css中给active添加样式</span></span><br><span class="line"><span class="string">    .active&#123;</span></span><br><span class="line"><span class="string">        color:red;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="7-5-添加路由"><a href="#7-5-添加路由" class="headerlink" title="7.5 添加路由"></a>7.5 添加路由</h4><p>安装包</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install -S react-router-dom</span><br></pre></td></tr></table></figure>
+<p>在src 目录下新建文件<code>router.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;BrowserRouter,Route,Switch&#125; <span class="keyword">from</span> <span class="string">'react-router-dom '</span>;</span><br><span class="line"><span class="comment">//下面四个页面在src目录的pages的页面</span></span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">"./pages/home"</span>;</span><br><span class="line"><span class="keyword">import</span> Category <span class="keyword">from</span> <span class="string">"./pages/category"</span>;</span><br><span class="line"><span class="keyword">import</span> Car <span class="keyword">from</span> <span class="string">"./pages/car"</span>;</span><br><span class="line"><span class="keyword">import</span> User <span class="keyword">from</span> <span class="string">"./pages/user"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> ()=&gt;(</span><br><span class="line">	&lt;BrowserRouter&gt;</span><br><span class="line">    	&lt;Switch&gt;</span><br><span class="line">    		&lt;Route path=<span class="string">'/home'</span> component=&#123;Home&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">			&lt;Route path=<span class="string">'/category'</span> component=&#123;Category&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">			&lt;Route path=<span class="string">'/car'</span> component=&#123;Car&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">			&lt;Route path=<span class="string">'/user'</span> component=&#123;User&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">    	&lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>BrowserRouter&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>然后在App.js中将router.js导入即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//App.js</span></span><br><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Tabbar <span class="keyword">from</span> <span class="string">'./component/tarbar'</span>;</span><br><span class="line"><span class="keyword">import</span> RouterMap <span class="keyword">from</span> <span class="string">'./router'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'App'</span>&gt;</span><br><span class="line">            	&lt;RouterMap /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这样当我们在浏览器输入<code>localhost:3030/home</code>时就显示的Home页面 </p>
+<h4 id="7-6-Tabbar路由的切换"><a href="#7-6-Tabbar路由的切换" class="headerlink" title="7.6 Tabbar路由的切换"></a>7.6 Tabbar路由的切换</h4><p>接下来我们需要在Home、Car、Category、User中引入Tabbar</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Tabbar <span class="keyword">from</span> <span class="string">'./component/tarbar'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Home</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div&gt;</span><br><span class="line">            	&lt;Tabbar /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>为了方便，将Home等组件内容用一张图片代替</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Tabbar <span class="keyword">from</span> <span class="string">'./component/tarbar'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Home</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div&gt;</span><br><span class="line">            	&lt;img className=<span class="string">'bg'</span> src=&#123;<span class="built_in">require</span>(<span class="string">'../static/imgs/home.png'</span>)&#125; /&gt;</span><br><span class="line">            	&lt;Tabbar /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default Home;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/在APP.css中添加样式</span></span><br><span class="line"><span class="regexp">    .bg&#123;</span></span><br><span class="line"><span class="regexp">        width:100%;</span></span><br><span class="line"><span class="regexp">        height:100%;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br></pre></td></tr></table></figure>
+<p>此时我们点击下面四个按钮，只是按钮 变红，实际上我们想让我们的路由改变，展示不同的页面；</p>
+<p>我们需要修改Tabbar各item的点击事件，可以先将数据写进tabbar数据中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tabbar=&#123;</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-home'</span>,<span class="attr">text</span>:<span class="string">'首页'</span>,<span class="attr">link</span>:<span class="string">'/home'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-fenlei'</span>,<span class="attr">text</span>:<span class="string">'分类'</span>,<span class="attr">link</span>:<span class="string">'/category'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-gouwuche'</span>,<span class="attr">text</span>:<span class="string">'购物车'</span>,<span class="attr">link</span>:<span class="string">'/car'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-user'</span>,<span class="attr">text</span>:<span class="string">'我的'</span>,<span class="attr">link</span>:<span class="string">'/user'</span>&#125;，</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样在跳转的时候我们就知道是哪一个路由了，为了简单也不可以不用点击事件，用link标签来做；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line"></span><br><span class="line">			&lt;div className=<span class="string">'tabbar-content'</span>&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        tabbar.map(<span class="function">(<span class="params">v,i</span>)=&gt;</span>&#123;</span><br><span class="line">                            &lt;Link to=&#123;v.link&#125; key=&#123;i&#125; className=&#123;<span class="string">'tabbar-item'</span>+ <span class="keyword">this</span>.state.index===i?<span class="string">'active:'</span><span class="string">' &#125;&gt;</span></span><br><span class="line"><span class="string">                                &lt;div className=&#123;'</span>iconfont <span class="string">'+v.img&#125;&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                                &lt;div&gt;&#123;v.text&#125;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                            &lt;/Link&gt;</span></span><br><span class="line"><span class="string">                        &#125;);</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">    			&lt;/div&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这是link标签又默认样式，需要去掉默认样式，</p>
+<p>在App.css中给a标签编写样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,<span class="selector-tag">a</span><span class="selector-pseudo">:visited</span>,<span class="selector-tag">a</span><span class="selector-pseudo">:link</span>,<span class="selector-tag">a</span><span class="selector-pseudo">:active</span>&#123;</span><br><span class="line">    text-decoration:none;//去掉下划线</span><br><span class="line">    <span class="selector-tag">color</span>:<span class="selector-id">#333</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后还需要给tabbar添加背景颜色，并且发现在点击不同选项时颜色不改变了。这是因为之前我们是根据数字来判断选项是否更改颜色，现在由于在不同页面中没有数字的概念，所以active是不生效的。可以通过获取当前的url来概念颜色</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Tabbar</span></span><br><span class="line"><span class="keyword">import</span> &#123;Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line">...</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state=&#123;</span><br><span class="line">            index:<span class="string">''</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    itemChange=<span class="function">(<span class="params">i</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;<span class="attr">index</span>:i&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">const</span> url=<span class="built_in">window</span>.location.href;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'tabbar'</span>&gt;</span><br><span class="line">            	&lt;div className=<span class="string">'tabbar-content'</span>&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        tabbar.map(<span class="function">(<span class="params">v,i</span>)=&gt;</span>&#123;</span><br><span class="line">                            &lt;Link to=&#123;v.link&#125; key=&#123;i&#125; className=&#123;<span class="string">'tabbar-item'</span>+ (url.indexOf(v.link)&gt;<span class="number">-1</span>)?<span class="string">'active:'</span><span class="string">' &#125;&gt;</span></span><br><span class="line"><span class="string">                                &lt;div className=&#123;'</span>iconfont <span class="string">'+v.img&#125;&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                                &lt;div&gt;&#123;v.text&#125;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                            &lt;/Link&gt;</span></span><br><span class="line"><span class="string">                        &#125;);</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">    			&lt;/div&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">        );</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这时可以给选项添加正确的class，但是class并未生效，active的作用被覆盖了，需要使用!important 来强制生效</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//在index.css中给active添加样式</span><br><span class="line">    <span class="selector-class">.active</span>&#123;</span><br><span class="line">        <span class="attribute">color</span>:red <span class="meta">!important</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 此时还会发现另一个问题，我们的tabbar会遮挡Home、Car等页面，该如何处理呢，</p>
+<p>可以给Home等组件的的背景css添加margin-bottom，值设为tabbar的高度</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//在APP.css中添加样式</span><br><span class="line"><span class="selector-class">.bg</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    //height:100;//需要把这个属性删除，以实现内容的自动滚动</span><br><span class="line">    <span class="selector-tag">margin-bottom</span><span class="selector-pseudo">:50px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这时又发现我们的tabbar随着Home等组件上下滚动了，这不是我们想要的结果，查看tarbar的布局，position:absolute，我门想要tabbar相对于视口来布局的，将position改为fixed即可</p>
+<h4 id="7-7-高阶组件改写Tabbar"><a href="#7-7-高阶组件改写Tabbar" class="headerlink" title="7.7 高阶组件改写Tabbar"></a>7.7 高阶组件改写Tabbar</h4><p>上面我们已经把所有功能实现了，但是对于Home、Car、Category、User存在大量重复性的代码，这就可以使用高阶组件进行提取。</p>
+<p>很简单，遵循两个步骤就可以了</p>
+<ul>
+<li>实现一个普通组件</li>
+<li>将普通组件使用函数包裹</li>
+</ul>
+<p>在index.js中找到Tabbar，使用函数将其包裹起来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">const Tabbar=(WrappedComponent)=&gt; class Tabbar extends Component&#123;</span><br><span class="line">    ...</span><br><span class="line">    render()&#123;</span><br><span class="line">        const url=window.location.href;</span><br><span class="line">        reutrn (</span><br><span class="line">        	&lt;div className=&apos;tabbar-container&apos;&gt;</span><br><span class="line">        		//注意必须将WrappedComponent在该组件渲染</span><br><span class="line">        		&lt;div className=&apos;tabbar-children&apos;&gt;</span><br><span class="line">        			&lt;WrappedComponent /&gt;</span><br><span class="line">        		&lt;/div&gt;</span><br><span class="line">        		&lt;div className=&apos;tabbar</span><br><span class="line">        			&lt;div className=&apos;tabbar-content&apos;&gt;</span><br><span class="line">        			//...</span><br><span class="line">        			&lt;/div&gt;</span><br><span class="line">        		div&gt;</span><br><span class="line">        	&lt;/div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//将下面的内容放在上边</span><br><span class="line">//class Tabbar extends Component&#123;&#125;</span><br><span class="line"></span><br><span class="line">//在tabbar的css文件index.css中给tabbar-children设置样式,就可以把App.css文件中的.bg去掉了。</span><br><span class="line">.tabbar-children&#123;</span><br><span class="line">    margin:bottom:50px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在使用时，需要改变一下了，在Home.js中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import React ,&#123;Component&#125; from &apos;react&apos;;</span><br><span class="line">import Tabbar from &apos;./component/tarbar&apos;;</span><br><span class="line"></span><br><span class="line">class Home extends Component&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        return (</span><br><span class="line">        	&lt;div&gt;</span><br><span class="line">            	&lt;img className=&apos;bg&apos; src=&#123;require(&apos;../static/imgs/home.png&apos;)&#125; /&gt;</span><br><span class="line">            	~~&lt;Tabbar /&gt;~~</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default Tabbar(Home);//输出的时候，用函数更改即可</span><br></pre></td></tr></table></figure>
+<p>link可以出发路由的改变，路由改变之后需要APP去监听做何改变</p>
+<p>注意：此文为慕课网视频笔记<br><a href="https://www.imooc.com/learn/1075" target="_blank" rel="noopener">https://www.imooc.com/learn/1075</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/02/React高阶组件笔记/" data-id="ck8iwvpzz002pnso18a38kq59" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/02/react-router-dom入门到深入/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          react-router-dom入门到深入
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/01/09/js中的EventLoop/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">js中的EventLoop</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebAssembly/">WebAssembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/WebAssembly/" style="font-size: 10px;">WebAssembly</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/02/react-router-dom入门到深入/">react-router-dom入门到深入</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/02/React高阶组件笔记/">React高阶组件笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/07/WebAssembly初体验/">WebAssembly初体验</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

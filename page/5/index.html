@@ -62,6 +62,123 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-android-recyclerview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-recyclerview/" class="article-date">
+  <time datetime="2018-01-14T11:43:28.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-recyclerview/">Android之recyclerview</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="RecyclerView的使用"><a href="#RecyclerView的使用" class="headerlink" title="RecyclerView的使用"></a>RecyclerView的使用</h2><hr>
+<h3 id="一、引用与布局"><a href="#一、引用与布局" class="headerlink" title="一、引用与布局"></a>一、引用与布局</h3><h4 id="1、添加依赖"><a href="#1、添加依赖" class="headerlink" title="1、添加依赖"></a>1、添加依赖</h4><p>为了让RecyclerView兼容所有的版本，Android团队将RecyclerView定义在了support库中了。所以首先在<code>build.gradle</code>文件的dependencies中添加依赖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.android.support:recyclerview-v7:24.2.1&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="2、添加布局"><a href="#2、添加布局" class="headerlink" title="2、添加布局"></a>2、添加布局</h4><p>引用依赖之后，就可以在layer中添加该控件了，如下就完成了对recyclerview的添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.v7.widget.RecyclerView</span><br><span class="line">	android:id=&quot;@+id/recycler_view&quot;</span><br><span class="line">	android:layout_width=&quot;match_parent&quot;</span><br><span class="line">	android:layout_height=&quot;match_parent&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="二、数据的准备"><a href="#二、数据的准备" class="headerlink" title="二、数据的准备"></a>二、数据的准备</h3><h4 id="1、模拟数据"><a href="#1、模拟数据" class="headerlink" title="1、模拟数据"></a>1、模拟数据</h4><p>以一个数组来模拟要展示的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private String[] data=&#123;</span><br><span class="line">	&quot;Apple&quot;,&quot;Banana&quot;,&quot;Orange&quot;,&quot;Watermelon&quot;,&quot;Pear&quot;,</span><br><span class="line">	&quot;Grape&quot;,&quot;Pineapple&quot;,&quot;Strawberry&quot;,&quot;Cherry&quot;,&quot;Mango&quot;,</span><br><span class="line">	&quot;Apple&quot;,&quot;Banana&quot;,&quot;Orange&quot;,&quot;Watermelon&quot;,&quot;Pear&quot;,</span><br><span class="line">	&quot;Grape&quot;,&quot;Pineapple&quot;,&quot;Strawberry&quot;,&quot;Cherry&quot;,&quot;Mango&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、创建一个水果类"><a href="#2、创建一个水果类" class="headerlink" title="2、创建一个水果类"></a>2、创建一个水果类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class Fruit&#123;</span><br><span class="line">	private String name;</span><br><span class="line">	private int imageId;</span><br><span class="line">	public Fruit(String name,int imageId)&#123;</span><br><span class="line">		this.name=name;</span><br><span class="line">		this.imageId=imageId;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getName()&#123;</span><br><span class="line">		return name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public int getImageId()&#123;</span><br><span class="line">		return imageId;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、创建一个item的布局文件"><a href="#3、创建一个item的布局文件" class="headerlink" title="3、创建一个item的布局文件"></a>3、创建一个item的布局文件</h4><p>每一条数据以何种样式展示，加入是一张图片配一个名字。在layout文件夹下创建一个<code>fruit_item.xml</code>的布局文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android</span><br><span class="line">	android:layout_width=&quot;match_parent&quot;</span><br><span class="line">	android:layout_height=&quot;wrap_content&quot;&gt;</span><br><span class="line">	&lt;ImageView</span><br><span class="line">		android:id=&quot;@+id/fruit_image&quot;</span><br><span class="line">		android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_height=&quot;wrap_content&quot;&gt;</span><br><span class="line">	&lt;IextView</span><br><span class="line">		android:id=&quot;@+id/fruit_name&quot;</span><br><span class="line">		android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_gravity=&quot;center_vertical&quot;</span><br><span class="line">		andriod:layout_marginLeft=&quot;10dp&quot;&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="三、适配器的编写"><a href="#三、适配器的编写" class="headerlink" title="三、适配器的编写"></a>三、适配器的编写</h3><p>有了上面的准备就可以开始编写适配器了，需要继承自RecyclerView.Adapter类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class FruitAdapter extends RecyclerView.Adapter&lt;FruitAdapter.ViewHolder&gt;&#123;</span><br><span class="line">	private List&lt;Fruit&gt; fruitList;</span><br><span class="line">	static class ViewHolder extends RecyclerView.ViewHolder&#123;</span><br><span class="line">		ImageView fruitImage;</span><br><span class="line">		TextView fruitName;</span><br><span class="line">		public ViewHolder(View v)&#123;</span><br><span class="line">			super(v);</span><br><span class="line">			fruitImage=(ImageView)view.findViewById(R.id.fruit_image);</span><br><span class="line">			fruitName=(TextView)view.findViewById(R.id.fruit_name);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//构造函数接收数据源</span><br><span class="line">	public 	FruitAdapter(List&lt;Fruit&gt; fruitList)&#123;</span><br><span class="line">		this.fruitList=fruitList;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//通过架子啊fruit_item布局，创建ViewHolder实例，并返回该实例</span><br><span class="line">	@Override</span><br><span class="line">	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)&#123;</span><br><span class="line">		View view=LayoutInflater.from(parent.getContext())</span><br><span class="line">			.inflate(R.layout.fruit_item,parent,false);</span><br><span class="line">		ViewHolder holder=new ViewHolder(view);</span><br><span class="line">		return holder;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//将RecyclerView的子项进行赋值</span><br><span class="line">	@Override</span><br><span class="line">	public void onBindViewHolder(ViewHolder holder,int position)&#123;</span><br><span class="line">		Fruit fruit=fruitList.get(position);</span><br><span class="line">		holder.fruitImage.setImageResource(fruit.getImageId());</span><br><span class="line">		holder.fruitName.setText(fuit.getName());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//获取一共有多少项</span><br><span class="line">	@Override</span><br><span class="line">	public int getItemCount()&#123;</span><br><span class="line">		return fruitList.size();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、RecyclerView的加载"><a href="#四、RecyclerView的加载" class="headerlink" title="四、RecyclerView的加载"></a>四、RecyclerView的加载</h3><p>现在就可以展示数据了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppcompatActivity&#123;</span><br><span class="line">	private List&lt;Fruit&gt; fruitList=new ArrayList&lt;&gt;();</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public void onCreate(Bundle savedInstanceState)&#123;</span><br><span class="line">		super.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		//初始化数据</span><br><span class="line">		initFruits();</span><br><span class="line">		RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recycler_view);</span><br><span class="line"></span><br><span class="line">		//指定RecyclerView的布局方式</span><br><span class="line">		LinearLayoutManager layoutManager=new LinearLayoutManager(this);</span><br><span class="line">		recyclerView.setLayoutManager(layoutManager);</span><br><span class="line">		FruitAdapter adapter=new FruitAdapter(fruitList);</span><br><span class="line">	</span><br><span class="line">		recyclerView.setAdapter(adapter);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//初始化数据</span><br><span class="line">	public void initFruits()&#123;</span><br><span class="line">		Fruit apple=new Fruit(&quot;apple&quot;,R.drawable.apple_pic);</span><br><span class="line">		fruitList.add(apple);</span><br><span class="line">		//...</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="五、改变RecyclerView的布局"><a href="#五、改变RecyclerView的布局" class="headerlink" title="五、改变RecyclerView的布局"></a>五、改变RecyclerView的布局</h3><p>通过上边的步骤就可以成功展示列表数据了，排列方式是纵向排列。如果要实现横向布局怎么办呢？<br>第四部中出现了<code>LinearLayoutManager</code>，表示纵向布局，可以给这个类添加朝向,通过<br><code>setOrientation</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onCreate(Bundle savedInstanceState)&#123;</span><br><span class="line">	super.onCreate(savedInstanceState);</span><br><span class="line">	setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">	//初始化数据</span><br><span class="line">	initFruits();</span><br><span class="line">	RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recycler_view);</span><br><span class="line"></span><br><span class="line">	//指定RecyclerView的布局方式</span><br><span class="line">	LinearLayoutManager layoutManager=new LinearLayoutManager(this);</span><br><span class="line">	//横向布局 </span><br><span class="line">	layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);</span><br><span class="line">	recyclerView.setLayoutManager(layoutManager);</span><br><span class="line">	FruitAdapter adapter=new FruitAdapter(fruitList);</span><br><span class="line"></span><br><span class="line">	recyclerView.setAdapter(adapter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这需要改一下<code>fruit_item.xml</code>文件的布局</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android</span><br><span class="line">	android:orientation=&quot;vertical&quot;</span><br><span class="line">	android:layout_width=&quot;100dp&quot;</span><br><span class="line">	android:layout_height=&quot;wrap_content&quot;&gt;</span><br><span class="line">	&lt;ImageView</span><br><span class="line">		android:id=&quot;@+id/fruit_image&quot;</span><br><span class="line">		android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_gravity=&quot;center_horizontal&quot;&gt;</span><br><span class="line">	&lt;IextView</span><br><span class="line">		android:id=&quot;@+id/fruit_name&quot;</span><br><span class="line">		android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">		android:layout_gravity=&quot;center_horizontal&quot;</span><br><span class="line">		andriod:layout_marginTop=&quot;10dp&quot;&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>这是就实现了横向布局。</p>
+<h3 id="六、其它的布局类"><a href="#六、其它的布局类" class="headerlink" title="六、其它的布局类"></a>六、其它的布局类</h3><ul>
+<li>GridLayoutManager  网格状布局</li>
+<li>StaggeredGridLayoutManager 瀑布流式布局</li>
+</ul>
+<p>比如瀑布流式布局，只需修改layoutManager即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//第一个参数表示列数；第二个参数指定布局的排列方向</span><br><span class="line">StaggeredGridLayoutManager layoutManager=new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);</span><br></pre></td></tr></table></figure>
+<p>同样也需要修改<code>fruit_item.xml</code>文件，不再赘述</p>
+<h3 id="七、点击事件"><a href="#七、点击事件" class="headerlink" title="七、点击事件"></a>七、点击事件</h3><p>RecyclerView的所有的点击事件都由具体的view去注册，这样就可以给整个子item注册事件，也可以给item中的子控件注册事件。是在Adaper中实现的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">public class FruitAdapter extends RecyclerView.Adapter&lt;FruitAdapter.ViewHolder&gt;&#123;</span><br><span class="line">	private List&lt;Fruit&gt; fruitList;</span><br><span class="line">	static class ViewHolder extends RecyclerView.ViewHolder&#123;</span><br><span class="line">		//1</span><br><span class="line">		View fruitView;</span><br><span class="line"></span><br><span class="line">		ImageView fruitImage;</span><br><span class="line">		TextView fruitName;</span><br><span class="line">		public ViewHolder(View v)&#123;</span><br><span class="line">			super(v);</span><br><span class="line"></span><br><span class="line">			//2</span><br><span class="line">			fruitView=view;</span><br><span class="line">	</span><br><span class="line">			fruitImage=(ImageView)view.findViewById(R.id.fruit_image);</span><br><span class="line">			fruitName=(TextView)view.findViewById(R.id.fruit_name);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//构造函数接收数据源</span><br><span class="line">	public 	FruitAdapter(List&lt;Fruit&gt; fruitList)&#123;</span><br><span class="line">		this.fruitList=fruitList;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//通过架子啊fruit_item布局，创建ViewHolder实例，并返回该实例</span><br><span class="line">	@Override</span><br><span class="line">	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)&#123;</span><br><span class="line">		View view=LayoutInflater.from(parent.getContext())</span><br><span class="line">			.inflate(R.layout.fruit_item,parent,false);</span><br><span class="line">		//3		</span><br><span class="line">	    final ViewHolder holder=new ViewHolder(view);</span><br><span class="line">		//注册点击事件</span><br><span class="line">		holder.fruitView.setOnclickListener(new OnClickListener()&#123;</span><br><span class="line">			@Override</span><br><span class="line">			public void onClick(View v)&#123;</span><br><span class="line">				int position=holder.getAdapterPosition();</span><br><span class="line">				Fruit fruit=fruitList.get(position);</span><br><span class="line">				//...</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		holder.fruitImage.setOnclickListener(new OnClickListener()&#123;</span><br><span class="line">			@Override</span><br><span class="line">			public void onClick(View v)&#123;</span><br><span class="line">				int position=holder.getAdapterPosition();</span><br><span class="line">				Fruit fruit=fruitList.get(position);</span><br><span class="line">				//...</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		return holder;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//将RecyclerView的子项进行赋值</span><br><span class="line">	@Override</span><br><span class="line">	public void onBindViewHolder(ViewHolder holder,int position)&#123;</span><br><span class="line">		Fruit fruit=fruitList.get(position);</span><br><span class="line">		holder.fruitImage.setImageResource(fruit.getImageId());</span><br><span class="line">		holder.fruitName.setText(fuit.getName());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//获取一共有多少项</span><br><span class="line">	@Override</span><br><span class="line">	public int getItemCount()&#123;</span><br><span class="line">		return fruitList.size();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="八、RecyclerView的更新"><a href="#八、RecyclerView的更新" class="headerlink" title="八、RecyclerView的更新"></a>八、RecyclerView的更新</h3><p>1、如果对数据源传入了新数据，需要更新RecyclerView的显示，可以通过调用adapter的<code>NotifyItemInserted</code>方法来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adatper.notufyItemInsert(msgList.size()-1);</span><br><span class="line">recyclerView·scrollToPosition(msgList.size()-1);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-recyclerview/" data-id="ck8iwvq0f002ynso18bzaxd32" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-include" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/android-include/" class="article-date">
+  <time datetime="2018-01-14T11:42:00.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/android-include/">Android之引入布局</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、引入xml文件"><a href="#一、引入xml文件" class="headerlink" title="一、引入xml文件"></a>一、引入xml文件</h3><p>如果你要自定义标题栏，是不是要为每一个页面都重复的编写标题栏配置呢，当然不用，使用引入布局就可以实现一次编写处处使用的效果。<br>1、首先在layouy文件夹下新建title.xml的布局文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:background</span>=<span class="string">"@drawable/title_bg"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/title_back"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"@drawable/back_bg"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"back"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/title_txt"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:garvity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"title"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textSize</span>=<span class="string">"24sp"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/title_edit"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"@drawable/edit_bg"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"edit"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、在Activity的布局文件中通过关键字include引入该布局</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/title"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>3、在Activity的java文件中隐藏默认标题栏</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContent(R.layout.activity_main);</span><br><span class="line">    </span><br><span class="line">    ActionBar actionBar=getSupportActionBar();</span><br><span class="line">    <span class="keyword">if</span>(actionBar!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        actionBar.hide();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二、引入带监听事件的控件"><a href="#二、引入带监听事件的控件" class="headerlink" title="二、引入带监听事件的控件"></a>二、引入带监听事件的控件</h3><p>仅仅引入xml文件，如果给title添加监听事件岂不是还要做大量的重复工作，对于一些通用的监听事件也可以独立出来。</p>
+<p>1、新建一个类继承LinearLayout, 并且在里面添加监听按钮事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TitleLayout</span> <span class="keyword">extends</span> <span class="title">LinearLayout</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TitleLayout</span><span class="params">(Context context , AttributeSet attrs)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context,attrs);</span><br><span class="line">        <span class="comment">//inflate方法动态加载一个布局文件</span></span><br><span class="line">        LayoutInflater.from(context).inflate(R.layout.title,<span class="keyword">this</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//给返回按钮，添加监听</span></span><br><span class="line">        Button btn1=findViewById(R.id.title_back);</span><br><span class="line">        btn1.setOnClickListener(<span class="keyword">new</span> OnClickListener()&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">                ((Activity)getContext()).finish();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、在activity_main.xml文件中添加这个控件即可</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">com.example.ui.TitleLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_contetn"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/14/android-include/" data-id="ck8iwvpyq000tnso1cpx2qxus" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-android-intent2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/14/android-intent2/" class="article-date">
@@ -95,7 +212,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-intent2/" data-id="ck6rcryel000x22o1grigv8am" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-intent2/" data-id="ck8iwvpyt000ynso12j8t6aqd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -141,7 +258,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-exit/" data-id="ck6rcryef000m22o1tpnmob5j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-exit/" data-id="ck8iwvpyn000pnso1rujzj0a1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -188,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-start/" data-id="ck6rcryeq001722o12s9gutjg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-start/" data-id="ck8iwvpyw0015nso1tpmfb62u" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -274,7 +391,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/14/android-intent/" data-id="ck6rcryen001222o13oxjacfq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/01/14/android-intent/" data-id="ck8iwvpyr000vnso1ll60tn64" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -441,7 +558,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/Gradle入门/" data-id="ck6rcrye0000322o1mz8lp5iv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/Gradle入门/" data-id="ck8iwvpy40003nso121597nj8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gradle/">Gradle</a></li></ul>
@@ -512,7 +629,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/Java反射/" data-id="ck6rcryfv002l22o1016e3lnl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/Java反射/" data-id="ck8iwvpzx002onso1rgrwjy0y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -632,7 +749,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/SpringBoot进阶/" data-id="ck6rcryg0002m22o1yfcgwkms" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/SpringBoot进阶/" data-id="ck8iwvq0b002tnso1wgfwqwow" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
@@ -795,145 +912,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/19/SpringBoot基础/" data-id="ck6rcryg3002o22o1krp1xs8c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/19/SpringBoot基础/" data-id="ck8iwvq01002rnso1rcpa3wz7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-利用Docker搭建一个博客" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/14/利用Docker搭建一个博客/" class="article-date">
-  <time datetime="2017-07-13T18:40:04.000Z" itemprop="datePublished">2017-07-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/14/利用Docker搭建一个博客/">利用Docker搭建一个博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于docker最早是在天猫双十一之后的一个直播视频中看到了，当时始终觉得这是都是很牛逼的人才玩的转的东西，也就没放在心上。后来公司的同事做了一个docker的分享培训，对docker有了进一步的了解。直到最近分到一个任务——配置一个开源论坛然后部署到公司服务器上，为了避免多次部署的麻烦，就要选择docker，至此铁下心来学习docker。</p>
-<h3 id="1、docker是干什么的？"><a href="#1、docker是干什么的？" class="headerlink" title="1、docker是干什么的？"></a>1、docker是干什么的？</h3><p>作为程序员不知道你有没有这种感觉，每当你要部署一套系统时都要花费大量的时间和精来来配置各种运行环境？明明在自己机器上运行好好的系统，在别人机器上出现了很多问题，然后花费大量时间和精力去调试？很难说这种方式对我们的变成能力能提高多少，那怎么解决这个问题呢？答案就是daocker，它可以让你将你的系统连带运行环境一并“打包分发”。（说的优点low，但是有助于理解）</p>
-<h3 id="2、docker的安装"><a href="#2、docker的安装" class="headerlink" title="2、docker的安装"></a>2、docker的安装</h3><p>要使用docker，肯定是先安装docker了请参考下面的文章, 这里只提醒一点，一定要使用64位的操作系统，不然会遇到很多坑。另外windows、linux和mac都可以安装docker，windows10直接支持docker的安装而之前版本的windows需要通过docker官方提供的工具；mac安装最简单；推荐使用linux环境安装。</p>
-<h3 id="3、docker的基础"><a href="#3、docker的基础" class="headerlink" title="3、docker的基础"></a>3、docker的基础</h3><p>首次接触docker，对所谓的image、container、registry、client、server等等肯定会眼花。本文抛开对这些概念的重复，先让大家动手来感受一下docker能为我们做什么？我们要做一个在tomcat环境下运行的网站，并且支持mysql数据库。</p>
-<h3 id="4、搭建之旅"><a href="#4、搭建之旅" class="headerlink" title="4、搭建之旅"></a>4、搭建之旅</h3><h4 id="4-1-准备工作"><a href="#4-1-准备工作" class="headerlink" title="4.1 准备工作"></a>4.1 准备工作</h4><p>首先去 jpress下载一个war文件，作为我们要运行的项目。结下来是不是要搭建java环境、搭建tomcat、搭建mysql数据了？这些全是重复性的劳动，有了docker就可以省去这些繁琐的过程。</p>
-<h4 id="4-2-docker环境下安装tomcat"><a href="#4-2-docker环境下安装tomcat" class="headerlink" title="4.2 docker环境下安装tomcat"></a>4.2 docker环境下安装tomcat</h4><p>docker按住哪个tomcat环境，分如下几步：</p>
-<ul>
-<li>搜索tomcat的image；</li>
-<li>下载tomcat的image；</li>
-<li>运行tomcat的image.</li>
-</ul>
-<p>在linux通过快捷键 control + alt + t 调出终端，通过下面命令进入root模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su</span><br></pre></td></tr></table></figure></p>
-<p>根据提示输入密码，就进入了root模式，然后启动docker服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service start docker</span><br></pre></td></tr></table></figure></p>
-<p>接着在终端输入下面命令即可执行对tomcat的image的搜索：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search tomcat</span><br></pre></td></tr></table></figure></p>
-<p>就会出现下面的搜索结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">root@afei-virtual-machine:/home/afei# docker search tomcat</span><br><span class="line">NAME                           DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">tomcat                         Apache Tomcat is an open source implementa...   1407      [OK]       </span><br><span class="line">tomee                          Apache TomEE is an all-Apache Java EE cert...   38        [OK]       </span><br><span class="line">dordoka/tomcat                 Ubuntu 14.04, Oracle JDK 8 and Tomcat 8 ba...   37                   [OK]</span><br><span class="line">davidcaste/alpine-tomcat       Apache Tomcat 7/8 using Oracle Java 7/8 wi...   19                   [OK]</span><br><span class="line">consol/tomcat-7.0              Tomcat 7.0.57, 8080, &quot;admin/admin&quot;              16                   [OK]</span><br><span class="line">cloudesire/tomcat              Tomcat server, 6/7/8                            15                   [OK]</span><br><span class="line">tutum/tomcat                   Base docker image to run a Tomcat applicat...   7                    </span><br><span class="line">jeanblanchard/tomcat           Minimal Docker image with Apache Tomcat         7                    </span><br><span class="line">andreptb/tomcat                Debian Jessie based image with Apache Tomc...   7                    [OK]</span><br><span class="line">fbrx/tomcat                    Minimal Tomcat image based on Alpine Linux      4                    [OK]</span><br><span class="line">bitnami/tomcat                 Bitnami Tomcat Docker Image                     3                    [OK]</span><br><span class="line">picoded/tomcat                 tomcat 8 with java 8, and MANAGER_USER / M...   2                    [OK]</span><br><span class="line">antoineco/tomcat-mod_cluster   Apache Tomcat with JBoss mod_cluster            1                    [OK]</span><br><span class="line">qasymphony/tomcat              Tomcat images                                   1                    </span><br><span class="line">rstiller/tomcat                Java 1.6, 1.7, 1.8 (OpenJDK &amp; Oracle) for ...   1                    </span><br><span class="line">dreaminsun/tomcat              optimized tomcat                                1                    [OK]</span><br><span class="line">foobot/tomcat                                                                  0                    [OK]</span><br><span class="line">s390x/tomcat                   Apache Tomcat is an open source implementa...   0                    </span><br><span class="line">awscory/tomcat                 tomcat                                          0                    </span><br><span class="line">ppc64le/tomcat                 Apache Tomcat is an open source implementa...   0                    </span><br><span class="line">produtec/tomcat                Oracle JDK and Tomcat                           0                    </span><br><span class="line">techangels/tomcat                                                              0                    </span><br><span class="line">i386/tomcat                    Apache Tomcat is an open source implementa...   0                    </span><br><span class="line">hegand/tomcat                  docker-tomcat                                   0                    [OK]</span><br><span class="line">antoineco/tomcat               Extra OS variants for the official Tomcat ...   0                    [OK]</span><br><span class="line">root@afei-virtual-machine:/home/afei# ^C</span><br></pre></td></tr></table></figure></p>
-<p>你可以选择上面的任意一个image进行下载，在此我们下载第一个名为tomcat的image，执行下面的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull tomcat</span><br></pre></td></tr></table></figure></p>
-<p>然后等待，直到成功的提示出现，我们的tomcat的环境就下载好了，当然里面自动包括java环境了。</p>
-<h4 id="4-3-将war文件放进tomcat的image中-构建自己的image"><a href="#4-3-将war文件放进tomcat的image中-构建自己的image" class="headerlink" title="4.3 将war文件放进tomcat的image中,构建自己的image"></a>4.3 将war文件放进tomcat的image中,构建自己的image</h4><p>tomcat的image下载好之后，我们就有了tomcat的运行环境了，该如何把自己的war文件放入这个tomcat的运行环境呢？首先我们进入war包所在目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/# cd home/ahui/demos</span><br><span class="line">root@ahui-virtual-machine:/home/ahui/demos# ls</span><br><span class="line">jpress.war</span><br><span class="line">root@ahui-virtual-machine:/home/ahui/demos#</span><br></pre></td></tr></table></figure></p>
-<p>在当前目录下，新建一个Dockerfile的文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/home/ahui/demos# vim Dockerfile</span><br></pre></td></tr></table></figure></p>
-<p>在弹窗中按 i键进入编辑模式，输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from tomcat</span><br><span class="line">MAINTAINER yangyahui afei_ask@163.com</span><br><span class="line">COPY jpress.war /usr/local/tomcat/webapps</span><br><span class="line">~</span><br><span class="line">~</span><br></pre></td></tr></table></figure></p>
-<p>然后按esc键，退出编辑模式，输入下面命令退出窗口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:wq!</span><br></pre></td></tr></table></figure></p>
-<p><strong>说明一下：</strong>里面的</p>
-<ul>
-<li>“ from tomcat ” 就是选择刚才我们下载tomcat的image，如果你下载的事其它的image，就换做你下载的那个image 的名称；</li>
-<li>“ MAINTAINER yangyahui <a href="mailto:afei_ask@163.com" target="_blank" rel="noopener">afei_ask@163.com</a> ” 是作者信息；</li>
-<li>“ COPY jpress.war /usr/local/tomcat/webapps ”意思是将当前目录下的jpress.war文件拷贝到tomcat的image中的/usr/local/tomcat/webapps的目录下，若要查看image中的具体目录位置，可以进入该image进行查看，命令如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it imageID bash</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>最后就可以执行image的构建了，输入下面命令执行image的构建：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/home/ahui/demos# docker build -t jpress .</span><br></pre></td></tr></table></figure></p>
-<p>其中的 “ -t jpress ” 表示构建的image的名字为jpress；最后的 “ . ” 表示在当前目录执行构建操作。</p>
-<p>完成后，在终端输入一下命令查看image是否构建成功:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure></p>
-<p>该命令的意思是查看当前所拥有的image。看到下面有 “ jpress ” 出现，即表示构建成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@ahui-virtual-machine:/home/ahui/demos# docker images</span><br><span class="line">REPOSITORY                     TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">jpress                         latest              d059622def4d        3 hours ago         355MB</span><br></pre></td></tr></table></figure></p>
-<h3 id="4-4-运行我们自己的image"><a href="#4-4-运行我们自己的image" class="headerlink" title="4.4 运行我们自己的image"></a>4.4 运行我们自己的image</h3><p>构建好了自己的jpress的image，如何运行它呢，在终端输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8888:8080 jpress</span><br></pre></td></tr></table></figure></p>
-<p>其中 “ -d ” 表示在后台运行；“ -p 8888:8080 ” 表示外部的8888映射image中的8080端口；</p>
-<p>此时jpress的image就已经运行了，可以通过下面的命令查看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure></p>
-<p>该命令表示当前正在运行的container；“ docekr ps -a ” 可以查看所有存在的containers。</p>
-<p>这时就可以在浏览器中输入地址 “ loalhost:8888 ” 就可以进入tomcat的默认主页了，然后在浏览器中输入 “ loalhost:8888/jpress ” 就会进入jpress博客的主页，点击下一步，要求我们链接数据库；</p>
-<p><strong>注意：</strong>一个image一旦运行了，就转变成一个container了（如果多次执行运行image的命令就会创建多个不同container，可通过不同的端口区分）；以后再启动该container可以通过下面的命令执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start containerID</span><br></pre></td></tr></table></figure></p>
-<p>关闭某个运行的container可以通过以下命令执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop containerID</span><br></pre></td></tr></table></figure></p>
-<p>删除一个已有的container可以通过以下命令执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm containerID</span><br></pre></td></tr></table></figure></p>
-<p>而删除一个image的命令是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi imageID</span><br></pre></td></tr></table></figure></p>
-<h3 id="4-5-docker-搭建一个mysql数据库的image"><a href="#4-5-docker-搭建一个mysql数据库的image" class="headerlink" title="4.5 docker 搭建一个mysql数据库的image"></a>4.5 docker 搭建一个mysql数据库的image</h3><p>在终端输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search mysql</span><br></pre></td></tr></table></figure></p>
-<p>然后选择一个image进行下载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql</span><br></pre></td></tr></table></figure></p>
-<p>运行这个mysql的image：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=000000 -e MYSQL_DATABASE=jpress mysql</span><br></pre></td></tr></table></figure></p>
-<p>其中 ： “ -e MYSQL_ROOT_PASSWORD=000000 -e MYSQL_DATABASE=jpress ” 表示环境变量mysql的数据库的密码为00000；创建一个jpress的数据库；</p>
-<p>这时我的的mysql环境久安装好了，然后就可以回到 “ loalhost:8888/jpress ”页面 继续jpress博客的数据库的配置情况了；此时需要注意在填写数据库ip时，不能填写 “ localhost ” ，应为mysql的iage的ip不一定和本地ip一致，可以在终端输入 “ ifconfig ” 查看image的ip，然后填写上去。最后对tomcat的image执行重启久完成了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart containerID</span><br></pre></td></tr></table></figure></p>
-<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>这一篇文章在好几天前都写好了，上传时发生了 “rm –rf ~”的悲剧。损失惨重，就不多说了，在此提示大家一定要常常备份。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/利用Docker搭建一个博客/" data-id="ck6rcrygt003a22o19aayg1bg" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-WebGIS中切片获取和展示的原理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/14/WebGIS中切片获取和展示的原理/" class="article-date">
-  <time datetime="2017-07-13T17:50:02.000Z" itemprop="datePublished">2017-07-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/14/WebGIS中切片获取和展示的原理/">WebGIS中切片获取和展示的原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> 在北京实习的时候一次跟强哥聊天，做GIS这么长时间了，自己能实现切片数据的展示，就没有那么多的迷茫了。一直以来对切片的展示都是一知半解的，现在静下来好好的梳理一下。</p>
-<h3 id="一、切片简介"><a href="#一、切片简介" class="headerlink" title="一、切片简介"></a>一、切片简介</h3><p> 说起切片，就离不开影像金字塔的概念，这里不予详细讲解。只需要明白一点：切片数据就是将不同比例尺下的地图进行切割，将切割后的切片文件按照一定的规则进行存储（当然切割方式，以及存储规则都各有讲究）。切片的展示就是按照一定的相应的规则取出这些切片，在相应的端口进行拼接展示。切片数据可以放在本地，也可以放在服务端。这里我们抛开一切个地理相关的细节，重点说明切片的展示方案。</p>
-<h3 id="二、切片数据获取流程"><a href="#二、切片数据获取流程" class="headerlink" title="二、切片数据获取流程"></a>二、切片数据获取流程</h3><p>1 获取要展示的地理中心点位置point_screenCenter,即在屏幕中展示地图的中心点坐标；<br><br>2 根据中心点坐标，以及屏幕的大小screenSize,计算出屏幕内要呈现地图的范围；<br><br>3 根据屏幕边界处的坐标，计算出边界所在的切片行列号<br><br>4 计算边界处所在切片的边界坐标，计算切片边界与屏幕边界的偏移量offset<br><br>5 获去要求请的所有切片，按照计算的值进行排列展示</p>
-<h4 id="2-1-获取展示中心点的地理坐标"><a href="#2-1-获取展示中心点的地理坐标" class="headerlink" title="2.1 获取展示中心点的地理坐标"></a>2.1 获取展示中心点的地理坐标</h4><p>所谓展示中心点的坐标，就是当你准备在屏幕上展示地图时，首先你得对地图的范围进行初始化，比如设置地图中心点、地图的坐标系、显示级别等参数。就是这里的地图中心点，我们暂时命名为point_screenCenter，（属性X，Y表示地理坐标）。假设地图的坐标原点为point_original,则该点在x轴和y轴上距离为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x轴地理距离：(point_screenCenter.X-point_original.X)</span><br><span class="line">y轴地理距离：(point_screenCenter.Y-point_original.Y)</span><br></pre></td></tr></table></figure></p>
-<p>注意：这里我们假设坐标原点在地图图片的左上角，水平向右为x轴正方向，水平向下为y轴正方向，当然不同的地图服务坐标原点和设定规则可能会有区别；<br>再说一下像素距离，像素距离指的是在一定比例尺的地图图片上的距离间隔，如果要计算像素距离，就需要用到<strong>分辨率（resolution）</strong>的概念了，resolution是指地图图片上一个像素所代表的实际距离，point_screenCenter距离坐标原点的像素距离的计算公式为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x轴方向像素距离：(point_screenCenter.X-point_original.X)/resolution</span><br><span class="line">y轴方向像素距离：(point_screenCenter.Y-point_original.Y)/resolution</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-2-计算出屏幕内要呈现地图的范围"><a href="#2-2-计算出屏幕内要呈现地图的范围" class="headerlink" title="2.2 计算出屏幕内要呈现地图的范围"></a>2.2 计算出屏幕内要呈现地图的范围</h4><p>有了展示中心点（point_screenCenter）和屏幕的大小（screen_size,像素数量表示，如960*640）就可以计算屏幕内能展示的地图范围了，屏幕左上角的点为point_screenLT,它的地理坐标如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">屏幕左上角的x坐标：point_screenLT.X=point_screenCenter.X-(resolution*screen_size.Width)/2</span><br><span class="line">屏幕左上角的y坐标：point_screenLT.Y=point_screenCenter.Y-(resolution*screen_size.Height)/2</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-3-计算出边界所在的切片行列号"><a href="#2-3-计算出边界所在的切片行列号" class="headerlink" title="2.3 计算出边界所在的切片行列号"></a>2.3 计算出边界所在的切片行列号</h4><p>确定的屏幕左上角能展示的地理位置，就可以根据这个地理位置坐标计算该位置点所位于的具体切片了，给该切片命名为tileLT,则该切片的行列号的计算如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">切片的行号：tileLT.Row=Math.floor((Math.abs(point_screenLT.X-point_original.X))/(resolution*tileSize.Width))</span><br><span class="line">切片的列号：tileLT.Col=Math.floor((Math.abs(point_screenLT.Y-point_original.Y))/(resolution*tileSize.Height))</span><br></pre></td></tr></table></figure></p>
-<p>这里用到了Math.floor()函数是为了获取离坐标原点更近的点，因为我们获取的切片范围要大于在屏幕上展示的范围。<br>找到了行列号，还有一个小细节需要处理，处理这个细节前首先了解一个常识，一般情况下，切片的在展示时是按照切片左上角的位置进行排列的，此时我们只是确定了屏幕左上角位于该切片中，但是该切片的左上角并不一定与屏幕的左上角重合啊，怎么办？，计算该切片左上角的实际地理坐标为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">切片左上角x坐标：tileLT.LTX = tileLT.Col*tileSize.Width*resolution+point_original.X</span><br><span class="line">切片左上角y坐标：tileLT.LTY = tileLT.Raw*tileSize.Height*resolution+point_original.Y</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-4-计算切片边界与屏幕边界的偏移量offset"><a href="#2-4-计算切片边界与屏幕边界的偏移量offset" class="headerlink" title="2.4 计算切片边界与屏幕边界的偏移量offset"></a>2.4 计算切片边界与屏幕边界的偏移量offset</h4><p>有了切片的左上角的地理坐标，和屏幕左上角的地理坐标位置，就可以计算偏移量了，假设其在x轴和y轴上的偏移量为offSetX和offSetY，则偏移值为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">切片在x轴偏移像素值：offSetWidth=（point_screenLT.X-tileLT.LTX）/resolution</span><br><span class="line">切片在y轴偏移像素值：offSetHeight=（point_screenLT.Y-tileLT.LTY）/resolution</span><br></pre></td></tr></table></figure></p>
-<p>有了这个值就可以将该切片展示在正常的位置了。</p>
-<h4 id="2-5-所有要展示切片的获取"><a href="#2-5-所有要展示切片的获取" class="headerlink" title="2.5 所有要展示切片的获取"></a>2.5 所有要展示切片的获取</h4><p>最后就可以计算在x和y轴上要请求的切片数量了，获取个数时要用Math.ceil()函数了，原因是的切片的总范围要比屏幕上展示的范围要大一些，这里要获取离坐标原点尽量远的切片。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x轴切片数量：tileNumsX=Math.ceil((screenSize.Width + Math.abs(offSetWidth))/tileSize.Width);</span><br><span class="line">y轴切片数量：tileNumsY=Math.ceil((screenSize.Height + Math.abs(offSetHeight))/tileSize.Width);</span><br></pre></td></tr></table></figure></p>
-<h3 id="三、小结"><a href="#三、小结" class="headerlink" title="三、小结"></a>三、小结</h3><p>到现在已经完成了切片的获取工作，这是一个简化的过程。在实际获中不同的切片种类（如TMS、WMS、WMTS等）有不同的切片大小和不同的切片规则，不同的坐标系对应不同单位，还会涉及到一些中间术语比如显示级别、比例尺等。在以后的文章中会介绍。因为我们要做一个自己的***。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/WebGIS中切片获取和展示的原理/" data-id="ck6rcryed000k22o1yujs19z5" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GIS/">GIS</a></li></ul>
 
     </footer>
   </div>
@@ -977,7 +959,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
     </div>
   </div>
 
@@ -990,6 +972,14 @@
       <ul>
         
           <li>
+            <a href="/2020/04/02/react-router-dom入门到深入/">react-router-dom入门到深入</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/02/React高阶组件笔记/">React高阶组件笔记</a>
+          </li>
+        
+          <li>
             <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
           </li>
         
@@ -999,14 +989,6 @@
         
           <li>
             <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
           </li>
         
       </ul>

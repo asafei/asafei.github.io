@@ -62,6 +62,302 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-react-router-dom入门到深入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/02/react-router-dom入门到深入/" class="article-date">
+  <time datetime="2020-04-02T15:30:06.000Z" itemprop="datePublished">2020-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/02/react-router-dom入门到深入/">react-router-dom入门到深入</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="React-router-dom"><a href="#React-router-dom" class="headerlink" title="React-router-dom"></a>React-router-dom</h3><h4 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-router-dom -save-d</span><br></pre></td></tr></table></figure>
+<h4 id="二、使用"><a href="#二、使用" class="headerlink" title="二、使用"></a>二、使用</h4><p>创建A和B两个页面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//A.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;A&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/B.js</span></span><br><span class="line"><span class="regexp">import React from 'react';</span></span><br><span class="line"><span class="regexp">function B()&#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">    	&lt;div&gt;B&lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建一个路由文件router.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;HashRouter, Route, Switch&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> A <span class="keyword">from</span> <span class="string">'./a'</span>;</span><br><span class="line"><span class="keyword">import</span> B <span class="keyword">from</span> <span class="string">'./b'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> TestRouter=<span class="function"><span class="params">()</span>=&gt;</span>(</span><br><span class="line">	&lt;HashRouter&gt;</span><br><span class="line">        &lt;Switch&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/"</span> component=&#123;A&#125;/&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/b"</span> component=&#123;B&#125;/&gt;</span><br><span class="line">        &lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>HashRouter&gt;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">export</span> &#123;TestRouter&#125;;</span><br></pre></td></tr></table></figure>
+<p>最后在组件的渲染页面，渲染该路由即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;TestRouter&#125; <span class="keyword">from</span> <span class="string">'./router/router'</span>;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Router/&gt;,</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>此时在页面输入<code>http://localhost:3000/#/</code>就会看到A页面，输入<code>http://localhost:3000/#/b</code>就会看到B页面。url中的#号目前暂不考虑</p>
+<h4 id="三、路由的跳转"><a href="#三、路由的跳转" class="headerlink" title="三、路由的跳转"></a>三、路由的跳转</h4><h5 id="3-1-a标签"><a href="#3-1-a标签" class="headerlink" title="3.1 a标签"></a>3.1 a标签</h5><p>可以通过a标签进行页面的跳转，如下修改A页面就可以通过点击A页面中的A</p>
+<p>来实现跳转到B页面了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//A.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">        &lt;a href=<span class="string">'#/b'</span> &gt;A&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-2-通过Link标签跳转"><a href="#3-2-通过Link标签跳转" class="headerlink" title="3.2 通过Link标签跳转"></a>3.2 通过Link标签跳转</h5><p>react-router-dom中提供了Link标签也可以提供页面的跳转，Link的底层还是使用的a标签。</p>
+<p>如下面修改B页面，就可以实现点击B跳到A页面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//B.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">        &lt;Link to=<span class="string">'#/'</span>&gt;B&lt;<span class="regexp">/Link&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-3-通过函数跳转"><a href="#3-3-通过函数跳转" class="headerlink" title="3.3 通过函数跳转"></a>3.3 通过函数跳转</h5><p>react-router-dom中提供了<code>hashHistory</code>，设置给组件的<code>history</code>属性，然后同过改变<code>this.props.history</code>参数，用来实现页面的跳转.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在router.js文件中给 HashRouter引入history属性</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">import</span> &#123;HashRouter, Route, Switch, hashHistory&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line">...</span><br><span class="line">&lt;HashRouter history=&#123;hashHistory&#125;&gt;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">//A.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params">props</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">        &lt;a href=<span class="string">'#/b'</span> &gt;A&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">        &lt;button onClick=&#123;() =&gt; props.history.push('b')&#125;&gt;test&lt;/</span>button&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这样点击test按钮就可以使用向B页面的跳转了</p>
+<p>其中改变<code>this.props.history</code>参数的方法有：</p>
+<ul>
+<li>push() ：添加新的路由</li>
+<li>replace()：替换路由（猜测是替换当前路由，被替换的路由则不能通过goBack返回，防止死循环）</li>
+<li>goBack()：返回上一个路由（返回上级页面）</li>
+</ul>
+<h4 id="四、路由传参"><a href="#四、路由传参" class="headerlink" title="四、路由传参"></a>四、路由传参</h4><h5 id="4-1-通过路由配置传参"><a href="#4-1-通过路由配置传参" class="headerlink" title="4.1 通过路由配置传参"></a>4.1 通过路由配置传参</h5><p>在上面router.js文件中，我们只是配置了路由的绝对路径，有些时候我们在跳转某个路由时还要接收一些参数，该怎么处理呢？简单的可以通过在路由后追加’/:key’，然后再路由对应的组件通过<code>this.props.match.params.key</code>来接收到相应的参数值</p>
+<p>如下，我们给B页面传递<code>name</code>参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//router.js</span></span><br><span class="line"><span class="keyword">const</span> TestRouter=<span class="function"><span class="params">()</span>=&gt;</span>(</span><br><span class="line">	&lt;HashRouter&gt;</span><br><span class="line">        &lt;Switch&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/"</span> component=&#123;A&#125;/&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/b/:name"</span> component=&#123;B&#125;/&gt;</span><br><span class="line">        &lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>HashRouter&gt;</span><br><span class="line">);</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">//B.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params">props</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">        	B</span><br><span class="line">        	&lt;p&gt;我接收的参数是&#123;props.match.params.name&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然如果传递多个参数就再追加即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Route exact path=<span class="string">"/b/:name/:age"</span> component=&#123;B&#125;/&gt;</span><br></pre></td></tr></table></figure>
+<p>这样皆可以通过<code>http://localhost:3000/#/b/afei/21</code>来访问到afei和age了，</p>
+<p>这种方式虽然可以实现传参，但是稍微少传一个参数就会报错。</p>
+<p>如果是使用Link标签如何传参呢，很简单使用query关键 字即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//B.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">        &lt;Link to=&#123;<span class="attr">path</span>:<span class="string">'/a'</span>,<span class="attr">query</span>:&#123;<span class="attr">name</span>:<span class="string">'afei'</span>,<span class="attr">age</span>:<span class="number">19</span>&#125;&#125;&gt;B&lt;<span class="regexp">/Link&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并且总觉得的不如<code>http://localhost:3000/#/b?name=afei&amp;age=19</code>来的方便。（日后补上）</p>
+<h5 id="4-2-通过函数隐式传参"><a href="#4-2-通过函数隐式传参" class="headerlink" title="4.2 通过函数隐式传参"></a>4.2 通过函数隐式传参</h5><p>那如果是通过函数跳转是，如何传参呢？很简单,在触发时给history传递对象，然后再对应的页面通过<code>this.props.history.location.state</code>获取即可，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//A.js</span></span><br><span class="line">&lt;button onClick=&#123;() =&gt; props.history.push(</span><br><span class="line">    &#123;</span><br><span class="line">    pathname:<span class="string">'/b'</span>,</span><br><span class="line">    state:&#123;</span><br><span class="line">        name:<span class="string">'afei'</span>,</span><br><span class="line">    	age:<span class="number">18</span></span><br><span class="line">    	&#125;</span><br><span class="line">	&#125;</span><br><span class="line">)&#125;&gt;test&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/B.js</span></span><br><span class="line"><span class="regexp">import React from 'react';</span></span><br><span class="line"><span class="regexp">function B(props)&#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">    	&lt;div&gt;</span></span><br><span class="line"><span class="regexp">        	B</span></span><br><span class="line"><span class="regexp">        	&lt;p&gt;我的名字是&#123;props.history.location.state.name&#125;&lt;/</span>p&gt;</span><br><span class="line">			&lt;p&gt;我的年龄是&#123;props.history.location.state.age&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意上边两种方式传参和接参方式不能混了</p>
+<h4 id="五、BrowserRouter和hashRouter"><a href="#五、BrowserRouter和hashRouter" class="headerlink" title="五、BrowserRouter和hashRouter"></a>五、BrowserRouter和hashRouter</h4><p>有一个现象当我们的router.js使用HashRouter时，我们可以通过浏览器地址栏直接键入url来访问任意路由</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//HashRouter</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;HashRouter, Route, Switch&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> A <span class="keyword">from</span> <span class="string">'./a'</span>;</span><br><span class="line"><span class="keyword">import</span> B <span class="keyword">from</span> <span class="string">'./b'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> TestRouter=<span class="function"><span class="params">()</span>=&gt;</span>(</span><br><span class="line">	&lt;HashRouter&gt;</span><br><span class="line">        &lt;Switch&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/"</span> component=&#123;A&#125;/&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/b"</span> component=&#123;B&#125;/&gt;</span><br><span class="line">        &lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>HashRouter&gt;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">export</span> &#123;TestRouter&#125;;</span><br></pre></td></tr></table></figure>
+<p>此时</p>
+<ul>
+<li>当我们可以输入<code>http://localhost:3000/</code>时，地址栏会自动变为<code>http://localhost:3000/#/</code>进行正常访问；</li>
+<li><p>当地址栏输入<code>http://localhost:3000/#/</code>可以正常访问A页面</p>
+</li>
+<li><p>当地址栏输入<code>http://localhost:3000/#/b</code>可以正常访问B页面</p>
+</li>
+</ul>
+<p>但是当我们的router.js中将HashRouter换成BrowserRouter时，就会出现意外。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">&lt;BrowserRouter&gt;</span><br><span class="line">        &lt;Switch&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/"</span> component=&#123;A&#125;/&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/b"</span> component=&#123;B&#125;/&gt;</span><br><span class="line">        &lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>BrowserRouter&gt;</span><br></pre></td></tr></table></figure>
+<p>表现为：</p>
+<ul>
+<li>当我们可以输入<code>http://localhost:3000/</code>时，可以正常访问A页面</li>
+<li>当地址栏输入<code>http://localhost:3000/b</code>不能正常访问B页面，报错<code>Cannot GET/b</code></li>
+<li>当我们在A页面以<code>&lt;Link to=&quot;b&quot;&gt;B&lt;/Link&gt;</code>的形式，可以正常访问B页面</li>
+</ul>
+<p>神不神奇，为什么HashRouter可以直接访问路由，而BrowserRouter访问不到？</p>
+<p>这是应为BrowserRouter每次改变路由时，会向服务器请求该路由，服务端没有该路径的资源，自然会报错了。当然可以开启一个服务，路由对应的路径下放置资源文件，此错误就会消失。</p>
+<p>而使用HashRouter时，会在路径后边添加<code>/#/</code>,并且<code>/#/</code>及后边的内容是不会发送给服务器的，当访问<code>http://localhost:3000/#/b</code>时，其实服务器端收到的依然是<code>http://localhost:3000</code>，<code>/#/</code>及后边的内容</p>
+<p>会直接在前端进行处理区分。</p>
+<p>但是官方却还是推荐我们使用BrowserRouter，这就和它们内部的机制有关了</p>
+<ul>
+<li>BrowserRouter使用的是HTML5中的history的api，通过<code>pushState</code>、<code>replaceState</code>、<code>popState</code>来完成UI和URL的同步</li>
+<li>HashRouter使用的是URL的hash方式，来完成UI和URL的同步</li>
+</ul>
+<p>下章细讲</p>
+<h4 id="六、history和URL"><a href="#六、history和URL" class="headerlink" title="六、history和URL"></a>六、history和URL</h4><p>下面的内容只做了解</p>
+<h5 id="6-1-history"><a href="#6-1-history" class="headerlink" title="6.1 history"></a>6.1 history</h5><p>history接口允许操作浏览器的曾经在标签页或者框架里访问会话历史记录。它有一些自己的属性，这里是说一下比较重要的<code>History.state</code>和<code>History.length</code></p>
+<ul>
+<li><code>state</code>是一个只读属性，访问该属性会返回一个表示历史堆栈顶部的状态的值。它可以不必等待<code>popstate</code>事件而查看状态的方式</li>
+<li><code>length</code>是一个只读属性，表示会话历史中元素的数目，包括当前的加载页。</li>
+</ul>
+<p>下面来看history中三个比较重要的方法</p>
+<ul>
+<li>pushState()：按指定的名称和URL（如果提供该参数）将数据push进会话历史栈，这个数据被DOM 进行了不透明处理。可以理解为往历史记录里追加新的页面</li>
+<li>replaveState()：按指定的数据，名称和URL(如果提供该参数)，更新历史栈上最新的入口。这个数据被DOM 进行了不透明处理。可以理解更新历史记录里当前页面信息</li>
+<li>popState()：很奇怪，没有查到该方法</li>
+<li>back()：往上一页，模拟浏览器左上角的撤销功能</li>
+<li>forward()：往下一页，模拟浏览器左上角的下一页功能</li>
+<li>go()：通过当前页面的相对位置从浏览器历史记录( 会话记录 )加载页面。比如：参数为-1的时候为上一页，参数为1的时候为下一页。参数超过区间范围（length区间）或不合法时不做任何操作</li>
+</ul>
+<p>总的来说可以将history看作是维护浏览器历史记录的管理器。</p>
+<h5 id="6-2-URL"><a href="#6-2-URL" class="headerlink" title="6.2 URL"></a>6.2 URL</h5><p><strong>URL</strong> 接口是一个包含若干静态方法的对象，用来创建 URLs。它的属性主要是实现<em>URLUtils</em> 中定义的属性，包括：</p>
+<ul>
+<li>href：包含完整URL的字符串</li>
+<li>host：包含URL域名+“ : ”+端口号的字符串</li>
+<li>Hostname：包含URL域名的字符串</li>
+<li>port：包含URL端口号的字符串</li>
+<li>pathname：以<code>/</code>起头紧跟URL文件路径的字符串</li>
+<li>search：以<code>？</code>起头紧跟URL文件路径的字符串</li>
+<li>hash：以<code>#</code>起头紧跟URL文件路径的字符串</li>
+<li>username：包含在域名前面指定的用户名字符串</li>
+<li>password：包含在域名前面指定的密码字符串</li>
+<li><p>origin：只读属性，返回一个包含协议名、域名和端口号的字符串</p>
+</li>
+<li><p>searchParams：返回一个用来访问当前URL GET请求参数的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams" target="_blank" rel="noopener"><code>URLSearchParams</code></a> 对象。</p>
+</li>
+</ul>
+<p>URL还有一些静态方法，不再赘述。这里只需要明白所谓的<code>#</code>是URL的hash属性的规范，就跟seacrh的<code>?</code>一样。</p>
+<p>参考:</p>
+<p><a href="https://www.jianshu.com/p/8954e9fb0c7e" target="_blank" rel="noopener">https://www.jianshu.com/p/8954e9fb0c7e</a></p>
+<p><a href="https://reacttraining.com/react-router/web/api/BrowserRouter" target="_blank" rel="noopener">https://reacttraining.com/react-router/web/api/BrowserRouter</a></p>
+<p><a href="https://www.cnblogs.com/soyxiaobi/p/11096940.html" target="_blank" rel="noopener">https://www.cnblogs.com/soyxiaobi/p/11096940.html</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/History" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/History</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/URL" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/URL</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/02/react-router-dom入门到深入/" data-id="ck8iwvq0j0035nso14r6nlpmd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-React高阶组件笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/02/React高阶组件笔记/" class="article-date">
+  <time datetime="2020-04-02T15:25:34.000Z" itemprop="datePublished">2020-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/02/React高阶组件笔记/">React高阶组件笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、高阶组件的概念"><a href="#一、高阶组件的概念" class="headerlink" title="一、高阶组件的概念"></a>一、高阶组件的概念</h3><ul>
+<li>高阶组件就是接收一个组件作为参数并返回一个数组</li>
+<li>高阶组件是一个函数，并不是组件</li>
+</ul>
+<h3 id="二、为什么需要高阶组件"><a href="#二、为什么需要高阶组件" class="headerlink" title="二、为什么需要高阶组件"></a>二、为什么需要高阶组件</h3><ul>
+<li>多个组件都需要某个相同的功能，使用高阶组件减少重复实现</li>
+</ul>
+<h3 id="三、高阶组件示例"><a href="#三、高阶组件示例" class="headerlink" title="三、高阶组件示例"></a>三、高阶组件示例</h3><ul>
+<li>react-redux中的connnect</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(mapStateToProps,mapDispatchToProps)(Header);</span><br></pre></td></tr></table></figure>
+<h3 id="四、编写高阶组件"><a href="#四、编写高阶组件" class="headerlink" title="四、编写高阶组件"></a>四、编写高阶组件</h3><ul>
+<li>实现一个普通组件</li>
+<li>将普通组件使用函数包裹</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="comment">//接收一个入参，参数就是一个组件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">d</span>(<span class="params">WrappedComponent</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">D</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">        render()&#123;</span><br><span class="line">            <span class="keyword">return</span> (</span><br><span class="line">            	&lt;div&gt;</span><br><span class="line">                	&lt;WrappedComponent /&gt;</span><br><span class="line">                &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            );</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default d;</span></span><br></pre></td></tr></table></figure>
+<h3 id="五、使用高阶组件"><a href="#五、使用高阶组件" class="headerlink" title="五、使用高阶组件"></a>五、使用高阶组件</h3><ul>
+<li><p>higherOrderComponent(WrappedComponent);</p>
+</li>
+<li><p>@higherOrderComponent. 装饰器模式</p>
+<blockquote>
+<p>1、运行命令：react-scripts reject  中途选yes</p>
+<p>2、安装依赖：npm install -D babel-preset-stage-2</p>
+<p>​            npm install -D babel-preset-react-native-stage-0</p>
+<p>3、添加.babelrc的文件</p>
+<p>​    {</p>
+<p>​        “presets”:[“react-native-stage-0/decorator-support”]</p>
+<p>​    }</p>
+<p>此时我们的被装饰者可以这么写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line">&gt; <span class="keyword">import</span> d <span class="keyword">from</span> <span class="string">'./D'</span>;</span><br><span class="line">&gt; </span><br><span class="line">&gt; @d</span><br><span class="line">&gt; <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">&gt;     render()&#123;</span><br><span class="line">&gt;         <span class="keyword">return</span> (</span><br><span class="line">&gt;         	<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">&gt;             	//...</span></span><br><span class="line"><span class="xml">&gt;             <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&gt;         );</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+</blockquote>
+</li>
+</ul>
+<h3 id="六、高阶组件的应用"><a href="#六、高阶组件的应用" class="headerlink" title="六、高阶组件的应用"></a>六、高阶组件的应用</h3><ul>
+<li><p>代理方式的高阶组件</p>
+<blockquote>
+<p>返回的新组件类直接继承自React.Component类，新组件扮演的角色传入参数组件的一个代理，在新组件的render函数中，将被包裹组件渲染出来，除了高阶组件自己要做的工作，其余功能全都转手给了被包裹的组件</p>
+</blockquote>
+</li>
+<li><p>继承方式的高阶组件</p>
+<blockquote>
+<p>采用继承关联作为参数的组件和返回组件，加入传入的组件参数是WrappedComponent，那么返回的组件就直接继承自WrappedComponent</p>
+</blockquote>
+</li>
+<li><p>高阶组件显示名</p>
+<blockquote>
+<p>在使用高阶组件时，有时候不好调试，并不知道最终渲染的是哪一个子组件，这时候就需要使用displayName了，可组件内部可以定义该静态变量</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">static</span> displayName=<span class="string">`newComponent<span class="subst">$&#123;getDisplayName(WrappedComponent)&#125;</span>`</span>;<span class="comment">//getDisplayName()是在外部自定义的</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+</blockquote>
+</li>
+</ul>
+<h4 id="6-1-代理方式的高阶组件"><a href="#6-1-代理方式的高阶组件" class="headerlink" title="6.1 代理方式的高阶组件"></a>6.1 代理方式的高阶组件</h4><ul>
+<li>操纵prop.       可以增加、删除属性</li>
+<li>抽取状态 </li>
+<li>访问ref</li>
+<li>包装组件</li>
+</ul>
+<h3 id="七、实战"><a href="#七、实战" class="headerlink" title="七、实战"></a>七、实战</h3><h4 id="7-1-初始化工程"><a href="#7-1-初始化工程" class="headerlink" title="7.1 初始化工程"></a>7.1 初始化工程</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create-react-app tabbar</span><br><span class="line"><span class="comment">//若未安装create-react-app，可以使用</span></span><br><span class="line">npx create-react-app tabbar</span><br></pre></td></tr></table></figure>
+<p>在<code>src</code>文件夹下新建<code>components</code>的文件夹，用来放置组件类；</p>
+<p>在<code>components</code>的文件夹下，新建<code>tabbar</code>的文件夹；</p>
+<p>然后在<code>tabbar</code>文件夹下新建<code>index.js</code>的文件，作为开发的主文件，同时在<code>tabbar</code>文件夹下新建一个样式文件<code>index.css</code>；</p>
+<p>并且在App.js中引入Tarbar组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'tarbar'</span>&gt;</span><br><span class="line">            	<span class="number">123</span></span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/index.css</span></span><br><span class="line"><span class="regexp">.tarbar&#123;</span></span><br><span class="line"><span class="regexp">    height:50px;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/App.js</span></span><br><span class="line"><span class="regexp">import React ,&#123;Component&#125; from 'react';</span></span><br><span class="line"><span class="regexp">import Tabbar from './</span>component/tarbar<span class="string">';</span></span><br><span class="line"><span class="string">class Tarbar extends Component&#123;</span></span><br><span class="line"><span class="string">    render()&#123;</span></span><br><span class="line"><span class="string">        return (</span></span><br><span class="line"><span class="string">        	&lt;div className='</span>App<span class="string">'&gt;</span></span><br><span class="line"><span class="string">            	&lt;Tarbar /&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">        );</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="7-2使用iconfont"><a href="#7-2使用iconfont" class="headerlink" title="7.2使用iconfont"></a>7.2使用iconfont</h4><p>进入阿里巴巴矢量图标库，下载四个我们需要的图标（home、car、category、user）。添加项目-下载到本地-解压，然后将里面iconfont开头的文件拷出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iconfont.css</span><br><span class="line">iconfont.eot</span><br><span class="line">iconfont.js</span><br><span class="line">iconfont.svg</span><br><span class="line">iconfont.ttf</span><br><span class="line">iconfont.woff</span><br></pre></td></tr></table></figure>
+<p>在<code>src</code>文件夹下新建<code>static</code>的文件夹，用来放置所有的静态文件，将上面的iconfont的文件放进来。</p>
+<p>然后在App.js文件中引入iconfont</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//App.js</span></span><br><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Tabbar <span class="keyword">from</span> <span class="string">'./component/tarbar'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'./static/iconfont.css'</span>;<span class="comment">//引入iconfont</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'App'</span>&gt;</span><br><span class="line">            	&lt;Tarbar /&gt;</span><br><span class="line">            	&lt;div className=<span class="string">'iconfont iconfont-home'</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>经完善后，APP.js的文件为</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//App.js</span></span><br><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Tabbar <span class="keyword">from</span> <span class="string">'./component/tarbar'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'./static/iconfont.css'</span>;<span class="comment">//引入iconfont</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> tabbar=&#123;</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-home'</span>,<span class="attr">text</span>:<span class="string">'首页'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-fenlei'</span>,<span class="attr">text</span>:<span class="string">'分类'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-gouwuche'</span>,<span class="attr">text</span>:<span class="string">'购物车'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-user'</span>,<span class="attr">text</span>:<span class="string">'我的'</span>&#125;，</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'tabbar'</span>&gt;</span><br><span class="line">            	&lt;div className=<span class="string">'tabbar-content'</span>&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        tabbar.map(<span class="function">(<span class="params">v,i</span>)=&gt;</span>&#123;</span><br><span class="line">                            &lt;div key=&#123;i&#125; className=<span class="string">'tabbar-item'</span>&gt;</span><br><span class="line">                                &lt;div className=&#123;<span class="string">'iconfont '</span>+v.img&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">                                &lt;div&gt;&#123;v.text&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">                            &lt;/</span>div&gt;</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">    			&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来index.css文件中添加样式文件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="selector-class">.iconfont</span>&#123;</span><br><span class="line">    font-size:28px !important;//!important强制生效</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.tarbar</span>&#123;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">position</span>:absolute;</span><br><span class="line">    <span class="attribute">bottom</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#ccc</span>;</span><br><span class="line">    <span class="attribute">padding</span>:<span class="number">5px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.tabbar-content</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.tabbar-item</span>&#123;</span><br><span class="line">    flex:1;//每个元素的区间是均分的</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="7-4-添加事件"><a href="#7-4-添加事件" class="headerlink" title="7.4 添加事件"></a>7.4 添加事件</h4><p>需要给tabbar-item添加点击切换事件，图标响应不同颜色。思路：通过点击事件-改变state-实时更新样式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Tabbar</span></span><br><span class="line">...</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state=&#123;</span><br><span class="line">            index:<span class="string">''</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    itemChange=<span class="function">(<span class="params">i</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;<span class="attr">index</span>:i&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'tabbar'</span>&gt;</span><br><span class="line">            	&lt;div className=<span class="string">'tabbar-content'</span>&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        tabbar.map(<span class="function">(<span class="params">v,i</span>)=&gt;</span>&#123;</span><br><span class="line">                            &lt;div key=&#123;i&#125; className=&#123;<span class="string">'tabbar-item'</span>+ <span class="keyword">this</span>.state.index===i?<span class="string">'active:'</span><span class="string">' &#125; onClick=&#123;()=&gt;this.itemChange(i)&#125;&gt;</span></span><br><span class="line"><span class="string">                                &lt;div className=&#123;'</span>iconfont <span class="string">'+v.img&#125;&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                                &lt;div&gt;&#123;v.text&#125;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                            &lt;/div&gt;</span></span><br><span class="line"><span class="string">                        &#125;);</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">    			&lt;/div&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">        );</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">//在index.css中给active添加样式</span></span><br><span class="line"><span class="string">    .active&#123;</span></span><br><span class="line"><span class="string">        color:red;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="7-5-添加路由"><a href="#7-5-添加路由" class="headerlink" title="7.5 添加路由"></a>7.5 添加路由</h4><p>安装包</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install -S react-router-dom</span><br></pre></td></tr></table></figure>
+<p>在src 目录下新建文件<code>router.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;BrowserRouter,Route,Switch&#125; <span class="keyword">from</span> <span class="string">'react-router-dom '</span>;</span><br><span class="line"><span class="comment">//下面四个页面在src目录的pages的页面</span></span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">"./pages/home"</span>;</span><br><span class="line"><span class="keyword">import</span> Category <span class="keyword">from</span> <span class="string">"./pages/category"</span>;</span><br><span class="line"><span class="keyword">import</span> Car <span class="keyword">from</span> <span class="string">"./pages/car"</span>;</span><br><span class="line"><span class="keyword">import</span> User <span class="keyword">from</span> <span class="string">"./pages/user"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> ()=&gt;(</span><br><span class="line">	&lt;BrowserRouter&gt;</span><br><span class="line">    	&lt;Switch&gt;</span><br><span class="line">    		&lt;Route path=<span class="string">'/home'</span> component=&#123;Home&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">			&lt;Route path=<span class="string">'/category'</span> component=&#123;Category&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">			&lt;Route path=<span class="string">'/car'</span> component=&#123;Car&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">			&lt;Route path=<span class="string">'/user'</span> component=&#123;User&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Route</span>&gt;</span></span></span><br><span class="line">    	&lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>BrowserRouter&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>然后在App.js中将router.js导入即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//App.js</span></span><br><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Tabbar <span class="keyword">from</span> <span class="string">'./component/tarbar'</span>;</span><br><span class="line"><span class="keyword">import</span> RouterMap <span class="keyword">from</span> <span class="string">'./router'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'App'</span>&gt;</span><br><span class="line">            	&lt;RouterMap /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这样当我们在浏览器输入<code>localhost:3030/home</code>时就显示的Home页面 </p>
+<h4 id="7-6-Tabbar路由的切换"><a href="#7-6-Tabbar路由的切换" class="headerlink" title="7.6 Tabbar路由的切换"></a>7.6 Tabbar路由的切换</h4><p>接下来我们需要在Home、Car、Category、User中引入Tabbar</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Tabbar <span class="keyword">from</span> <span class="string">'./component/tarbar'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Home</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div&gt;</span><br><span class="line">            	&lt;Tabbar /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>为了方便，将Home等组件内容用一张图片代替</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React ,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Tabbar <span class="keyword">from</span> <span class="string">'./component/tarbar'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Home</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div&gt;</span><br><span class="line">            	&lt;img className=<span class="string">'bg'</span> src=&#123;<span class="built_in">require</span>(<span class="string">'../static/imgs/home.png'</span>)&#125; /&gt;</span><br><span class="line">            	&lt;Tabbar /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">export default Home;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/在APP.css中添加样式</span></span><br><span class="line"><span class="regexp">    .bg&#123;</span></span><br><span class="line"><span class="regexp">        width:100%;</span></span><br><span class="line"><span class="regexp">        height:100%;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br></pre></td></tr></table></figure>
+<p>此时我们点击下面四个按钮，只是按钮 变红，实际上我们想让我们的路由改变，展示不同的页面；</p>
+<p>我们需要修改Tabbar各item的点击事件，可以先将数据写进tabbar数据中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tabbar=&#123;</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-home'</span>,<span class="attr">text</span>:<span class="string">'首页'</span>,<span class="attr">link</span>:<span class="string">'/home'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-fenlei'</span>,<span class="attr">text</span>:<span class="string">'分类'</span>,<span class="attr">link</span>:<span class="string">'/category'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-gouwuche'</span>,<span class="attr">text</span>:<span class="string">'购物车'</span>,<span class="attr">link</span>:<span class="string">'/car'</span>&#125;，</span><br><span class="line">    &#123;<span class="attr">img</span>:<span class="string">'icon-user'</span>,<span class="attr">text</span>:<span class="string">'我的'</span>,<span class="attr">link</span>:<span class="string">'/user'</span>&#125;，</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样在跳转的时候我们就知道是哪一个路由了，为了简单也不可以不用点击事件，用link标签来做；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line"></span><br><span class="line">			&lt;div className=<span class="string">'tabbar-content'</span>&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        tabbar.map(<span class="function">(<span class="params">v,i</span>)=&gt;</span>&#123;</span><br><span class="line">                            &lt;Link to=&#123;v.link&#125; key=&#123;i&#125; className=&#123;<span class="string">'tabbar-item'</span>+ <span class="keyword">this</span>.state.index===i?<span class="string">'active:'</span><span class="string">' &#125;&gt;</span></span><br><span class="line"><span class="string">                                &lt;div className=&#123;'</span>iconfont <span class="string">'+v.img&#125;&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                                &lt;div&gt;&#123;v.text&#125;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                            &lt;/Link&gt;</span></span><br><span class="line"><span class="string">                        &#125;);</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">    			&lt;/div&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这是link标签又默认样式，需要去掉默认样式，</p>
+<p>在App.css中给a标签编写样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,<span class="selector-tag">a</span><span class="selector-pseudo">:visited</span>,<span class="selector-tag">a</span><span class="selector-pseudo">:link</span>,<span class="selector-tag">a</span><span class="selector-pseudo">:active</span>&#123;</span><br><span class="line">    text-decoration:none;//去掉下划线</span><br><span class="line">    <span class="selector-tag">color</span>:<span class="selector-id">#333</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后还需要给tabbar添加背景颜色，并且发现在点击不同选项时颜色不改变了。这是因为之前我们是根据数字来判断选项是否更改颜色，现在由于在不同页面中没有数字的概念，所以active是不生效的。可以通过获取当前的url来概念颜色</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Tabbar</span></span><br><span class="line"><span class="keyword">import</span> &#123;Link&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line">...</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tarbar</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state=&#123;</span><br><span class="line">            index:<span class="string">''</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    itemChange=<span class="function">(<span class="params">i</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;<span class="attr">index</span>:i&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">const</span> url=<span class="built_in">window</span>.location.href;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">        	&lt;div className=<span class="string">'tabbar'</span>&gt;</span><br><span class="line">            	&lt;div className=<span class="string">'tabbar-content'</span>&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        tabbar.map(<span class="function">(<span class="params">v,i</span>)=&gt;</span>&#123;</span><br><span class="line">                            &lt;Link to=&#123;v.link&#125; key=&#123;i&#125; className=&#123;<span class="string">'tabbar-item'</span>+ (url.indexOf(v.link)&gt;<span class="number">-1</span>)?<span class="string">'active:'</span><span class="string">' &#125;&gt;</span></span><br><span class="line"><span class="string">                                &lt;div className=&#123;'</span>iconfont <span class="string">'+v.img&#125;&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                                &lt;div&gt;&#123;v.text&#125;&lt;/div&gt;</span></span><br><span class="line"><span class="string">                            &lt;/Link&gt;</span></span><br><span class="line"><span class="string">                        &#125;);</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">    			&lt;/div&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">        );</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这时可以给选项添加正确的class，但是class并未生效，active的作用被覆盖了，需要使用!important 来强制生效</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//在index.css中给active添加样式</span><br><span class="line">    <span class="selector-class">.active</span>&#123;</span><br><span class="line">        <span class="attribute">color</span>:red <span class="meta">!important</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 此时还会发现另一个问题，我们的tabbar会遮挡Home、Car等页面，该如何处理呢，</p>
+<p>可以给Home等组件的的背景css添加margin-bottom，值设为tabbar的高度</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//在APP.css中添加样式</span><br><span class="line"><span class="selector-class">.bg</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    //height:100;//需要把这个属性删除，以实现内容的自动滚动</span><br><span class="line">    <span class="selector-tag">margin-bottom</span><span class="selector-pseudo">:50px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这时又发现我们的tabbar随着Home等组件上下滚动了，这不是我们想要的结果，查看tarbar的布局，position:absolute，我门想要tabbar相对于视口来布局的，将position改为fixed即可</p>
+<h4 id="7-7-高阶组件改写Tabbar"><a href="#7-7-高阶组件改写Tabbar" class="headerlink" title="7.7 高阶组件改写Tabbar"></a>7.7 高阶组件改写Tabbar</h4><p>上面我们已经把所有功能实现了，但是对于Home、Car、Category、User存在大量重复性的代码，这就可以使用高阶组件进行提取。</p>
+<p>很简单，遵循两个步骤就可以了</p>
+<ul>
+<li>实现一个普通组件</li>
+<li>将普通组件使用函数包裹</li>
+</ul>
+<p>在index.js中找到Tabbar，使用函数将其包裹起来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">const Tabbar=(WrappedComponent)=&gt; class Tabbar extends Component&#123;</span><br><span class="line">    ...</span><br><span class="line">    render()&#123;</span><br><span class="line">        const url=window.location.href;</span><br><span class="line">        reutrn (</span><br><span class="line">        	&lt;div className=&apos;tabbar-container&apos;&gt;</span><br><span class="line">        		//注意必须将WrappedComponent在该组件渲染</span><br><span class="line">        		&lt;div className=&apos;tabbar-children&apos;&gt;</span><br><span class="line">        			&lt;WrappedComponent /&gt;</span><br><span class="line">        		&lt;/div&gt;</span><br><span class="line">        		&lt;div className=&apos;tabbar</span><br><span class="line">        			&lt;div className=&apos;tabbar-content&apos;&gt;</span><br><span class="line">        			//...</span><br><span class="line">        			&lt;/div&gt;</span><br><span class="line">        		div&gt;</span><br><span class="line">        	&lt;/div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//将下面的内容放在上边</span><br><span class="line">//class Tabbar extends Component&#123;&#125;</span><br><span class="line"></span><br><span class="line">//在tabbar的css文件index.css中给tabbar-children设置样式,就可以把App.css文件中的.bg去掉了。</span><br><span class="line">.tabbar-children&#123;</span><br><span class="line">    margin:bottom:50px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在使用时，需要改变一下了，在Home.js中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import React ,&#123;Component&#125; from &apos;react&apos;;</span><br><span class="line">import Tabbar from &apos;./component/tarbar&apos;;</span><br><span class="line"></span><br><span class="line">class Home extends Component&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        return (</span><br><span class="line">        	&lt;div&gt;</span><br><span class="line">            	&lt;img className=&apos;bg&apos; src=&#123;require(&apos;../static/imgs/home.png&apos;)&#125; /&gt;</span><br><span class="line">            	~~&lt;Tabbar /&gt;~~</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default Tabbar(Home);//输出的时候，用函数更改即可</span><br></pre></td></tr></table></figure>
+<p>link可以出发路由的改变，路由改变之后需要APP去监听做何改变</p>
+<p>注意：此文为慕课网视频笔记<br><a href="https://www.imooc.com/learn/1075" target="_blank" rel="noopener">https://www.imooc.com/learn/1075</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/02/React高阶组件笔记/" data-id="ck8iwvpzz002pnso18a38kq59" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-js中的EventLoop" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/01/09/js中的EventLoop/" class="article-date">
@@ -111,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/01/09/js中的EventLoop/" data-id="ck6rcryey001o22o167ioaqgr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/01/09/js中的EventLoop/" data-id="ck8iwvpz9001pnso1amtuzkos" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -180,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/01/07/WebAssembly初体验/" data-id="ck6rcryeb000i22o1nzzhp2ah" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/01/07/WebAssembly初体验/" data-id="ck8iwvpyh000hnso1pw954jka" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebAssembly/">WebAssembly</a></li></ul>
@@ -343,7 +639,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/webgl2基础/" data-id="ck6rcrygq003822o13b5lvikv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/webgl2基础/" data-id="ck8iwvq0q003fnso1x60ad0z2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webgl/">webgl</a></li></ul>
@@ -382,7 +678,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/low-graphics-mode解决方法/" data-id="ck6rcryex001m22o1ujy6kb6w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/low-graphics-mode解决方法/" data-id="ck8iwvpz8001mnso1irqdfpi6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -443,7 +739,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/Ubuntu固定ip和软件愿/" data-id="ck6rcrye9000g22o1xyzmc0gl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/Ubuntu固定ip和软件愿/" data-id="ck8iwvpyf000fnso1640j2g6i" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -504,7 +800,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/浏览器跨域/" data-id="ck6rcryf9002622o1fil1j2d6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/浏览器跨域/" data-id="ck8iwvpzi0026nso139hi0irh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -557,7 +853,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/git-rebase/" data-id="ck6rcryew001j22o1005s6h15" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/git-rebase/" data-id="ck8iwvpz1001dnso1cjk50cil" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
@@ -608,103 +904,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/sublime的使用/" data-id="ck6rcryf4001y22o18fsdjkkw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/sublime的使用/" data-id="ck8iwvpzd001wnso1h7v7lx6j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sublime/">sublime</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-es6引入css" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/12/24/es6引入css/" class="article-date">
-  <time datetime="2019-12-24T14:26:40.000Z" itemprop="datePublished">2019-12-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/24/es6引入css/">es6引入css</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>假设我们有一个名为<code>style.css</code>的css文件</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.default</span> &#123;</span><br><span class="line">    <span class="attribute">cursor</span>:null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.drag</span> &#123;</span><br><span class="line">    <span class="attribute">cursor</span>:move;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.rotate</span> &#123;</span><br><span class="line">    <span class="attribute">cursor</span>: <span class="built_in">url</span>(<span class="string">'../../assets/mouse/closedhand.cur'</span>) <span class="number">8</span> <span class="number">8</span>, default;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在其它js文件中如何引入并使用这个css文件呢，总不能一直只使用js来编写吧</p>
-<p>假设我们在<code>EventManager.js</code>文件中要使用，有两种方式引入：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'./style/style.css'</span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'./style/style.css'</span>);</span><br></pre></td></tr></table></figure>
-<p>然后在代码中就可以直接使用了，如：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">this</span>._dom.className=<span class="string">'rotate'</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">this</span>._dom.className=<span class="string">'drag'</span>;</span><br></pre></td></tr></table></figure>
-<p>此时，css的效果就出来了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/es6引入css/" data-id="ck6rcryet001e22o135gb26l5" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-drawArrays和drawElements" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/12/24/drawArrays和drawElements/" class="article-date">
-  <time datetime="2019-12-24T14:25:29.000Z" itemprop="datePublished">2019-12-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/24/drawArrays和drawElements/">drawArrays和drawElements</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在使用<code>drawArrays</code>时，我们通常是</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bufferPosition = <span class="keyword">this</span>.gl.createBuffer();</span><br><span class="line">gl.bindBuffer(<span class="keyword">this</span>.gl.ARRAY_BUFFER, bufferPosition);</span><br><span class="line">gl.bufferData(<span class="keyword">this</span>.gl.ARRAY_BUFFER,<span class="keyword">new</span> <span class="built_in">Float32Array</span>(positions),<span class="keyword">this</span>.gl.STATIC_DRAW);</span><br></pre></td></tr></table></figure>
-<p>然后再绑定vao时，指定一下数据就可以了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gl.enableVertexAttribArray(positionLocation);</span><br><span class="line">gl.vertexAttribPointer(positionLocation, size, type, normalize, stride, offset);</span><br></pre></td></tr></table></figure>
-<p>这里说明一下：<code>ARRAY_BUFFER</code>绑定的数据属于全局状态。</p>
-<p>而使用<code>drawElements</code>时，通常配合绑定<code>ARRAY_BUFFER</code>，还需要创建索引buffer</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建索引</span></span><br><span class="line"><span class="keyword">const</span> indexBuffer = gl.createBuffer();</span><br><span class="line">gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);</span><br><span class="line"><span class="keyword">const</span> indices = <span class="keyword">this</span>.earth.getFillIndices(<span class="number">64</span>,<span class="number">64</span>);</span><br><span class="line">gl.bufferData(</span><br><span class="line">    gl.ELEMENT_ARRAY_BUFFER,</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Uint16Array</span>(indices),</span><br><span class="line">	gl.STATIC_DRAW</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> indexCount=indices.length;</span><br></pre></td></tr></table></figure>
-<p>这里的<code>ELEMENT_ARRAY_BUFFER</code>是当前定点数组的一部分</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/drawArrays和drawElements/" data-id="ck6rcryer001a22o1jhna8b4m" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webgl/">webgl</a></li></ul>
 
     </footer>
   </div>
@@ -748,7 +951,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
     </div>
   </div>
 
@@ -761,6 +964,14 @@
       <ul>
         
           <li>
+            <a href="/2020/04/02/react-router-dom入门到深入/">react-router-dom入门到深入</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/02/React高阶组件笔记/">React高阶组件笔记</a>
+          </li>
+        
+          <li>
             <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
           </li>
         
@@ -770,14 +981,6 @@
         
           <li>
             <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
           </li>
         
       </ul>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>react-router-dom入门到深入 | afei_ask</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="React-router-dom一、安装1npm install react-router-dom -save-d 二、使用创建A和B两个页面 123456789101112131415//A.jsimport React from &apos;react&apos;;function A()&amp;#123;    return (    	&amp;lt;div&amp;gt;A&amp;lt;/div&amp;gt;    );&amp;#125;//B.">
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react-router-dom入门到深入">
+<meta property="og:url" content="http://yoursite.com/2020/04/02/react-router-dom入门到深入/index.html">
+<meta property="og:site_name" content="afei_ask">
+<meta property="og:description" content="React-router-dom一、安装1npm install react-router-dom -save-d 二、使用创建A和B两个页面 123456789101112131415//A.jsimport React from &apos;react&apos;;function A()&amp;#123;    return (    	&amp;lt;div&amp;gt;A&amp;lt;/div&amp;gt;    );&amp;#125;//B.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-02T15:28:13.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react-router-dom入门到深入">
+<meta name="twitter:description" content="React-router-dom一、安装1npm install react-router-dom -save-d 二、使用创建A和B两个页面 123456789101112131415//A.jsimport React from &apos;react&apos;;function A()&amp;#123;    return (    	&amp;lt;div&amp;gt;A&amp;lt;/div&amp;gt;    );&amp;#125;//B.">
+  
+    <link rel="alternate" href="/atom.xml" title="afei_ask" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">afei_ask</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-react-router-dom入门到深入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/02/react-router-dom入门到深入/" class="article-date">
+  <time datetime="2020-04-02T15:30:06.000Z" itemprop="datePublished">2020-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      react-router-dom入门到深入
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="React-router-dom"><a href="#React-router-dom" class="headerlink" title="React-router-dom"></a>React-router-dom</h3><h4 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-router-dom -save-d</span><br></pre></td></tr></table></figure>
+<h4 id="二、使用"><a href="#二、使用" class="headerlink" title="二、使用"></a>二、使用</h4><p>创建A和B两个页面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//A.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;A&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/B.js</span></span><br><span class="line"><span class="regexp">import React from 'react';</span></span><br><span class="line"><span class="regexp">function B()&#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">    	&lt;div&gt;B&lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建一个路由文件router.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;HashRouter, Route, Switch&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> A <span class="keyword">from</span> <span class="string">'./a'</span>;</span><br><span class="line"><span class="keyword">import</span> B <span class="keyword">from</span> <span class="string">'./b'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> TestRouter=<span class="function"><span class="params">()</span>=&gt;</span>(</span><br><span class="line">	&lt;HashRouter&gt;</span><br><span class="line">        &lt;Switch&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/"</span> component=&#123;A&#125;/&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/b"</span> component=&#123;B&#125;/&gt;</span><br><span class="line">        &lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>HashRouter&gt;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">export</span> &#123;TestRouter&#125;;</span><br></pre></td></tr></table></figure>
+<p>最后在组件的渲染页面，渲染该路由即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;TestRouter&#125; <span class="keyword">from</span> <span class="string">'./router/router'</span>;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Router/&gt;,</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>此时在页面输入<code>http://localhost:3000/#/</code>就会看到A页面，输入<code>http://localhost:3000/#/b</code>就会看到B页面。url中的#号目前暂不考虑</p>
+<h4 id="三、路由的跳转"><a href="#三、路由的跳转" class="headerlink" title="三、路由的跳转"></a>三、路由的跳转</h4><h5 id="3-1-a标签"><a href="#3-1-a标签" class="headerlink" title="3.1 a标签"></a>3.1 a标签</h5><p>可以通过a标签进行页面的跳转，如下修改A页面就可以通过点击A页面中的A</p>
+<p>来实现跳转到B页面了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//A.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">        &lt;a href=<span class="string">'#/b'</span> &gt;A&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-2-通过Link标签跳转"><a href="#3-2-通过Link标签跳转" class="headerlink" title="3.2 通过Link标签跳转"></a>3.2 通过Link标签跳转</h5><p>react-router-dom中提供了Link标签也可以提供页面的跳转，Link的底层还是使用的a标签。</p>
+<p>如下面修改B页面，就可以实现点击B跳到A页面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//B.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">        &lt;Link to=<span class="string">'#/'</span>&gt;B&lt;<span class="regexp">/Link&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-3-通过函数跳转"><a href="#3-3-通过函数跳转" class="headerlink" title="3.3 通过函数跳转"></a>3.3 通过函数跳转</h5><p>react-router-dom中提供了<code>hashHistory</code>，设置给组件的<code>history</code>属性，然后同过改变<code>this.props.history</code>参数，用来实现页面的跳转.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在router.js文件中给 HashRouter引入history属性</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">import</span> &#123;HashRouter, Route, Switch, hashHistory&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line">...</span><br><span class="line">&lt;HashRouter history=&#123;hashHistory&#125;&gt;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">//A.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params">props</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">        &lt;a href=<span class="string">'#/b'</span> &gt;A&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">        &lt;button onClick=&#123;() =&gt; props.history.push('b')&#125;&gt;test&lt;/</span>button&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这样点击test按钮就可以使用向B页面的跳转了</p>
+<p>其中改变<code>this.props.history</code>参数的方法有：</p>
+<ul>
+<li>push() ：添加新的路由</li>
+<li>replace()：替换路由（猜测是替换当前路由，被替换的路由则不能通过goBack返回，防止死循环）</li>
+<li>goBack()：返回上一个路由（返回上级页面）</li>
+</ul>
+<h4 id="四、路由传参"><a href="#四、路由传参" class="headerlink" title="四、路由传参"></a>四、路由传参</h4><h5 id="4-1-通过路由配置传参"><a href="#4-1-通过路由配置传参" class="headerlink" title="4.1 通过路由配置传参"></a>4.1 通过路由配置传参</h5><p>在上面router.js文件中，我们只是配置了路由的绝对路径，有些时候我们在跳转某个路由时还要接收一些参数，该怎么处理呢？简单的可以通过在路由后追加’/:key’，然后再路由对应的组件通过<code>this.props.match.params.key</code>来接收到相应的参数值</p>
+<p>如下，我们给B页面传递<code>name</code>参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//router.js</span></span><br><span class="line"><span class="keyword">const</span> TestRouter=<span class="function"><span class="params">()</span>=&gt;</span>(</span><br><span class="line">	&lt;HashRouter&gt;</span><br><span class="line">        &lt;Switch&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/"</span> component=&#123;A&#125;/&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/b/:name"</span> component=&#123;B&#125;/&gt;</span><br><span class="line">        &lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>HashRouter&gt;</span><br><span class="line">);</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">//B.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params">props</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">        	B</span><br><span class="line">        	&lt;p&gt;我接收的参数是&#123;props.match.params.name&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然如果传递多个参数就再追加即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Route exact path=<span class="string">"/b/:name/:age"</span> component=&#123;B&#125;/&gt;</span><br></pre></td></tr></table></figure>
+<p>这样皆可以通过<code>http://localhost:3000/#/b/afei/21</code>来访问到afei和age了，</p>
+<p>这种方式虽然可以实现传参，但是稍微少传一个参数就会报错。</p>
+<p>如果是使用Link标签如何传参呢，很简单使用query关键 字即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//B.js</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">        &lt;Link to=&#123;<span class="attr">path</span>:<span class="string">'/a'</span>,<span class="attr">query</span>:&#123;<span class="attr">name</span>:<span class="string">'afei'</span>,<span class="attr">age</span>:<span class="number">19</span>&#125;&#125;&gt;B&lt;<span class="regexp">/Link&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并且总觉得的不如<code>http://localhost:3000/#/b?name=afei&amp;age=19</code>来的方便。（日后补上）</p>
+<h5 id="4-2-通过函数隐式传参"><a href="#4-2-通过函数隐式传参" class="headerlink" title="4.2 通过函数隐式传参"></a>4.2 通过函数隐式传参</h5><p>那如果是通过函数跳转是，如何传参呢？很简单,在触发时给history传递对象，然后再对应的页面通过<code>this.props.history.location.state</code>获取即可，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//A.js</span></span><br><span class="line">&lt;button onClick=&#123;() =&gt; props.history.push(</span><br><span class="line">    &#123;</span><br><span class="line">    pathname:<span class="string">'/b'</span>,</span><br><span class="line">    state:&#123;</span><br><span class="line">        name:<span class="string">'afei'</span>,</span><br><span class="line">    	age:<span class="number">18</span></span><br><span class="line">    	&#125;</span><br><span class="line">	&#125;</span><br><span class="line">)&#125;&gt;test&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/B.js</span></span><br><span class="line"><span class="regexp">import React from 'react';</span></span><br><span class="line"><span class="regexp">function B(props)&#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">    	&lt;div&gt;</span></span><br><span class="line"><span class="regexp">        	B</span></span><br><span class="line"><span class="regexp">        	&lt;p&gt;我的名字是&#123;props.history.location.state.name&#125;&lt;/</span>p&gt;</span><br><span class="line">			&lt;p&gt;我的年龄是&#123;props.history.location.state.age&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意上边两种方式传参和接参方式不能混了</p>
+<h4 id="五、BrowserRouter和hashRouter"><a href="#五、BrowserRouter和hashRouter" class="headerlink" title="五、BrowserRouter和hashRouter"></a>五、BrowserRouter和hashRouter</h4><p>有一个现象当我们的router.js使用HashRouter时，我们可以通过浏览器地址栏直接键入url来访问任意路由</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//HashRouter</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;HashRouter, Route, Switch&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> A <span class="keyword">from</span> <span class="string">'./a'</span>;</span><br><span class="line"><span class="keyword">import</span> B <span class="keyword">from</span> <span class="string">'./b'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> TestRouter=<span class="function"><span class="params">()</span>=&gt;</span>(</span><br><span class="line">	&lt;HashRouter&gt;</span><br><span class="line">        &lt;Switch&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/"</span> component=&#123;A&#125;/&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/b"</span> component=&#123;B&#125;/&gt;</span><br><span class="line">        &lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>HashRouter&gt;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">export</span> &#123;TestRouter&#125;;</span><br></pre></td></tr></table></figure>
+<p>此时</p>
+<ul>
+<li>当我们可以输入<code>http://localhost:3000/</code>时，地址栏会自动变为<code>http://localhost:3000/#/</code>进行正常访问；</li>
+<li><p>当地址栏输入<code>http://localhost:3000/#/</code>可以正常访问A页面</p>
+</li>
+<li><p>当地址栏输入<code>http://localhost:3000/#/b</code>可以正常访问B页面</p>
+</li>
+</ul>
+<p>但是当我们的router.js中将HashRouter换成BrowserRouter时，就会出现意外。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">&lt;BrowserRouter&gt;</span><br><span class="line">        &lt;Switch&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/"</span> component=&#123;A&#125;/&gt;</span><br><span class="line">            &lt;Route exact path=<span class="string">"/b"</span> component=&#123;B&#125;/&gt;</span><br><span class="line">        &lt;<span class="regexp">/Switch&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>BrowserRouter&gt;</span><br></pre></td></tr></table></figure>
+<p>表现为：</p>
+<ul>
+<li>当我们可以输入<code>http://localhost:3000/</code>时，可以正常访问A页面</li>
+<li>当地址栏输入<code>http://localhost:3000/b</code>不能正常访问B页面，报错<code>Cannot GET/b</code></li>
+<li>当我们在A页面以<code>&lt;Link to=&quot;b&quot;&gt;B&lt;/Link&gt;</code>的形式，可以正常访问B页面</li>
+</ul>
+<p>神不神奇，为什么HashRouter可以直接访问路由，而BrowserRouter访问不到？</p>
+<p>这是应为BrowserRouter每次改变路由时，会向服务器请求该路由，服务端没有该路径的资源，自然会报错了。当然可以开启一个服务，路由对应的路径下放置资源文件，此错误就会消失。</p>
+<p>而使用HashRouter时，会在路径后边添加<code>/#/</code>,并且<code>/#/</code>及后边的内容是不会发送给服务器的，当访问<code>http://localhost:3000/#/b</code>时，其实服务器端收到的依然是<code>http://localhost:3000</code>，<code>/#/</code>及后边的内容</p>
+<p>会直接在前端进行处理区分。</p>
+<p>但是官方却还是推荐我们使用BrowserRouter，这就和它们内部的机制有关了</p>
+<ul>
+<li>BrowserRouter使用的是HTML5中的history的api，通过<code>pushState</code>、<code>replaceState</code>、<code>popState</code>来完成UI和URL的同步</li>
+<li>HashRouter使用的是URL的hash方式，来完成UI和URL的同步</li>
+</ul>
+<p>下章细讲</p>
+<h4 id="六、history和URL"><a href="#六、history和URL" class="headerlink" title="六、history和URL"></a>六、history和URL</h4><p>下面的内容只做了解</p>
+<h5 id="6-1-history"><a href="#6-1-history" class="headerlink" title="6.1 history"></a>6.1 history</h5><p>history接口允许操作浏览器的曾经在标签页或者框架里访问会话历史记录。它有一些自己的属性，这里是说一下比较重要的<code>History.state</code>和<code>History.length</code></p>
+<ul>
+<li><code>state</code>是一个只读属性，访问该属性会返回一个表示历史堆栈顶部的状态的值。它可以不必等待<code>popstate</code>事件而查看状态的方式</li>
+<li><code>length</code>是一个只读属性，表示会话历史中元素的数目，包括当前的加载页。</li>
+</ul>
+<p>下面来看history中三个比较重要的方法</p>
+<ul>
+<li>pushState()：按指定的名称和URL（如果提供该参数）将数据push进会话历史栈，这个数据被DOM 进行了不透明处理。可以理解为往历史记录里追加新的页面</li>
+<li>replaveState()：按指定的数据，名称和URL(如果提供该参数)，更新历史栈上最新的入口。这个数据被DOM 进行了不透明处理。可以理解更新历史记录里当前页面信息</li>
+<li>popState()：很奇怪，没有查到该方法</li>
+<li>back()：往上一页，模拟浏览器左上角的撤销功能</li>
+<li>forward()：往下一页，模拟浏览器左上角的下一页功能</li>
+<li>go()：通过当前页面的相对位置从浏览器历史记录( 会话记录 )加载页面。比如：参数为-1的时候为上一页，参数为1的时候为下一页。参数超过区间范围（length区间）或不合法时不做任何操作</li>
+</ul>
+<p>总的来说可以将history看作是维护浏览器历史记录的管理器。</p>
+<h5 id="6-2-URL"><a href="#6-2-URL" class="headerlink" title="6.2 URL"></a>6.2 URL</h5><p><strong>URL</strong> 接口是一个包含若干静态方法的对象，用来创建 URLs。它的属性主要是实现<em>URLUtils</em> 中定义的属性，包括：</p>
+<ul>
+<li>href：包含完整URL的字符串</li>
+<li>host：包含URL域名+“ : ”+端口号的字符串</li>
+<li>Hostname：包含URL域名的字符串</li>
+<li>port：包含URL端口号的字符串</li>
+<li>pathname：以<code>/</code>起头紧跟URL文件路径的字符串</li>
+<li>search：以<code>？</code>起头紧跟URL文件路径的字符串</li>
+<li>hash：以<code>#</code>起头紧跟URL文件路径的字符串</li>
+<li>username：包含在域名前面指定的用户名字符串</li>
+<li>password：包含在域名前面指定的密码字符串</li>
+<li><p>origin：只读属性，返回一个包含协议名、域名和端口号的字符串</p>
+</li>
+<li><p>searchParams：返回一个用来访问当前URL GET请求参数的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams" target="_blank" rel="noopener"><code>URLSearchParams</code></a> 对象。</p>
+</li>
+</ul>
+<p>URL还有一些静态方法，不再赘述。这里只需要明白所谓的<code>#</code>是URL的hash属性的规范，就跟seacrh的<code>?</code>一样。</p>
+<p>参考:</p>
+<p><a href="https://www.jianshu.com/p/8954e9fb0c7e" target="_blank" rel="noopener">https://www.jianshu.com/p/8954e9fb0c7e</a></p>
+<p><a href="https://reacttraining.com/react-router/web/api/BrowserRouter" target="_blank" rel="noopener">https://reacttraining.com/react-router/web/api/BrowserRouter</a></p>
+<p><a href="https://www.cnblogs.com/soyxiaobi/p/11096940.html" target="_blank" rel="noopener">https://www.cnblogs.com/soyxiaobi/p/11096940.html</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/History" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/History</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/URL" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/URL</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/02/react-router-dom入门到深入/" data-id="ck8iwvq0j0035nso14r6nlpmd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/02/React高阶组件笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">React高阶组件笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIS/">GIS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebAssembly/">WebAssembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webgl/">webgl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GIS/" style="font-size: 11.67px;">GIS</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 18.33px;">React</a> <a href="/tags/SpringBoot/" style="font-size: 11.67px;">SpringBoot</a> <a href="/tags/WebAssembly/" style="font-size: 10px;">WebAssembly</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/sublime/" style="font-size: 10px;">sublime</a> <a href="/tags/tomcat/" style="font-size: 11.67px;">tomcat</a> <a href="/tags/webgl/" style="font-size: 15px;">webgl</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/02/react-router-dom入门到深入/">react-router-dom入门到深入</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/02/React高阶组件笔记/">React高阶组件笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/07/WebAssembly初体验/">WebAssembly初体验</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 杨亚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

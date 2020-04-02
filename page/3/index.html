@@ -62,6 +62,145 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-JS原型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/09/JS原型/" class="article-date">
+  <time datetime="2019-01-08T23:29:33.000Z" itemprop="datePublished">2019-01-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/09/JS原型/">JS原型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前端面试题永远少不了js的原型和原型链。解释起来有点拗口，可以用一张图来讲解：</p>
+<img src="/2019/01/09/JS原型/js_proto.png" title="js原型示例图">
+<h3 id="一、Function和Object"><a href="#一、Function和Object" class="headerlink" title="一、Function和Object"></a>一、Function和Object</h3><p>首先说一下，js中自带两个函数Object和Function，Object继承自己，Funtion继承自己，Object和Function互相是继承对方，也就是说Object和Function都既是函数也是对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span> <span class="keyword">instanceof</span> <span class="built_in">Object</span>;<span class="comment">//true</span></span><br><span class="line"><span class="built_in">Object</span> <span class="keyword">instanceof</span> <span class="built_in">Function</span>;<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>也就是说Object是Function的实例，Function是自己的实例</p>
+<h3 id="二、普通对象和普通函数"><a href="#二、普通对象和普通函数" class="headerlink" title="二、普通对象和普通函数"></a>二、普通对象和普通函数</h3><p>js中万物皆对象，函数是对象，函数创建出来的实例也是对象，我们将函数成为函数对象，将实例成为普通对象。</p>
+<p>注意<strong>函数对象本身又是Function的实例</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Sample</span>(<span class="params"></span>)</span>&#123;&#125;;<span class="comment">//Sample是一个函数对象</span></span><br><span class="line"><span class="keyword">var</span> s=<span class="keyword">new</span> Sample();<span class="comment">//s是一个普通对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//function Sample()&#123;&#125;等同于</span></span><br><span class="line"><span class="keyword">var</span> Sample=<span class="keyword">new</span> <span class="built_in">Function</span>();<span class="comment">//所以Sample又是Function的实例</span></span><br></pre></td></tr></table></figure>
+<h3 id="三、隐式原型和显示原型"><a href="#三、隐式原型和显示原型" class="headerlink" title="三、隐式原型和显示原型"></a>三、隐式原型和显示原型</h3><ul>
+<li>每个对象都有一个名为<code>__proto__</code>的内部属性（隐式原型），它指向所对应构造函数的原型对象</li>
+<li>每个函数对象都有一个prototype的属性（显示原型）prototype与<code>__proto__</code>都指向构造函数的原型对象，原型对象下面又有一个constructor属性，指向这个函数对象</li>
+</ul>
+<h3 id="四、原型链"><a href="#四、原型链" class="headerlink" title="四、原型链"></a>四、原型链</h3><p>js中，每个对象都会在内部生成一个<code>__proto__</code>属性，当我们访问一个对象属性时，如果这个对象不存在就会去<code>__proto__</code> 指向的对象里面找，一层一层找下去，这就是javascript原型链的概念。</p>
+<p><strong>JS中所有的东西都是对象,所有的东西都由Object衍生而来, 即所有东西原型链的终点指向null</strong></p>
+<h3 id="五、继承"><a href="#五、继承" class="headerlink" title="五、继承"></a>五、继承</h3><p>js中的普通对象是由构造函数（即函数对象）new出来的，这个对象产生于原型却不等于原型；这个普通对象是如何与原型产生联系的呢？就是通过这个叫<code>__proto__</code>完成的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">method</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> method();</span><br><span class="line">m===m.prototype;<span class="comment">//false</span></span><br><span class="line"></span><br><span class="line">m.__proto__====method.prototype;<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>参考：<a href="http://baijiahao.baidu.com/s?id=1585354841830289519&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">http://baijiahao.baidu.com/s?id=1585354841830289519&amp;wfr=spider&amp;for=pc</a></p>
+<p><a href="https://www.jb51.net/article/123976.htm" target="_blank" rel="noopener">https://www.jb51.net/article/123976.htm</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/09/JS原型/" data-id="ck8iwvpy60004nso1ujury58i" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-React实战4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/05/React实战4/" class="article-date">
+  <time datetime="2018-11-05T14:38:00.000Z" itemprop="datePublished">2018-11-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/05/React实战4/">React实战4</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="详情页面的布局"><a href="#详情页面的布局" class="headerlink" title="详情页面的布局"></a>详情页面的布局</h3><p>1、首先在detail下面创建布局组件style.js</p>
+<p>2、然后在detail/index.js中引入上面的布局组件</p>
+<p>3、在style.js中编写详情页的标题组件、内容组件，在内容组件中放置img和p等标签；</p>
+<p>4、给详情页面添加redux</p>
+<ul>
+<li><p>在detail文件夹下创建store文件夹，并在里面创建actionCreators.js、constants.js、index.js、reducer.js</p>
+</li>
+<li><p>在reducer.js中添加defaultState    ,需要将带html标签的内容全部包进去</p>
+</li>
+<li><p>在src/store/reducer.js中，引入详情页的reducer</p>
+</li>
+<li><p>在detail的index.js中引入reducer，并展示内容，注意当需要展示带有html标签内容时需要使用<code>dangerouslySetInnerHTML</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;DetailContent dangerouslySetInnerHTML=&#123;&#123;<span class="attr">__html</span>:<span class="keyword">this</span>.props.content&#125;&#125;&gt;</span><br><span class="line"><span class="comment">//在DetailContent组件中展示html格式的内容</span></span><br><span class="line">&lt;DetailContent dangerouslySetInnerHTML=&#123;&#123;<span class="attr">__html</span>:<span class="keyword">this</span>.props.content&#125;&#125;&gt;</span><br><span class="line">&lt;<span class="regexp">/DetailContent&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用活数据代替死数据，componentDidMount触发请求行为，在actionCreators中引入axios发送请求</p>
+</li>
+<li><p>通过路由，点击不通的item，实现不同详情页的跳转</p>
+</li>
+</ul>
+<p>两种方式：<br><strong>动态路由</strong></p>
+<ul>
+<li><p>在home的List页面中，将<code>&lt;Link key={index} to=&#39;/detail&#39;&gt;</code>改为<code>&lt;Link key={index} to={&#39;/detail/&#39;+item.get(&#39;id&#39;)}&gt;</code></p>
+</li>
+<li><p>进入APP.js，为了匹配所有的detail，将<code>&lt;Route path=&#39;/detail&#39; exact component={Detail}&gt;&lt;/Route&gt;</code>改为<code>&lt;Route path=&#39;/detail/:id&#39; exact component={Detail}&gt;&lt;/Route&gt;</code></p>
+</li>
+<li><p>在detail的index.js页面获取页面ID <code>this.props.match.params.id</code>,传递给getDetail方法</p>
+</li>
+</ul>
+<h3 id="React中的异步组件"><a href="#React中的异步组件" class="headerlink" title="React中的异步组件"></a>React中的异步组件</h3><p>之前我们的代码，在控制台可以看到无论我们查看哪个页面，访问的js都没有改变。说明所有的js代码全部在一个文件里面，这样会影响速度，我们希望当我们家在首页时只加载首页代码，当我们访问详情页时只加载详情页的代码。</p>
+<p>这就需要使用异步组件，就会非常简单。可以使用react-loadable组件</p>
+<p>安装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yarn add react-loadable</span><br><span class="line"><span class="comment">//或</span></span><br><span class="line">npm install react-loadable</span><br></pre></td></tr></table></figure>
+<p>我们想要家在详情页时，再家在详情页的代码，应该怎么做呢？在detail文件夹下创建loadable.js的文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Loadable <span class="keyword">from</span> <span class="string">'react-loadable'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> LoadableComponent = Loadable(&#123;</span><br><span class="line">  loader: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./'</span>),</span><br><span class="line">  loading()&#123;</span><br><span class="line">  	<span class="keyword">return</span> &lt;div&gt;正在加载&lt;/div&gt;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> ()=&gt; &lt;LoadableComponent/&gt;</span><br></pre></td></tr></table></figure>
+<p>然后来到App.js中，将饮用Detail的引用改为loadable</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Detail <span class="keyword">from</span> <span class="string">'./pages/detail'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//改为</span></span><br><span class="line"><span class="keyword">import</span> Detail <span class="keyword">from</span> <span class="string">'./pages/detail/loadable.js'</span>;</span><br></pre></td></tr></table></figure>
+<p>这时，会报错TypeError: Cannot read property ‘params’ of undefined</p>
+<p>这是由于原先我们是直接使用Detail组件，现在变成了使用loadable.js了，而router是跟Detail对应的，现在对不上了，怎么办呢？</p>
+<p>在detail的index.js文件中从react-router-dom引入withRouter，然后在使用connect中加入withRouter</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;withRouter&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line">。。。</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(mapStateToProps,mapDispatchToProps)(withRouter(Detail));</span><br></pre></td></tr></table></figure>
+<p>它就是让detail有能力获取到router中的内容。</p>
+<p>这时就实现了对详情页的异步加载</p>
+<h3 id="项目上线"><a href="#项目上线" class="headerlink" title="项目上线"></a>项目上线</h3><p>将项目打包</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+<p>就会生成项目代码，放在后端即可</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/05/React实战4/" data-id="ck8iwvpyc000dnso14g7je8dj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-React实战3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/11/05/React实战3/" class="article-date">
@@ -187,7 +326,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/05/React实战3/" data-id="ck6rcryhe003m22o1z5yoxxiw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/05/React实战3/" data-id="ck8iwvq1e003tnso1qsud08ay" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
@@ -440,7 +579,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/react实战2/" data-id="ck6rcryi7003o22o1o81kilxw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/react实战2/" data-id="ck8iwvq1w003vnso11jxyqkc8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
@@ -562,7 +701,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/react实战1/" data-id="ck6rcrygn003422o1bm78i5hj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/react实战1/" data-id="ck8iwvq0o003bnso1jdaasf34" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
@@ -745,7 +884,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/12/redux中间件/" data-id="ck6rcryh6003j22o1lxb7e5a1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/12/redux中间件/" data-id="ck8iwvq12003qnso12vmy0x6z" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
@@ -876,7 +1015,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/react中Redux的使用/" data-id="ck6rcrygm003222o1i699s6w8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/react中Redux的使用/" data-id="ck8iwvq0o0039nso1mdrays8w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
@@ -1031,7 +1170,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/29/react组件细节/" data-id="ck6rcrygo003622o1xdm78wzt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/29/react组件细节/" data-id="ck8iwvq0p003dnso1puhftm2w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
@@ -1155,7 +1294,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/29/react中的css/" data-id="ck6rcrygk003022o1l0e52gb4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/29/react中的css/" data-id="ck8iwvq0k0037nso1bjsaoxri" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
@@ -1303,135 +1442,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/29/react生命周期函数/" data-id="ck6rcryf3001w22o1ogeyrxeq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/29/react生命周期函数/" data-id="ck8iwvpzc001unso1olqjj4pc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-react环境安装" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/29/react环境安装/" class="article-date">
-  <time datetime="2018-08-29T14:55:47.000Z" itemprop="datePublished">2018-08-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/29/react环境安装/">react环境安装</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、React-开发环境的准备"><a href="#一、React-开发环境的准备" class="headerlink" title="一、React 开发环境的准备"></a>一、React 开发环境的准备</h2><h3 id="1、引入-js文件来使用React"><a href="#1、引入-js文件来使用React" class="headerlink" title="1、引入.js文件来使用React"></a>1、引入.js文件来使用React</h3><h3 id="2、使用脚手架工具来编码"><a href="#2、使用脚手架工具来编码" class="headerlink" title="2、使用脚手架工具来编码"></a>2、使用脚手架工具来编码</h3><ul>
-<li>GRUNT</li>
-<li>GULP</li>
-<li>Webpack</li>
-<li>Create-react-app（官方推荐的脚手架工具）</li>
-</ul>
-<p>但是使用脚手架写的内容不能被浏览器直接识别，需要脚手架工具做代码的编译，才能被浏览器运行。</p>
-<h2 id="二、安装create-react-app"><a href="#二、安装create-react-app" class="headerlink" title="二、安装create-react-app"></a>二、安装create-react-app</h2><p>如果你的node版本为6.0及以上，可以使用以下命令：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install -g create-react-app	<span class="comment">//安装脚手架工具create-react-app</span></span><br><span class="line">create-react-app my-app		<span class="comment">//使用脚手架生成工程my-app</span></span><br><span class="line">cd my-app		<span class="comment">//进入my-app工程</span></span><br><span class="line">npm run start		<span class="comment">//入启动my-app工程</span></span><br></pre></td></tr></table></figure>
-<p>如果你的npm版本为5.2.0及以上，可以使用以下命令</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app my-app</span><br><span class="line">cd my-app		<span class="comment">//进入my-app工程</span></span><br><span class="line">npm start		<span class="comment">//入启动my-app工程</span></span><br></pre></td></tr></table></figure>
-<h2 id="三、工程目录简介"><a href="#三、工程目录简介" class="headerlink" title="三、工程目录简介"></a>三、工程目录简介</h2><ul>
-<li><p>package.json  //任何一个脚手架工具中都会有一哥package.json文件。它代表node的一个包文件，包括项目介绍和一些依赖的包.</p>
-<p>只所以能通过npm 润 start来启动工程服务，是因为package.json文件中有</p>
-<p>  “script”:{</p>
-<pre><code>&quot;start&quot;:&quot;react-scripts start&quot;
-//...
-</code></pre><p>  }</p>
-</li>
-<li><p>node_modules //第三方的模块</p>
-</li>
-<li><p>public</p>
-<p>​    favicon.ico //网页标签栏的icon</p>
-<p>​    index.html //首页模版</p>
-<p>​    mainfest.json </p>
-</li>
-<li><p>src //源码文件</p>
-<p>​    registerserviceWorker //PWA progressive web application，在https服务器访问过，即使断网仍旧可以再访问的功能</p>
-</li>
-<li><p>。。。</p>
-</li>
-</ul>
-<h2 id="四、React-组件"><a href="#四、React-组件" class="headerlink" title="四、React 组件"></a>四、React 组件</h2><p>组件就是页面上的一部分、</p>
-<h3 id="1、定义react组件"><a href="#1、定义react组件" class="headerlink" title="1、定义react组件"></a>1、定义react组件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="comment">//render返回什么，就展示什么</span></span><br><span class="line">    render()&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意 </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line">等价于</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React form <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">const</span> Component= React.Component;</span><br></pre></td></tr></table></figure>
-<h3 id="2、ReactDOM"><a href="#2、ReactDOM" class="headerlink" title="2、ReactDOM"></a>2、ReactDOM</h3><p>这是一个第三方的模块，它有一个方法叫render，该方法可以帮助把一个组件挂载到dom节点上</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将APP组件渲染到root标签中 </span></span><br><span class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">APP</span> /&gt;</span>, document.getElementById('root'));</span></span><br><span class="line"><span class="xml">//<span class="tag">&lt;<span class="name">APP</span> /&gt;</span>是jsx语法，</span></span><br><span class="line"></span><br><span class="line">//包括组件中render()方法内返回的`&lt;div&gt;`也是jsx语法，都得通过引入React才能使用</span><br><span class="line">import React from 'react';</span><br></pre></td></tr></table></figure>
-<h3 id="3、jsx语法"><a href="#3、jsx语法" class="headerlink" title="3、jsx语法"></a>3、jsx语法</h3><p>自定定义的组件，可以直接通过jsx标签来使用，比如上面的<code>&lt;APP /&gt;</code></p>
-<p>注意：组件的命名必须是大写字母开头，</p>
-<p>一般大写字符开头都是jsx组件，小写字母开头的标签都是h5的标签</p>
-<hr>
-<p>本笔记参考慕课网视频<a href="https://coding.imooc.com/class/229.html" target="_blank" rel="noopener">https://coding.imooc.com/class/229.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/29/react环境安装/" data-id="ck6rcryf1001t22o1ixegidme" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-android-menu" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/24/android-menu/" class="article-date">
-  <time datetime="2018-01-24T13:06:30.000Z" itemprop="datePublished">2018-01-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/24/android-menu/">Android之menu的使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="一、如何给一个activity设置menu"><a href="#一、如何给一个activity设置menu" class="headerlink" title="一、如何给一个activity设置menu"></a>一、如何给一个activity设置menu</h3><p>1、在<code>res</code>目录下新建名为<code>menu</code>的文件夹；<br>2、在<code>menu</code>文件夹下新建一个名为<code>main</code>的 <code>Menu resource file</code>文件<br>3、在<code>main</code>文件中添加两个item，其中<code>android:title</code>表示名称；</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns</span> <span class="attr">android</span>=<span class="string">"http:/schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/add_item"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:title</span>=<span class="string">"添加"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/remove_item"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:title</span>=<span class="string">"删除"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>4、在相应的activity文件中重写<code>onCreateOptionMenu()</code>方法，其中<code>getMenuInflater()</code>方法得到MenuInflater对象，inflate方法创建菜单，第一个参数是指定的资源文件，第二个参数指定菜单项添加到哪一个Menu对象中；返回<code>true</code>表示允许创建的菜单显示出来，false表示无法显示。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionMenu</span><span class="params">(Menu menu)</span></span>&#123;</span><br><span class="line">    getMenuInflater().inflate(R.menu.main,menu);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>5、定义菜单响应事件，重写<code>onOptionsItemSelected()</code>方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public boolean onOptionsItemSelected(MenuItem item)&#123;</span><br><span class="line">    switch(item.getItemId())&#123;</span><br><span class="line">        case R.id.add_item:</span><br><span class="line">            //...</span><br><span class="line">            break;</span><br><span class="line">        case R.id.remove_item:</span><br><span class="line">            //...</span><br><span class="line">            break;</span><br><span class="line">        default:</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这时运行程序，在相应的activity页面右侧就会出现一个三点符号了，即菜单按钮。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/24/android-menu/" data-id="ck6rcryem001022o12x3ivkc6" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
 
     </footer>
   </div>
@@ -1475,7 +1489,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
     </div>
   </div>
 
@@ -1488,6 +1502,14 @@
       <ul>
         
           <li>
+            <a href="/2020/04/02/react-router-dom入门到深入/">react-router-dom入门到深入</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/02/React高阶组件笔记/">React高阶组件笔记</a>
+          </li>
+        
+          <li>
             <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
           </li>
         
@@ -1497,14 +1519,6 @@
         
           <li>
             <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
           </li>
         
       </ul>

@@ -62,6 +62,99 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-es6引入css" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/es6引入css/" class="article-date">
+  <time datetime="2019-12-24T14:26:40.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/es6引入css/">es6引入css</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>假设我们有一个名为<code>style.css</code>的css文件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.default</span> &#123;</span><br><span class="line">    <span class="attribute">cursor</span>:null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.drag</span> &#123;</span><br><span class="line">    <span class="attribute">cursor</span>:move;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.rotate</span> &#123;</span><br><span class="line">    <span class="attribute">cursor</span>: <span class="built_in">url</span>(<span class="string">'../../assets/mouse/closedhand.cur'</span>) <span class="number">8</span> <span class="number">8</span>, default;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在其它js文件中如何引入并使用这个css文件呢，总不能一直只使用js来编写吧</p>
+<p>假设我们在<code>EventManager.js</code>文件中要使用，有两种方式引入：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'./style/style.css'</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'./style/style.css'</span>);</span><br></pre></td></tr></table></figure>
+<p>然后在代码中就可以直接使用了，如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">this</span>._dom.className=<span class="string">'rotate'</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">this</span>._dom.className=<span class="string">'drag'</span>;</span><br></pre></td></tr></table></figure>
+<p>此时，css的效果就出来了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/es6引入css/" data-id="ck8iwvpz0001anso1tq3klpkj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-drawArrays和drawElements" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/24/drawArrays和drawElements/" class="article-date">
+  <time datetime="2019-12-24T14:25:29.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/drawArrays和drawElements/">drawArrays和drawElements</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用<code>drawArrays</code>时，我们通常是</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bufferPosition = <span class="keyword">this</span>.gl.createBuffer();</span><br><span class="line">gl.bindBuffer(<span class="keyword">this</span>.gl.ARRAY_BUFFER, bufferPosition);</span><br><span class="line">gl.bufferData(<span class="keyword">this</span>.gl.ARRAY_BUFFER,<span class="keyword">new</span> <span class="built_in">Float32Array</span>(positions),<span class="keyword">this</span>.gl.STATIC_DRAW);</span><br></pre></td></tr></table></figure>
+<p>然后再绑定vao时，指定一下数据就可以了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gl.enableVertexAttribArray(positionLocation);</span><br><span class="line">gl.vertexAttribPointer(positionLocation, size, type, normalize, stride, offset);</span><br></pre></td></tr></table></figure>
+<p>这里说明一下：<code>ARRAY_BUFFER</code>绑定的数据属于全局状态。</p>
+<p>而使用<code>drawElements</code>时，通常配合绑定<code>ARRAY_BUFFER</code>，还需要创建索引buffer</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建索引</span></span><br><span class="line"><span class="keyword">const</span> indexBuffer = gl.createBuffer();</span><br><span class="line">gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);</span><br><span class="line"><span class="keyword">const</span> indices = <span class="keyword">this</span>.earth.getFillIndices(<span class="number">64</span>,<span class="number">64</span>);</span><br><span class="line">gl.bufferData(</span><br><span class="line">    gl.ELEMENT_ARRAY_BUFFER,</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Uint16Array</span>(indices),</span><br><span class="line">	gl.STATIC_DRAW</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> indexCount=indices.length;</span><br></pre></td></tr></table></figure>
+<p>这里的<code>ELEMENT_ARRAY_BUFFER</code>是当前定点数组的一部分</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/24/drawArrays和drawElements/" data-id="ck8iwvpyy0018nso10riencoy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webgl/">webgl</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-webpack的使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/12/24/webpack的使用/" class="article-date">
@@ -147,7 +240,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/webpack的使用/" data-id="ck6rcryf6002122o1uayedo45" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/webpack的使用/" data-id="ck8iwvpzf001znso1pbpuweio" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
@@ -238,7 +331,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/坐标参考/" data-id="ck6rcrygx003c22o18uav95q3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/坐标参考/" data-id="ck8iwvq0r003jnso1s132per5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GIS/">GIS</a></li></ul>
@@ -308,7 +401,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/WebGL绑定多纹理/" data-id="ck6rcryei000q22o1yo8pb67z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/WebGL绑定多纹理/" data-id="ck8iwvpyk000lnso1iguhppua" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webgl/">webgl</a></li></ul>
@@ -351,7 +444,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/hello-world/" data-id="ck6rcryes001c22o1r6fhht54" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/hello-world/" data-id="ck8iwvpz3001fnso1hl4jfalt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -422,7 +515,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/WebGL跨域图片/" data-id="ck6rcryeg000n22o198c8pn39" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/WebGL跨域图片/" data-id="ck8iwvpym000nnso15tpdacjb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webgl/">webgl</a></li></ul>
@@ -524,7 +617,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/12/ES7新特性/" data-id="ck6rcrydr000022o1ktr16ep5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/12/ES7新特性/" data-id="ck8iwvpy10001nso1kxwrk1w8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -597,7 +690,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/12/作用域绑定/" data-id="ck6rcxt46000041o14512sqtv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/12/作用域绑定/" data-id="ck8iwvpzh0024nso1e2jz23q0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -671,149 +764,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/28/闭包/" data-id="ck6rcryfa002822o195mpi7n1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/28/闭包/" data-id="ck8iwvpzk0029nso1alrenc0k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JS原型" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/01/09/JS原型/" class="article-date">
-  <time datetime="2019-01-08T23:29:33.000Z" itemprop="datePublished">2019-01-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/09/JS原型/">JS原型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前端面试题永远少不了js的原型和原型链。解释起来有点拗口，可以用一张图来讲解：</p>
-<img src="/2019/01/09/JS原型/js_proto.png" title="js原型示例图">
-<h3 id="一、Function和Object"><a href="#一、Function和Object" class="headerlink" title="一、Function和Object"></a>一、Function和Object</h3><p>首先说一下，js中自带两个函数Object和Function，Object继承自己，Funtion继承自己，Object和Function互相是继承对方，也就是说Object和Function都既是函数也是对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span> <span class="keyword">instanceof</span> <span class="built_in">Object</span>;<span class="comment">//true</span></span><br><span class="line"><span class="built_in">Object</span> <span class="keyword">instanceof</span> <span class="built_in">Function</span>;<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-<p>也就是说Object是Function的实例，Function是自己的实例</p>
-<h3 id="二、普通对象和普通函数"><a href="#二、普通对象和普通函数" class="headerlink" title="二、普通对象和普通函数"></a>二、普通对象和普通函数</h3><p>js中万物皆对象，函数是对象，函数创建出来的实例也是对象，我们将函数成为函数对象，将实例成为普通对象。</p>
-<p>注意<strong>函数对象本身又是Function的实例</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Sample</span>(<span class="params"></span>)</span>&#123;&#125;;<span class="comment">//Sample是一个函数对象</span></span><br><span class="line"><span class="keyword">var</span> s=<span class="keyword">new</span> Sample();<span class="comment">//s是一个普通对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//function Sample()&#123;&#125;等同于</span></span><br><span class="line"><span class="keyword">var</span> Sample=<span class="keyword">new</span> <span class="built_in">Function</span>();<span class="comment">//所以Sample又是Function的实例</span></span><br></pre></td></tr></table></figure>
-<h3 id="三、隐式原型和显示原型"><a href="#三、隐式原型和显示原型" class="headerlink" title="三、隐式原型和显示原型"></a>三、隐式原型和显示原型</h3><ul>
-<li>每个对象都有一个名为<code>__proto__</code>的内部属性（隐式原型），它指向所对应构造函数的原型对象</li>
-<li>每个函数对象都有一个prototype的属性（显示原型）prototype与<code>__proto__</code>都指向构造函数的原型对象，原型对象下面又有一个constructor属性，指向这个函数对象</li>
-</ul>
-<h3 id="四、原型链"><a href="#四、原型链" class="headerlink" title="四、原型链"></a>四、原型链</h3><p>js中，每个对象都会在内部生成一个<code>__proto__</code>属性，当我们访问一个对象属性时，如果这个对象不存在就会去<code>__proto__</code> 指向的对象里面找，一层一层找下去，这就是javascript原型链的概念。</p>
-<p><strong>JS中所有的东西都是对象,所有的东西都由Object衍生而来, 即所有东西原型链的终点指向null</strong></p>
-<h3 id="五、继承"><a href="#五、继承" class="headerlink" title="五、继承"></a>五、继承</h3><p>js中的普通对象是由构造函数（即函数对象）new出来的，这个对象产生于原型却不等于原型；这个普通对象是如何与原型产生联系的呢？就是通过这个叫<code>__proto__</code>完成的。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">method</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> method();</span><br><span class="line">m===m.prototype;<span class="comment">//false</span></span><br><span class="line"></span><br><span class="line">m.__proto__====method.prototype;<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-<p>参考：<a href="http://baijiahao.baidu.com/s?id=1585354841830289519&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">http://baijiahao.baidu.com/s?id=1585354841830289519&amp;wfr=spider&amp;for=pc</a></p>
-<p><a href="https://www.jb51.net/article/123976.htm" target="_blank" rel="noopener">https://www.jb51.net/article/123976.htm</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/09/JS原型/" data-id="ck6rcrye1000422o1jd13110g" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-React实战4" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/11/05/React实战4/" class="article-date">
-  <time datetime="2018-11-05T14:38:00.000Z" itemprop="datePublished">2018-11-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/05/React实战4/">React实战4</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="详情页面的布局"><a href="#详情页面的布局" class="headerlink" title="详情页面的布局"></a>详情页面的布局</h3><p>1、首先在detail下面创建布局组件style.js</p>
-<p>2、然后在detail/index.js中引入上面的布局组件</p>
-<p>3、在style.js中编写详情页的标题组件、内容组件，在内容组件中放置img和p等标签；</p>
-<p>4、给详情页面添加redux</p>
-<ul>
-<li><p>在detail文件夹下创建store文件夹，并在里面创建actionCreators.js、constants.js、index.js、reducer.js</p>
-</li>
-<li><p>在reducer.js中添加defaultState    ,需要将带html标签的内容全部包进去</p>
-</li>
-<li><p>在src/store/reducer.js中，引入详情页的reducer</p>
-</li>
-<li><p>在detail的index.js中引入reducer，并展示内容，注意当需要展示带有html标签内容时需要使用<code>dangerouslySetInnerHTML</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;DetailContent dangerouslySetInnerHTML=&#123;&#123;<span class="attr">__html</span>:<span class="keyword">this</span>.props.content&#125;&#125;&gt;</span><br><span class="line"><span class="comment">//在DetailContent组件中展示html格式的内容</span></span><br><span class="line">&lt;DetailContent dangerouslySetInnerHTML=&#123;&#123;<span class="attr">__html</span>:<span class="keyword">this</span>.props.content&#125;&#125;&gt;</span><br><span class="line">&lt;<span class="regexp">/DetailContent&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>用活数据代替死数据，componentDidMount触发请求行为，在actionCreators中引入axios发送请求</p>
-</li>
-<li><p>通过路由，点击不通的item，实现不同详情页的跳转</p>
-</li>
-</ul>
-<p>两种方式：<br><strong>动态路由</strong></p>
-<ul>
-<li><p>在home的List页面中，将<code>&lt;Link key={index} to=&#39;/detail&#39;&gt;</code>改为<code>&lt;Link key={index} to={&#39;/detail/&#39;+item.get(&#39;id&#39;)}&gt;</code></p>
-</li>
-<li><p>进入APP.js，为了匹配所有的detail，将<code>&lt;Route path=&#39;/detail&#39; exact component={Detail}&gt;&lt;/Route&gt;</code>改为<code>&lt;Route path=&#39;/detail/:id&#39; exact component={Detail}&gt;&lt;/Route&gt;</code></p>
-</li>
-<li><p>在detail的index.js页面获取页面ID <code>this.props.match.params.id</code>,传递给getDetail方法</p>
-</li>
-</ul>
-<h3 id="React中的异步组件"><a href="#React中的异步组件" class="headerlink" title="React中的异步组件"></a>React中的异步组件</h3><p>之前我们的代码，在控制台可以看到无论我们查看哪个页面，访问的js都没有改变。说明所有的js代码全部在一个文件里面，这样会影响速度，我们希望当我们家在首页时只加载首页代码，当我们访问详情页时只加载详情页的代码。</p>
-<p>这就需要使用异步组件，就会非常简单。可以使用react-loadable组件</p>
-<p>安装</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yarn add react-loadable</span><br><span class="line"><span class="comment">//或</span></span><br><span class="line">npm install react-loadable</span><br></pre></td></tr></table></figure>
-<p>我们想要家在详情页时，再家在详情页的代码，应该怎么做呢？在detail文件夹下创建loadable.js的文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Loadable <span class="keyword">from</span> <span class="string">'react-loadable'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> LoadableComponent = Loadable(&#123;</span><br><span class="line">  loader: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./'</span>),</span><br><span class="line">  loading()&#123;</span><br><span class="line">  	<span class="keyword">return</span> &lt;div&gt;正在加载&lt;/div&gt;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> ()=&gt; &lt;LoadableComponent/&gt;</span><br></pre></td></tr></table></figure>
-<p>然后来到App.js中，将饮用Detail的引用改为loadable</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Detail <span class="keyword">from</span> <span class="string">'./pages/detail'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//改为</span></span><br><span class="line"><span class="keyword">import</span> Detail <span class="keyword">from</span> <span class="string">'./pages/detail/loadable.js'</span>;</span><br></pre></td></tr></table></figure>
-<p>这时，会报错TypeError: Cannot read property ‘params’ of undefined</p>
-<p>这是由于原先我们是直接使用Detail组件，现在变成了使用loadable.js了，而router是跟Detail对应的，现在对不上了，怎么办呢？</p>
-<p>在detail的index.js文件中从react-router-dom引入withRouter，然后在使用connect中加入withRouter</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;withRouter&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line">。。。</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(mapStateToProps,mapDispatchToProps)(withRouter(Detail));</span><br></pre></td></tr></table></figure>
-<p>它就是让detail有能力获取到router中的内容。</p>
-<p>这时就实现了对详情页的异步加载</p>
-<h3 id="项目上线"><a href="#项目上线" class="headerlink" title="项目上线"></a>项目上线</h3><p>将项目打包</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-<p>就会生成项目代码，放在后端即可</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/05/React实战4/" data-id="ck6rcrye5000c22o14oobqcxl" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
 
     </footer>
   </div>
@@ -857,7 +811,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li></ul>
     </div>
   </div>
 
@@ -870,6 +824,14 @@
       <ul>
         
           <li>
+            <a href="/2020/04/02/react-router-dom入门到深入/">react-router-dom入门到深入</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/02/React高阶组件笔记/">React高阶组件笔记</a>
+          </li>
+        
+          <li>
             <a href="/2020/01/09/js中的EventLoop/">js中的EventLoop</a>
           </li>
         
@@ -879,14 +841,6 @@
         
           <li>
             <a href="/2019/12/24/webgl2基础/">webgl2基础</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/24/low-graphics-mode解决方法/">low-graphics mode解决方法</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/24/Ubuntu固定ip和软件愿/">Ubuntu固定ip和软件愿</a>
           </li>
         
       </ul>
